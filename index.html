@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build It USA — Maximize Liberty</title>
+    <meta name="description" content="AI-powered tools that give small contractors enterprise-grade project scoping, scheduling, and communication. Get early access.">
+    <link rel="icon" type="image/png" href="assets/logo-bw.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Above the fold: logo, heading, value prop, email capture -->
+    <main class="hero">
+        <img src="assets/logo-color.png" alt="Build It USA — Beaver with American flag" class="hero__logo">
+        <h1 class="hero__heading">MAXIMIZE LIBERTY.</h1>
+        <p class="hero__value-prop">
+            Give your customers one place to upload their project. Build It handles
+            the scoping, scheduling, and communication — so you can focus on the work.
+        </p>
+
+        <form class="form" action="https://formspree.io/f/placeholder" method="POST" id="waitlist-form">
+            <label for="email" class="sr-only">Email address</label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+                required
+                class="form__input"
+            >
+            <div class="form__checkboxes">
+                <label class="form__checkbox">
+                    <input type="checkbox" name="role" value="customer">
+                    <span>Customer</span>
+                </label>
+                <label class="form__checkbox">
+                    <input type="checkbox" name="role" value="contractor">
+                    <span>Contractor</span>
+                </label>
+                <label class="form__checkbox">
+                    <input type="checkbox" name="role" value="investor">
+                    <span>Investor</span>
+                </label>
+            </div>
+            <button type="submit" class="form__button">Get Early Access</button>
+        </form>
+    </main>
+
+    <!-- Below the fold: bullet points, contact, footer -->
+    <section class="details">
+        <ul class="details__list">
+            <li>Customers upload projects to one place — no more back-and-forth</li>
+            <li>AI scopes budget, timeline, and materials before you touch it</li>
+            <li>Scheduling, invoicing, and reporting built in</li>
+            <li>Get matched with projects that fit your skills and capacity</li>
+        </ul>
+
+        <p class="details__contact">
+            <a href="mailto:jacob.meyers@buildit-usa.com">jacob.meyers@buildit-usa.com</a>
+        </p>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 Build It USA, Inc. Delaware S-Corp.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
