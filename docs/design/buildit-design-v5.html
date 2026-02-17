@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BuildIt USA — Feature Windows</title>
+<link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Caveat:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    /* ─── Wrought Iron & Hardware ─── */
+    --iron: #2A2320;
+    --iron-hover: #1A1714;
+    --iron-warm: #3B3530;
+    --iron-mid: #4D4540;
+    --iron-light: #5C5550;
+    --iron-faint: #6B6358;
+
+    /* ─── Aged Paper & Parchment ─── */
+    --parchment: #F0E8DA;
+    --parchment-light: #F5EEDE;
+    --parchment-dark: #E4D9C8;
+    --old-linen: #D8CCBA;
+    --warm-sand: #C4B5A0;
+    --aged-cream: #EDE3D0;
+
+    /* ─── Wood Tones ─── */
+    --wood-pale: #C4B098;
+    --wood-light: #A8956E;
+    --wood-mid: #8B7D6B;
+    --wood-rich: #6B5B45;
+    --wood-dark: #4A3D2E;
+    --wood-deep: #3A2F22;
+
+    /* ─── Muted RWB ─── */
+    --slate-navy: #2B3E5C;
+    --dusty-blue: #3B5068;
+    --steel-blue: #5B7A9A;
+    --soft-blue: #A8BFD4;
+    --ice-blue: #D0DCE8;
+
+    --brick: #7A2E2E;
+    --dusty-red: #9E4040;
+    --warm-red: #C25555;
+    --faded-red: #B85050;
+    --rose: #D4A0A0;
+    --blush: #E8D0D0;
+
+    /* ─── Brass / Hardware Accent ─── */
+    --brass: #B8975A;
+    --brass-light: #D4B878;
+    --brass-dark: #8A6E3A;
+
+    /* ─── Text ─── */
+    --text-primary: #2A2320;
+    --text-body: #3B3530;
+    --text-muted: #7A7268;
+    --text-faint: #A89F92;
+    --text-on-dark: #F0E8DA;
+    --text-on-dark-muted: #C4B5A0;
+  }
+
+  body {
+    font-family: 'Libre Baskerville', Georgia, serif;
+    background: #2A2320;
+    color: var(--text-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── Type tiers ─── */
+  .pencil { font-family: 'Architects Daughter', cursive; }
+  .serif { font-family: 'Libre Baskerville', Georgia, serif; }
+  .hand-number { font-family: 'Caveat', cursive; }
+  .ui-small { font-family: 'DM Sans', sans-serif; }
+
+  /* ═══════════════════════════════════════════
+     PAGE LAYOUT — Gallery of feature windows
+     ═══════════════════════════════════════════ */
+  .showcase {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 40px 32px 60px;
+  }
+  .showcase-header {
+    text-align: center;
+    padding: 40px 0 48px;
+  }
+  .showcase-header h1 {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 2.2rem;
+    color: var(--parchment);
+    margin-bottom: 8px;
+  }
+  .showcase-header p {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--text-faint);
+  }
+
+  .feature-label {
+    font-family: 'Caveat', cursive;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--brass-light);
+    margin-bottom: 12px;
+    padding-left: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .feature-label::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 2px;
+    background: var(--brass);
+    opacity: 0.5;
+  }
+  .feature-number {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: var(--brass-dark);
+    background: var(--brass-light);
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    margin-right: 2px;
+  }
+
+  .feature-window {
+    margin-bottom: 56px;
+  }
+
+  /* ─── Window Chrome — looks like a wooden frame ─── */
+  .window-frame {
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow:
+      0 2px 0 0 var(--wood-rich),
+      0 4px 0 0 var(--wood-dark),
+      0 8px 24px rgb(0 0 0 / 0.3),
+      inset 0 0 0 1px rgb(139 125 107 / 0.15);
+    position: relative;
+  }
+
+  /* Top bar — workshop shelf / tool rail feel */
+  .window-toolbar {
+    background: var(--wood-dark);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--wood-deep);
+    position: relative;
+    /* Wood grain */
+    background-image:
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 40px,
+        rgb(58 47 34 / 0.3) 40px,
+        rgb(58 47 34 / 0.3) 41px
+      ),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+  .window-dots {
+    display: flex;
+    gap: 6px;
+  }
+  .window-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid var(--wood-mid);
+    background: transparent;
+  }
+  .window-dot:nth-child(1) { background: var(--faded-red); border-color: var(--brick); }
+  .window-dot:nth-child(2) { background: var(--brass); border-color: var(--brass-dark); }
+  .window-dot:nth-child(3) { background: #5A7A50; border-color: #3D5C35; }
+
+  .window-title-bar {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 0.78rem;
+    color: var(--warm-sand);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Brass nail/rivet accents on toolbar */
+  .window-toolbar::before,
+  .window-toolbar::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, var(--brass-light), var(--brass-dark));
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.3);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .window-toolbar::before { right: 50px; }
+  .window-toolbar::after { right: 64px; }
+
+  .window-content {
+    position: relative;
+  }
+
+  /* ─── Parchment texture for light screens ─── */
+  .bg-parchment {
+    background: var(--parchment);
+    background-image:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='0.035'/%3E%3C/svg%3E");
+  }
+
+  /* ─── Dark workshop surface ─── */
+  .bg-workshop {
+    background: var(--iron);
+    background-image:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+
+  /* ─── Wood-grain divider ─── */
+  .wood-divider {
+    width: 100%;
+    height: 8px;
+    position: relative;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='8'%3E%3Cpath d='M0 1.5 Q 20 0.5, 60 2 T 140 1 T 220 2.2 T 300 1 T 400 2 T 500 0.8 T 600 2 T 700 1 T 800 1.5' stroke='%238B7D6B' stroke-width='0.7' fill='none'/%3E%3Cpath d='M0 3.5 Q 30 2.5, 80 4 T 180 3 T 280 4.2 T 380 3 T 500 3.8 T 620 3 T 740 4 T 800 3.5' stroke='%238B7D6B' stroke-width='0.5' fill='none'/%3E%3Cpath d='M0 5.5 Q 25 5, 70 6 T 150 5.2 T 250 6 T 350 5 T 460 5.8 T 580 5.2 T 700 6 T 800 5.5' stroke='%238B7D6B' stroke-width='0.4' fill='none'/%3E%3Cpath d='M0 7 Q 40 6.5, 90 7.3 T 200 6.8 T 320 7.2 T 440 6.5 T 560 7 T 680 6.8 T 800 7' stroke='%238B7D6B' stroke-width='0.3' fill='none'/%3E%3C/svg%3E") repeat-x center;
+    background-size: 800px 8px;
+    opacity: 0.4;
+  }
+
+  /* ─── Sketch underline ─── */
+  .sketch-underline {
+    position: relative;
+    display: inline-block;
+  }
+  .sketch-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: -2%;
+    width: 104%;
+    height: 10px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='10'%3E%3Cpath d='M0 6 Q 25 2, 50 5.5 T 100 4 T 150 6 T 200 4' stroke='%23C25555' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x;
+    background-size: 200px 10px;
+    opacity: 0.45;
+  }
+
+  /* ─── Blueprint corner marks ─── */
+  .blueprint-corners {
+    position: relative;
+  }
+  .blueprint-corners::before,
+  .blueprint-corners::after {
+    content: '';
+    position: absolute;
+    z-index: 5;
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
+  }
+  .blueprint-corners::before {
+    top: 12px; left: 12px;
+    border-top: 1.5px solid rgb(255 255 255 / 0.18);
+    border-left: 1.5px solid rgb(255 255 255 / 0.18);
+  }
+  .blueprint-corners::after {
+    bottom: 12px; right: 12px;
+    border-bottom: 1.5px solid rgb(255 255 255 / 0.18);
+    border-right: 1.5px solid rgb(255 255 255 / 0.18);
+  }
+  .blueprint-corners-dark::before {
+    border-color: rgb(42 35 32 / 0.12);
+  }
+  .blueprint-corners-dark::after {
+    border-color: rgb(42 35 32 / 0.12);
+  }
+
+  /* ─── Brass nail accent ─── */
+  .brass-nail {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, var(--brass-light), var(--brass-dark));
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
+    vertical-align: middle;
+  }
+
+  /* ─── Iron buttons ─── */
+  .btn-iron {
+    padding: 12px 28px;
+    background: var(--iron);
+    color: var(--parchment);
+    border: none;
+    border-radius: 8px;
+    font-family: 'Architects Daughter', cursive;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgb(42 35 32 / 0.25), inset 0 1px 0 rgb(255 255 255 / 0.04);
+    position: relative;
+  }
+  .btn-iron:hover {
+    background: var(--iron-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgb(42 35 32 / 0.3);
+  }
+  .btn-iron-light {
+    background: var(--parchment);
+    color: var(--iron);
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.15);
+  }
+  .btn-iron-light:hover {
+    background: var(--parchment-dark);
+  }
+  .btn-ghost-parchment {
+    padding: 12px 28px;
+    background: transparent;
+    color: var(--text-on-dark-muted);
+    border: 1.5px solid var(--iron-mid);
+    border-radius: 8px;
+    font-family: 'Architects Daughter', cursive;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-ghost-parchment:hover {
+    border-color: var(--warm-sand);
+    color: var(--parchment);
+  }
+
+  /* ═══════════════════════════════════════════
+     SHARED NAV (inside each window)
+     ═══════════════════════════════════════════ */
+  .app-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 28px;
+    border-bottom: 1px solid var(--old-linen);
+  }
+  .app-nav-dark {
+    border-bottom-color: var(--iron-warm);
+  }
+  .app-nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .app-nav-logo {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1.1rem;
+    color: var(--iron);
+  }
+  .app-nav-logo-dark { color: var(--parchment); }
+  .app-nav-logo span {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 0.55rem;
+    color: var(--dusty-red);
+    display: block;
+    margin-top: -2px;
+  }
+  .app-nav-links {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+  .app-nav-link {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  .app-nav-link-dark { color: var(--text-faint); }
+  .app-nav-link.active { color: var(--iron); font-weight: 700; }
+  .app-nav-link-dark.active { color: var(--parchment); }
+
+  /* ═══════════════════════════════════════════
+     1. DASHBOARD — Project Overview
+     ═══════════════════════════════════════════ */
+  .dashboard-content {
+    padding: 28px;
+  }
+  .dash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 24px;
+  }
+  .dash-title {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1.5rem;
+    color: var(--iron);
+  }
+  .dash-annotation {
+    font-family: 'Caveat', cursive;
+    font-size: 0.95rem;
+    color: var(--dusty-red);
+    transform: rotate(-2deg);
+    display: inline-block;
+  }
+
+  /* Stats bar — workshop gauge feel */
+  .dash-stats {
+    display: flex;
+    gap: 0;
+    margin-bottom: 28px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px var(--old-linen);
+  }
+  .dash-stat {
+    flex: 1;
+    padding: 18px 20px;
+    background: var(--aged-cream);
+    text-align: center;
+    position: relative;
+  }
+  .dash-stat + .dash-stat {
+    border-left: 1px solid var(--old-linen);
+  }
+  .dash-stat-value {
+    font-family: 'Caveat', cursive;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--iron);
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .dash-stat-label {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+  }
+
+  /* Project list — fluid, not grid */
+  .dash-projects {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    grid-template-rows: auto auto;
+    gap: 16px;
+  }
+  .dash-projects .dash-project:first-child {
+    grid-row: 1 / 3;
+  }
+  .dash-project {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgb(42 35 32 / 0.08), inset 0 0 0 1px rgb(139 125 107 / 0.12);
+  }
+  .dash-project:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgb(42 35 32 / 0.12), inset 0 0 0 1px rgb(139 125 107 / 0.2);
+  }
+  .dash-project-photo {
+    width: 100%;
+    height: 100%;
+    min-height: 180px;
+    position: relative;
+  }
+  .dash-project:first-child .dash-project-photo { min-height: 380px; }
+
+  .photo-bg-1 { background: linear-gradient(145deg, #3D3530 0%, #5C4F45 40%, #7A6B5E 100%); }
+  .photo-bg-2 { background: linear-gradient(145deg, #4A3E30 0%, #6B5940 40%, #8A7458 100%); }
+  .photo-bg-3 { background: linear-gradient(145deg, #35404A 0%, #4A5A68 40%, #657888 100%); }
+
+  .dash-project-photo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.07'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    z-index: 1;
+  }
+
+  .dash-project-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    background: linear-gradient(
+      180deg,
+      rgb(30 25 20 / 0.6) 0%,
+      rgb(30 25 20 / 0.08) 28%,
+      transparent 45%,
+      transparent 55%,
+      rgb(30 25 20 / 0.15) 72%,
+      rgb(30 25 20 / 0.68) 100%
+    );
+  }
+  .dash-project-name {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1.1rem;
+    color: #fff;
+    text-shadow: 0 1px 6px rgb(0 0 0 / 0.6);
+  }
+  .dash-project:first-child .dash-project-name { font-size: 1.35rem; }
+  .dash-project-status {
+    font-family: 'Caveat', cursive;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 3px 12px;
+    border-radius: 999px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .dash-project-quote {
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 2px 8px rgb(0 0 0 / 0.6);
+    font-size: 1.6rem;
+    line-height: 1;
+  }
+  .dash-project:first-child .dash-project-quote { font-size: 2.2rem; }
+  .dash-project-sub {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 0.65rem;
+    color: rgb(255 255 255 / 0.6);
+    margin-top: 3px;
+  }
+
+  /* ═══════════════════════════════════════════
+     2. PHOTO UPLOAD FLOW
+     ═══════════════════════════════════════════ */
+  .upload-flow {
+    padding: 40px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 480px;
+    justify-content: center;
+  }
+  .upload-area {
+    width: 100%;
+    max-width: 560px;
+    padding: 56px 40px;
+    background: var(--iron-warm);
+    border-radius: 14px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s;
+    /* Workbench surface feel */
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 60px,
+        rgb(74 61 46 / 0.15) 60px,
+        rgb(74 61 46 / 0.15) 61px
+      ),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)' opacity='0.05'/%3E%3C/svg%3E");
+  }
+  .upload-area::before {
+    content: '';
+    position: absolute;
+    inset: 16px;
+    border-radius: 8px;
+    border: 2px dashed var(--iron-faint);
+    transition: border-color 0.3s;
+  }
+  .upload-area:hover { background-color: #4A4540; }
+  .upload-area:hover::before { border-color: var(--warm-red); }
+
+  /* Brass corner tacks on upload */
+  .upload-tack {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, var(--brass-light), var(--brass-dark));
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.4);
+    z-index: 5;
+  }
+  .upload-tack.tl { top: 12px; left: 12px; }
+  .upload-tack.tr { top: 12px; right: 12px; }
+  .upload-tack.bl { bottom: 12px; left: 12px; }
+  .upload-tack.br { bottom: 12px; right: 12px; }
+
+  .upload-icon {
+    margin-bottom: 16px;
+    opacity: 0.25;
+  }
+  .upload-title {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1.3rem;
+    color: var(--parchment);
+    margin-bottom: 8px;
+  }
+  .upload-desc {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.78rem;
+    color: var(--warm-sand);
+    line-height: 1.7;
+    margin-bottom: 12px;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .upload-hint {
+    font-family: 'Caveat', cursive;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--warm-red);
+    opacity: 0.8;
+  }
+
+  /* Pending photo thumbnails row */
+  .upload-thumbs {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    justify-content: center;
+  }
+  .upload-thumb {
+    width: 72px;
+    height: 72px;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.2);
+  }
+  .upload-thumb-bg {
+    width: 100%;
+    height: 100%;
+  }
+  .upload-thumb-add {
+    background: var(--iron-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px dashed var(--iron-faint);
+    cursor: pointer;
+  }
+  .upload-thumb-add:hover { border-color: var(--warm-red); }
+
+  /* ═══════════════════════════════════════════
+     3. ESTIMATE DETAIL
+     ═══════════════════════════════════════════ */
+  .estimate-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    min-height: 500px;
+  }
+  .estimate-photo-side {
+    position: relative;
+    background: linear-gradient(145deg, #3D3530 0%, #5C4F45 40%, #7A6B5E 100%);
+  }
+  .estimate-photo-side::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='e'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23e)' opacity='0.06'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    z-index: 1;
+  }
+  .estimate-photo-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 28px;
+    background: linear-gradient(0deg, rgb(30 25 20 / 0.7) 0%, transparent 100%);
+    z-index: 3;
+  }
+  .estimate-photo-info h3 {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1.3rem;
+    color: #fff;
+    text-shadow: 0 1px 6px rgb(0 0 0 / 0.5);
+    margin-bottom: 4px;
+  }
+  .estimate-photo-info p {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 0.7rem;
+    color: rgb(255 255 255 / 0.55);
+  }
+
+  .estimate-cost-panel {
+    background: var(--iron);
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 50px,
+        rgb(74 61 46 / 0.08) 50px,
+        rgb(74 61 46 / 0.08) 51px
+      ),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+  .est-label {
+    font-family: 'Caveat', cursive;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--warm-red);
+    margin-bottom: 4px;
+  }
+  .est-total {
+    font-family: 'Caveat', cursive;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--parchment);
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .est-range {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 0.75rem;
+    color: var(--warm-sand);
+    margin-bottom: 24px;
+  }
+  .est-items { list-style: none; margin-bottom: 20px; }
+  .est-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 11px 0;
+  }
+  .est-item + .est-item {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='2'%3E%3Cpath d='M0 1 Q 30 0.3, 60 1.2 T 120 0.8 T 180 1.1 T 240 0.7 T 300 1' stroke='%234D4540' stroke-width='0.8' fill='none'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-position: top;
+  }
+  .est-item-name {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.8rem;
+    color: var(--warm-sand);
+  }
+  .est-item-cost {
+    font-family: 'Caveat', cursive;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--parchment);
+  }
+  .est-confidence {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  .est-conf-label {
+    font-family: 'Caveat', cursive;
+    font-size: 0.88rem;
+    color: var(--text-faint);
+  }
+  .est-conf-bar {
+    flex: 1; height: 5px;
+    background: var(--iron-warm);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .est-conf-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--steel-blue), var(--soft-blue));
+    border-radius: 5px;
+  }
+  .est-conf-value {
+    font-family: 'Caveat', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--soft-blue);
+  }
+
+  /* ═══════════════════════════════════════════
+     4. CONTRACTOR QUOTES
+     ═══════════════════════════════════════════ */
+  .quotes-content {
+    padding: 28px;
+  }
+  .quotes-header {
+    margin-bottom: 8px;
+  }
+  .quotes-header h2 {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1.4rem;
+    color: var(--iron);
+    margin-bottom: 2px;
+  }
+  .quotes-header p {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .quotes-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .quote-card {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 18px 20px;
+    background: var(--aged-cream);
+    border-radius: 12px;
+    position: relative;
+    transition: all 0.2s;
+    box-shadow: inset 0 0 0 1px var(--old-linen);
+    cursor: pointer;
+  }
+  .quote-card:hover {
+    box-shadow: inset 0 0 0 1px var(--warm-sand), 0 4px 12px rgb(42 35 32 / 0.06);
+    transform: translateY(-1px);
+  }
+
+  /* Contractor avatar — looks like a stamped seal */
+  .quote-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--iron);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1.1rem;
+    color: var(--parchment);
+    box-shadow: 0 2px 6px rgb(42 35 32 / 0.15);
+    /* Stamped/embossed feel */
+    border: 2px solid var(--wood-mid);
+  }
+  .quote-info {}
+  .quote-name {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1rem;
+    color: var(--iron);
+    margin-bottom: 2px;
+  }
+  .quote-meta {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .quote-stars {
+    color: var(--brass);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+  }
+  .quote-price-area { text-align: right; }
+  .quote-price {
+    font-family: 'Caveat', cursive;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--iron);
+    line-height: 1;
+  }
+  .quote-timeline {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* Recommended badge — wax seal style */
+  .quote-recommended {
+    position: absolute;
+    top: -6px;
+    right: 16px;
+    font-family: 'Caveat', cursive;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--parchment);
+    background: var(--dusty-red);
+    padding: 3px 12px 4px;
+    border-radius: 0 0 6px 6px;
+    box-shadow: 0 2px 4px rgb(122 46 46 / 0.3);
+  }
+
+  /* ═══════════════════════════════════════════
+     5. PROJECT TIMELINE / PROGRESS
+     ═══════════════════════════════════════════ */
+  .timeline-content {
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 28px;
+    min-height: 480px;
+  }
+  .timeline-main {}
+  .timeline-main h2 {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1.4rem;
+    color: var(--parchment);
+    margin-bottom: 4px;
+  }
+  .timeline-main > p {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    margin-bottom: 28px;
+  }
+
+  /* Timeline track — like a measuring tape / ruler */
+  .timeline-track {
+    position: relative;
+    padding-left: 32px;
+  }
+  .timeline-track::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--iron-mid);
+    /* Ruler tick marks */
+    background-image: repeating-linear-gradient(
+      0deg,
+      var(--iron-mid) 0px,
+      var(--iron-mid) 8px,
+      transparent 8px,
+      transparent 12px
+    );
+  }
+  .timeline-step {
+    position: relative;
+    padding-bottom: 28px;
+  }
+  .timeline-step:last-child { padding-bottom: 0; }
+
+  .timeline-dot {
+    position: absolute;
+    left: -28px;
+    top: 2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid var(--iron-mid);
+    background: var(--iron);
+  }
+  .timeline-dot.complete {
+    background: radial-gradient(circle at 40% 40%, var(--brass-light), var(--brass-dark));
+    border-color: var(--brass);
+    box-shadow: 0 0 6px rgb(184 151 90 / 0.3);
+  }
+  .timeline-dot.active {
+    background: var(--warm-red);
+    border-color: var(--dusty-red);
+    box-shadow: 0 0 8px rgb(194 85 85 / 0.3);
+  }
+
+  .timeline-step-title {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 0.95rem;
+    color: var(--parchment);
+    margin-bottom: 3px;
+  }
+  .timeline-step-title.done { color: var(--brass-light); }
+  .timeline-step-desc {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    line-height: 1.65;
+  }
+  .timeline-step-date {
+    font-family: 'Caveat', cursive;
+    font-size: 0.82rem;
+    color: var(--warm-red);
+    margin-top: 3px;
+  }
+
+  /* Side panel — project summary card */
+  .timeline-sidebar {
+    background: var(--iron-warm);
+    border-radius: 12px;
+    padding: 24px;
+    height: fit-content;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+  .sidebar-photo {
+    width: 100%;
+    height: 140px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    background: linear-gradient(145deg, #3D3530, #5C4F45);
+    position: relative;
+  }
+  .sidebar-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='sp'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23sp)' opacity='0.06'/%3E%3C/svg%3E");
+    opacity: 0.5;
+  }
+  .sidebar-title {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1rem;
+    color: var(--parchment);
+    margin-bottom: 12px;
+  }
+  .sidebar-detail {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 0.72rem;
+  }
+  .sidebar-detail + .sidebar-detail {
+    border-top: 1px solid var(--iron-mid);
+  }
+  .sidebar-detail-label {
+    font-family: 'Libre Baskerville', serif;
+    color: var(--text-faint);
+  }
+  .sidebar-detail-value {
+    font-family: 'Caveat', cursive;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--parchment);
+  }
+  .sidebar-detail-value.cost {
+    font-size: 1.05rem;
+    color: var(--brass-light);
+  }
+
+  /* ═══════════════════════════════════════════
+     RESPONSIVE
+     ═══════════════════════════════════════════ */
+  @media (max-width: 860px) {
+    .dash-projects { grid-template-columns: 1fr; }
+    .dash-projects .dash-project:first-child { grid-row: auto; }
+    .dash-project-photo { min-height: 200px !important; }
+    .estimate-layout { grid-template-columns: 1fr; }
+    .estimate-photo-side { min-height: 250px; }
+    .timeline-content { grid-template-columns: 1fr; }
+    .quote-card { grid-template-columns: 48px 1fr auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="showcase">
+
+<div class="showcase-header">
+  <h1>BuildIt USA — Feature Windows</h1>
+  <p>Five views, one aesthetic. Colonial workshop meets modern precision.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     1. DASHBOARD
+     ═══════════════════════════════════════════════════ -->
+<div class="feature-window">
+  <div class="feature-label"><span class="feature-number">1</span> Project Dashboard</div>
+  <div class="window-frame">
+    <div class="window-toolbar">
+      <div class="window-dots"><span class="window-dot"></span><span class="window-dot"></span><span class="window-dot"></span></div>
+      <div class="window-title-bar">BuildIt USA — My Projects</div>
+    </div>
+    <div class="window-content bg-parchment">
+      <nav class="app-nav">
+        <div class="app-nav-brand">
+          <svg width="28" height="28" viewBox="0 0 38 38" fill="none"><path d="M19 4C12 4 7 9.5 7 16c0 4 2 7.5 4 9.5L10 31c0 1 .5 2 1.5 2h15c1 0 1.5-1 1.5-2l-1-5.5c2-2 4-5.5 4-9.5 0-6.5-4.5-12-12-12z" stroke="#2A2320" stroke-width="1.8" stroke-linecap="round" fill="none"/><circle cx="15" cy="15" r="1.3" fill="#2A2320"/><circle cx="23" cy="15" r="1.3" fill="#2A2320"/><path d="M17.5 21.5v2.5M20.5 21.5v2.5" stroke="#2A2320" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <div class="app-nav-logo">BUILD IT <span>est. in America</span></div>
+        </div>
+        <div class="app-nav-links">
+          <a class="app-nav-link active" href="#">Projects</a>
+          <a class="app-nav-link" href="#">Estimates</a>
+          <a class="app-nav-link" href="#">Contractors</a>
+          <button class="btn-iron" style="padding:8px 18px; font-size:0.82rem;">+ New Project</button>
+        </div>
+      </nav>
+      <div class="dashboard-content">
+        <div class="dash-header">
+          <div class="dash-title">Your Workshop <span class="brass-nail"></span></div>
+          <div class="dash-annotation">↓ 3 projects in the works</div>
+        </div>
+        <div class="dash-stats">
+          <div class="dash-stat">
+            <div class="dash-stat-value">3</div>
+            <div class="dash-stat-label">active projects</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-value">$11,450</div>
+            <div class="dash-stat-label">total estimated</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-value">9</div>
+            <div class="dash-stat-label">photos uploaded</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-value">5</div>
+            <div class="dash-stat-label">quotes received</div>
+          </div>
+        </div>
+        <div class="dash-projects">
+          <div class="dash-project blueprint-corners">
+            <div class="dash-project-photo photo-bg-1">
+              <div class="dash-project-overlay">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                  <div class="dash-project-name">Kitchen Cabinet Replacement</div>
+                  <span class="dash-project-status status-analyzed" style="background:rgb(91 122 154/.35);color:#D8E6F0;border:1px solid rgb(168 191 212/.3);">analyzed</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                  <div>
+                    <div class="dash-project-quote">$4,200 – $6,800</div>
+                    <div class="dash-project-sub">estimated range · 3 photos</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="dash-project blueprint-corners">
+            <div class="dash-project-photo photo-bg-2">
+              <div class="dash-project-overlay">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                  <div class="dash-project-name">Deck Boards</div>
+                  <span class="dash-project-status" style="background:rgb(158 64 64/.3);color:#F0D8D8;border:1px solid rgb(221 168 168/.3);">processing</span>
+                </div>
+                <div>
+                  <div class="dash-project-quote" style="font-size:1.3rem; opacity:0.5;">Estimating...</div>
+                  <div class="dash-project-sub">beaver's working on it</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="dash-project blueprint-corners">
+            <div class="dash-project-photo photo-bg-3">
+              <div class="dash-project-overlay">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                  <div class="dash-project-name">Bathroom Tile</div>
+                  <span class="dash-project-status" style="background:rgb(61 107 56/.3);color:#C8E6C5;border:1px solid rgb(150 200 145/.3);">complete</span>
+                </div>
+                <div>
+                  <div class="dash-project-quote">$1,850 – $2,400</div>
+                  <div class="dash-project-sub">3 contractors quoted</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     2. PHOTO UPLOAD
+     ═══════════════════════════════════════════════════ -->
+<div class="feature-window">
+  <div class="feature-label"><span class="feature-number">2</span> Photo Upload Flow</div>
+  <div class="window-frame">
+    <div class="window-toolbar">
+      <div class="window-dots"><span class="window-dot"></span><span class="window-dot"></span><span class="window-dot"></span></div>
+      <div class="window-title-bar">BuildIt USA — New Project</div>
+    </div>
+    <div class="window-content bg-workshop">
+      <nav class="app-nav app-nav-dark">
+        <div class="app-nav-brand">
+          <svg width="28" height="28" viewBox="0 0 38 38" fill="none"><path d="M19 4C12 4 7 9.5 7 16c0 4 2 7.5 4 9.5L10 31c0 1 .5 2 1.5 2h15c1 0 1.5-1 1.5-2l-1-5.5c2-2 4-5.5 4-9.5 0-6.5-4.5-12-12-12z" stroke="#F0E8DA" stroke-width="1.8" stroke-linecap="round" fill="none"/><circle cx="15" cy="15" r="1.3" fill="#F0E8DA"/><circle cx="23" cy="15" r="1.3" fill="#F0E8DA"/><path d="M17.5 21.5v2.5M20.5 21.5v2.5" stroke="#F0E8DA" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <div class="app-nav-logo app-nav-logo-dark">BUILD IT <span>est. in America</span></div>
+        </div>
+        <div class="app-nav-links">
+          <a class="app-nav-link app-nav-link-dark" href="#">Projects</a>
+          <a class="app-nav-link app-nav-link-dark active" href="#">New Project</a>
+        </div>
+      </nav>
+      <div class="upload-flow">
+        <div class="upload-area">
+          <div class="upload-tack tl"></div>
+          <div class="upload-tack tr"></div>
+          <div class="upload-tack bl"></div>
+          <div class="upload-tack br"></div>
+          <div style="position:relative; z-index:1;">
+            <svg class="upload-icon" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#D4CCC0" stroke-width="1.3" stroke-linecap="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+            <div class="upload-title">Snap or upload your project</div>
+            <div class="upload-desc">Take a photo of any home improvement project. The more angles you capture, the better our estimate will be.</div>
+            <div class="upload-hint">⬆ our beaver will get right on it</div>
+          </div>
+        </div>
+        <div class="upload-thumbs">
+          <div class="upload-thumb"><div class="upload-thumb-bg photo-bg-1"></div></div>
+          <div class="upload-thumb"><div class="upload-thumb-bg photo-bg-1" style="background: linear-gradient(145deg, #4A3E34, #6B5940);"></div></div>
+          <div class="upload-thumb upload-thumb-add">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B6358" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </div>
+        </div>
+        <div style="margin-top: 24px; display:flex; gap:12px;">
+          <button class="btn-iron-light btn-iron" style="background:var(--parchment);color:var(--iron);">Analyze Photos</button>
+          <button class="btn-ghost-parchment">Save as Draft</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     3. ESTIMATE DETAIL
+     ═══════════════════════════════════════════════════ -->
+<div class="feature-window">
+  <div class="feature-label"><span class="feature-number">3</span> Estimate Breakdown</div>
+  <div class="window-frame">
+    <div class="window-toolbar">
+      <div class="window-dots"><span class="window-dot"></span><span class="window-dot"></span><span class="window-dot"></span></div>
+      <div class="window-title-bar">BuildIt USA — Estimate Detail</div>
+    </div>
+    <div class="window-content">
+      <div class="estimate-layout">
+        <div class="estimate-photo-side blueprint-corners">
+          <svg style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;opacity:0.06;" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 19l-5-5-3 3-2-2-5 5"/></svg>
+          <div class="estimate-photo-info">
+            <h3>Kitchen Cabinet Replacement</h3>
+            <p>3 photos · Uploaded Feb 14, 2026</p>
+          </div>
+        </div>
+        <div class="estimate-cost-panel">
+          <div class="est-label">best estimate</div>
+          <div class="est-total">$5,400</div>
+          <div class="est-range">Range: $4,200 – $6,800</div>
+          <div class="wood-divider" style="margin-bottom:16px; opacity:0.2;"></div>
+          <ul class="est-items">
+            <li class="est-item"><span class="est-item-name">Materials</span><span class="est-item-cost">$2,800</span></li>
+            <li class="est-item"><span class="est-item-name">Labor (est. 16hrs)</span><span class="est-item-cost">$1,600</span></li>
+            <li class="est-item"><span class="est-item-name">Demolition &amp; Haul</span><span class="est-item-cost">$650</span></li>
+            <li class="est-item"><span class="est-item-name">Hardware &amp; Finishing</span><span class="est-item-cost">$350</span></li>
+          </ul>
+          <div class="est-confidence">
+            <span class="est-conf-label">confidence</span>
+            <div class="est-conf-bar"><div class="est-conf-fill" style="width:78%"></div></div>
+            <span class="est-conf-value">78%</span>
+          </div>
+          <button class="btn-iron-light btn-iron" style="width:100%;background:var(--parchment);color:var(--iron);">Get Contractor Quotes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     4. CONTRACTOR QUOTES
+     ═══════════════════════════════════════════════════ -->
+<div class="feature-window">
+  <div class="feature-label"><span class="feature-number">4</span> Contractor Quotes</div>
+  <div class="window-frame">
+    <div class="window-toolbar">
+      <div class="window-dots"><span class="window-dot"></span><span class="window-dot"></span><span class="window-dot"></span></div>
+      <div class="window-title-bar">BuildIt USA — Quotes</div>
+    </div>
+    <div class="window-content bg-parchment">
+      <nav class="app-nav">
+        <div class="app-nav-brand">
+          <svg width="28" height="28" viewBox="0 0 38 38" fill="none"><path d="M19 4C12 4 7 9.5 7 16c0 4 2 7.5 4 9.5L10 31c0 1 .5 2 1.5 2h15c1 0 1.5-1 1.5-2l-1-5.5c2-2 4-5.5 4-9.5 0-6.5-4.5-12-12-12z" stroke="#2A2320" stroke-width="1.8" stroke-linecap="round" fill="none"/><circle cx="15" cy="15" r="1.3" fill="#2A2320"/><circle cx="23" cy="15" r="1.3" fill="#2A2320"/><path d="M17.5 21.5v2.5M20.5 21.5v2.5" stroke="#2A2320" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <div class="app-nav-logo">BUILD IT <span>est. in America</span></div>
+        </div>
+        <div class="app-nav-links">
+          <a class="app-nav-link" href="#">Projects</a>
+          <a class="app-nav-link active" href="#">Quotes</a>
+          <a class="app-nav-link" href="#">Contractors</a>
+        </div>
+      </nav>
+      <div class="quotes-content">
+        <div class="quotes-header">
+          <h2>Kitchen Cabinet Replacement <span class="brass-nail"></span></h2>
+          <p>Three local contractors have submitted quotes for your project.</p>
+        </div>
+        <div class="quotes-list">
+          <div class="quote-card">
+            <div class="quote-recommended">Recommended</div>
+            <div class="quote-avatar">JM</div>
+            <div class="quote-info">
+              <div class="quote-name">J. Mitchell Carpentry</div>
+              <div class="quote-meta">Licensed & Insured · 12 yrs experience · Ballston Spa, NY</div>
+              <div class="quote-stars">★★★★★</div>
+            </div>
+            <div class="quote-price-area">
+              <div class="quote-price">$5,200</div>
+              <div class="quote-timeline">2–3 weeks</div>
+            </div>
+          </div>
+          <div class="quote-card">
+            <div class="quote-avatar">RH</div>
+            <div class="quote-info">
+              <div class="quote-name">Red Hook Home Services</div>
+              <div class="quote-meta">Licensed & Insured · 8 yrs experience · Saratoga Springs, NY</div>
+              <div class="quote-stars">★★★★☆</div>
+            </div>
+            <div class="quote-price-area">
+              <div class="quote-price">$4,800</div>
+              <div class="quote-timeline">3–4 weeks</div>
+            </div>
+          </div>
+          <div class="quote-card">
+            <div class="quote-avatar">PT</div>
+            <div class="quote-info">
+              <div class="quote-name">Pine & Timber Co.</div>
+              <div class="quote-meta">Licensed & Insured · 20 yrs experience · Burnt Hills, NY</div>
+              <div class="quote-stars">★★★★★</div>
+            </div>
+            <div class="quote-price-area">
+              <div class="quote-price">$6,100</div>
+              <div class="quote-timeline">1–2 weeks</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     5. PROJECT TIMELINE
+     ═══════════════════════════════════════════════════ -->
+<div class="feature-window">
+  <div class="feature-label"><span class="feature-number">5</span> Project Timeline</div>
+  <div class="window-frame">
+    <div class="window-toolbar">
+      <div class="window-dots"><span class="window-dot"></span><span class="window-dot"></span><span class="window-dot"></span></div>
+      <div class="window-title-bar">BuildIt USA — Project Progress</div>
+    </div>
+    <div class="window-content bg-workshop">
+      <nav class="app-nav app-nav-dark">
+        <div class="app-nav-brand">
+          <svg width="28" height="28" viewBox="0 0 38 38" fill="none"><path d="M19 4C12 4 7 9.5 7 16c0 4 2 7.5 4 9.5L10 31c0 1 .5 2 1.5 2h15c1 0 1.5-1 1.5-2l-1-5.5c2-2 4-5.5 4-9.5 0-6.5-4.5-12-12-12z" stroke="#F0E8DA" stroke-width="1.8" stroke-linecap="round" fill="none"/><circle cx="15" cy="15" r="1.3" fill="#F0E8DA"/><circle cx="23" cy="15" r="1.3" fill="#F0E8DA"/><path d="M17.5 21.5v2.5M20.5 21.5v2.5" stroke="#F0E8DA" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <div class="app-nav-logo app-nav-logo-dark">BUILD IT <span>est. in America</span></div>
+        </div>
+        <div class="app-nav-links">
+          <a class="app-nav-link app-nav-link-dark" href="#">Projects</a>
+          <a class="app-nav-link app-nav-link-dark active" href="#">Timeline</a>
+        </div>
+      </nav>
+      <div class="timeline-content">
+        <div class="timeline-main">
+          <h2>Kitchen Cabinet Replacement</h2>
+          <p>Working with J. Mitchell Carpentry · Started Feb 20</p>
+          <div class="timeline-track">
+            <div class="timeline-step">
+              <div class="timeline-dot complete"></div>
+              <div class="timeline-step-title done">Photos Uploaded</div>
+              <div class="timeline-step-desc">3 photos analyzed by our AI. Scope of work identified.</div>
+              <div class="timeline-step-date">Feb 14</div>
+            </div>
+            <div class="timeline-step">
+              <div class="timeline-dot complete"></div>
+              <div class="timeline-step-title done">Estimate Generated</div>
+              <div class="timeline-step-desc">Cost breakdown finalized at $5,400 with 78% confidence.</div>
+              <div class="timeline-step-date">Feb 14</div>
+            </div>
+            <div class="timeline-step">
+              <div class="timeline-dot complete"></div>
+              <div class="timeline-step-title done">Contractor Selected</div>
+              <div class="timeline-step-desc">J. Mitchell Carpentry accepted. Quote: $5,200.</div>
+              <div class="timeline-step-date">Feb 18</div>
+            </div>
+            <div class="timeline-step">
+              <div class="timeline-dot active"></div>
+              <div class="timeline-step-title">Work In Progress</div>
+              <div class="timeline-step-desc">Demolition complete. New cabinets being installed this week.</div>
+              <div class="timeline-step-date">started Feb 20</div>
+            </div>
+            <div class="timeline-step">
+              <div class="timeline-dot"></div>
+              <div class="timeline-step-title" style="color:var(--iron-faint);">Final Walkthrough</div>
+              <div class="timeline-step-desc" style="color:var(--iron-faint);">Inspect completed work and approve final payment.</div>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-sidebar">
+          <div class="sidebar-photo"></div>
+          <div class="sidebar-title">Project Summary</div>
+          <div class="sidebar-detail">
+            <span class="sidebar-detail-label">Contractor</span>
+            <span class="sidebar-detail-value">J. Mitchell</span>
+          </div>
+          <div class="sidebar-detail">
+            <span class="sidebar-detail-label">Quoted</span>
+            <span class="sidebar-detail-value cost">$5,200</span>
+          </div>
+          <div class="sidebar-detail">
+            <span class="sidebar-detail-label">Timeline</span>
+            <span class="sidebar-detail-value">2–3 weeks</span>
+          </div>
+          <div class="sidebar-detail">
+            <span class="sidebar-detail-label">Status</span>
+            <span class="sidebar-detail-value" style="color:var(--warm-red);">In Progress</span>
+          </div>
+          <div style="margin-top:16px;">
+            <button class="btn-iron-light btn-iron" style="width:100%;padding:10px;font-size:0.85rem;background:var(--parchment);color:var(--iron);">Message Contractor</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end showcase -->
+
+</body>
+</html>
