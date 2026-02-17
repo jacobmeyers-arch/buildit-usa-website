@@ -210,7 +210,9 @@ export default async function handler(req, res) {
         
         // Retry once
         console.log('Retrying estimate generation...');
-        const retryResult = await generateEstimate(context, writer);
+        const retryEstimate = await generateEstimate(context, writer);
+        const retryResult = retryEstimate?.toolUseBlock;
+        if (retryEstimate?.fullText) scopeNarrative = retryEstimate.fullText;
         
         if (!retryResult || !retryResult.toolUseBlock || !retryResult.toolUseBlock.input) {
           // Send error event

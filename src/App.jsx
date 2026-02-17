@@ -3,6 +3,8 @@ import { useProject } from './context/ProjectContext';
 import SplashScreen from './components/SplashScreen';
 import Camera from './components/Camera';
 import PhotoPreview from './components/PhotoPreview';
+import AnalyzingScreen from './components/AnalyzingScreen';
+import AIAnalysis from './components/AIAnalysis';
 
 export default function App() {
   const { appScreen } = useProject();
@@ -19,10 +21,10 @@ export default function App() {
       return <PhotoPreview />;
     
     case 'analyzing':
-      return <div className="min-h-screen bg-iron text-parchment p-8">Analyzing... (TODO)</div>;
+      return <AnalyzingScreen />;
     
     case 'analysis':
-      return <div className="min-h-screen bg-iron text-parchment p-8">Analysis Results (TODO)</div>;
+      return <AIAnalysis />;
     
     case 'email':
       return <div className="min-h-screen bg-iron text-parchment p-8">Email Capture (TODO)</div>;
