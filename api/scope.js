@@ -202,17 +202,17 @@ export default async function handler(req, res) {
       }
     } 
     else if (action === 'generate') {
-      // Generate estimate
-      const toolUseBlock = await generateEstimate(context, writer);
+      // Generate estimate - returns {scopeSummary, toolUseBlock}
+      const estimateResult = await generateEstimate(context, writer);
 
-      if (!toolUseBlock || !toolUseBlock.input) {
+      if (!estimateResult || !estimateResult.toolUseBlock || !estimateResult.toolUseBlock.input) {
         console.error('No estimate tool_use block received from Claude');
         
         // Retry once
         console.log('Retrying estimate generation...');
         const retryResult = await generateEstimate(context, writer);
         
-        if (!retryResult || !retryResult.input) {
+        if (!retryResult || !retryResult.toolUseBlock || !retryResult.toolUseBlock.input) {
           // Send error event
           const encoder = new TextEncoder();
           res.write(encoder.encode('event: error\n'));
@@ -224,11 +224,11 @@ export default async function handler(req, res) {
           return;
         }
         
-        toolUseBlock = retryResult;
+        estimateResult = retryResult;
       }
 
       // Validate cost estimate
-      const validation = validateCostEstimate(toolUseBlock.input);
+      const validation = validateCostEstimate(estimateResult.toolUseBlock.input);
       
       if (!validation.valid) {
         console.error('Invalid cost estimate:', validation.error);
@@ -246,8 +246,8 @@ export default async function handler(req, res) {
       await supabaseAdmin
         .from('projects')
         .update({
-          scope_summary: 'Narrative scope from stream', // TODO: Capture from text blocks
-          cost_estimate: toolUseBlock.input,
+          scope_summary: estimateResult.scopeSummary,
+          cost_estimate: estimateResult.toolUseBlock.input,
           status: 'estimate_ready',
           updated_at: new Date().toISOString()
         })
@@ -259,7 +259,7 @@ export default async function handler(req, res) {
         type: 'estimate_request',
         user_input: null,
         ai_response: 'Generated estimate',
-        metadata: toolUseBlock.input
+        metadata: estimateResult.toolUseBlock.input
       });
     }
 

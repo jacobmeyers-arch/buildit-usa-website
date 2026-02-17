@@ -55,6 +55,7 @@ function sendSSE(writer, event, data) {
  * @param {Array} options.tools - Tool definitions (optional)
  * @param {WritableStreamDefaultWriter} options.writer - SSE writer
  * @param {number} options.retryCount - Current retry attempt
+ * @returns {Promise<{success: boolean, fullText: string, toolUseBlock: object}>}
  */
 async function streamClaudeResponse({ systemPrompt, messages, tools = [], writer, retryCount = 0 }) {
   try {
@@ -74,6 +75,7 @@ async function streamClaudeResponse({ systemPrompt, messages, tools = [], writer
     const stream = await anthropic.messages.stream(requestParams);
 
     let textBuffer = '';
+    let fullText = ''; // Accumulate all text content
     let toolUseBlock = null;
     let toolUseName = null;
     let toolUseInput = '';
@@ -90,7 +92,9 @@ async function streamClaudeResponse({ systemPrompt, messages, tools = [], writer
       // Content block delta (streaming chunks)
       if (event.type === 'content_block_delta') {
         if (event.delta.type === 'text_delta') {
-          textBuffer += event.delta.text;
+          const deltaText = event.delta.text;
+          textBuffer += deltaText;
+          fullText += deltaText; // Accumulate for return
           
           // Send text tokens in small batches (every ~50 chars for responsiveness)
           if (textBuffer.length >= 50) {
@@ -138,7 +142,7 @@ async function streamClaudeResponse({ systemPrompt, messages, tools = [], writer
       }
     }
 
-    return { success: true, toolUseBlock };
+    return { success: true, fullText, toolUseBlock };
 
   } catch (error) {
     console.error('Claude API error:', error);
@@ -165,7 +169,7 @@ async function streamClaudeResponse({ systemPrompt, messages, tools = [], writer
       retryable: isRetryable
     });
     
-    return { success: false, error };
+    return { success: false, fullText: '', error };
   }
 }
 
@@ -328,7 +332,7 @@ export async function streamCorrectionAnalysis(storagePath, correctionText, supa
 
 /**
  * Generate cost estimate (Prompt 6D)
- * Returns both narrative and structured estimate via tool_use
+ * Returns both narrative text and structured estimate via tool_use
  */
 export async function generateEstimate(projectContext, writer) {
   const systemPrompt = getEstimateGenerationPrompt(projectContext);
@@ -347,6 +351,9 @@ export async function generateEstimate(projectContext, writer) {
     writer
   });
   
-  // Return the tool_use block for database storage
-  return result.toolUseBlock;
+  // Return both the narrative text and tool_use block
+  return {
+    scopeSummary: result.fullText,
+    toolUseBlock: result.toolUseBlock
+  };
 }
