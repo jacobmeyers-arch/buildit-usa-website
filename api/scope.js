@@ -22,7 +22,7 @@ const ESCAPE_HATCH_SCORE_MAX = 80;
  */
 function getClientIp(req) {
   return req.headers['x-forwarded-for']?.split(',')[0] || 
-         req.headers['x-real-ip'] || 
+         req.headers['x-real-ip' || 
          req.connection?.remoteAddress || 
          'unknown';
 }
@@ -202,20 +202,19 @@ export default async function handler(req, res) {
       }
     } 
     else if (action === 'generate') {
-      // Generate estimate - returns {toolUseBlock, fullText}
+      // Generate estimate - returns {scopeSummary, toolUseBlock}
       let estimateResult = await generateEstimate(context, writer);
-      let scopeNarrative = estimateResult?.fullText || '';
+      let scopeNarrative = estimateResult?.scopeSummary || '';
 
       if (!estimateResult || !estimateResult.toolUseBlock || !estimateResult.toolUseBlock.input) {
         console.error('No estimate tool_use block received from Claude');
         
         // Retry once
         console.log('Retrying estimate generation...');
-        const retryEstimate = await generateEstimate(context, writer);
-        const retryResult = retryEstimate?.toolUseBlock;
-        if (retryEstimate?.fullText) scopeNarrative = retryEstimate.fullText;
+        estimateResult = await generateEstimate(context, writer);
+        scopeNarrative = estimateResult?.scopeSummary || '';
         
-        if (!retryResult || !retryResult.input) {
+        if (!estimateResult || !estimateResult.toolUseBlock || !estimateResult.toolUseBlock.input) {
           // Send error event
           const encoder = new TextEncoder();
           res.write(encoder.encode('event: error\n'));
@@ -226,8 +225,6 @@ export default async function handler(req, res) {
           res.end();
           return;
         }
-        
-        estimateResult = { toolUseBlock: retryResult, fullText: scopeNarrative };
       }
 
       // Validate cost estimate
