@@ -1,99 +1,98 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 
-const ProjectContext = createContext()
+const ProjectContext = createContext();
 
 export const useProject = () => {
-  const context = useContext(ProjectContext)
+  const context = useContext(ProjectContext);
   if (!context) {
-    throw new Error('useProject must be used within ProjectProvider')
+    throw new Error('useProject must be used within ProjectProvider');
   }
-  return context
-}
+  return context;
+};
 
 export const ProjectProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null)
-  const [activeProject, setActiveProject] = useState(null)
-  const [planStatus, setPlanStatus] = useState('free')
-  const [appScreen, setAppScreen] = useState('splash')
-  const [photos, setPhotos] = useState([])
-  const [sessionId, setSessionId] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [currentUser, setCurrentUser] = useState(null);
+  const [activeProject, setActiveProject] = useState(null);
+  const [planStatus, setPlanStatus] = useState('free');
+  const [appScreen, setAppScreen] = useState('splash');
+  const [photos, setPhotos] = useState([]);
+  const [sessionId, setSessionId] = useState(null);
 
-  // Generate sessionId on mount for temp photo storage before user creation
+  // Generate sessionId on mount
   useEffect(() => {
-    const generateSessionId = () => {
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-        const r = Math.random() * 16 | 0
-        const v = c === 'x' ? r : (r & 0x3 | 0x8)
-        return v.toString(16)
-      })
-    }
-    
-    setSessionId(generateSessionId())
-  }, [])
+    const sid = crypto.randomUUID();
+    setSessionId(sid);
+  }, []);
 
-  // Session resume logic
+  // Session resume: check localStorage for user_id
   useEffect(() => {
     const resumeSession = async () => {
-      try {
-        // For now, just show splash screen
-        // Session resume will be fully implemented after Supabase client is available
-        // TODO: Check for existing auth session (paid users)
-        // TODO: Check localStorage for user_id (free users)
-        // TODO: Query projects and resume based on status
-        setIsLoading(false)
-      } catch (error) {
-        console.error('Session resume error:', error)
-        setIsLoading(false)
+      const userId = localStorage.getItem('user_id');
+      if (userId) {
+        try {
+          const { data: projects, error } = await supabase
+            .from('projects')
+            .select('*')
+            .eq('user_id', userId)
+            .order('created_at', { ascending: false })
+            .limit(1);
+
+          if (!error && projects && projects.length > 0) {
+            setActiveProject(projects[0]);
+            setCurrentUser({ id: userId });
+            // Determine plan status from project
+            if (projects[0].plan_type === 'paid') {
+              setPlanStatus('paid');
+            }
+          }
+        } catch (err) {
+          console.error('Session resume failed:', err);
+        }
       }
-    }
+    };
 
-    if (sessionId) {
-      resumeSession()
-    }
-  }, [sessionId])
+    resumeSession();
+  }, []);
 
-  // Handle browser back button
+  // History pushState on screen transitions
   useEffect(() => {
-    const handlePopState = (e) => {
-      if (e.state?.screen) {
-        setAppScreen(e.state.screen)
-      }
+    if (appScreen !== 'splash') {
+      window.history.pushState({ screen: appScreen }, '', `#${appScreen}`);
     }
+  }, [appScreen]);
 
-    window.addEventListener('popstate', handlePopState)
-    return () => window.removeEventListener('popstate', handlePopState)
-  }, [])
+  // Popstate listener for back button
+  useEffect(() => {
+    const handlePopState = (event) => {
+      if (event.state && event.state.screen) {
+        setAppScreen(event.state.screen);
+      } else {
+        setAppScreen('splash');
+      }
+    };
 
-  // Push to history on screen change
-  const navigateToScreen = (screen) => {
-    window.history.pushState({ screen }, '')
-    setAppScreen(screen)
-  }
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   const value = {
-    // State
     currentUser,
-    activeProject,
-    planStatus,
-    appScreen,
-    photos,
-    sessionId,
-    isLoading,
-    
-    // Setters
     setCurrentUser,
+    activeProject,
     setActiveProject,
+    planStatus,
     setPlanStatus,
+    appScreen,
+    setAppScreen,
+    photos,
     setPhotos,
-    
-    // Navigation
-    navigateToScreen,
-  }
+    sessionId,
+  };
 
   return (
     <ProjectContext.Provider value={value}>
       {children}
     </ProjectContext.Provider>
-  )
-}
+  );
+};
