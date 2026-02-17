@@ -10,6 +10,7 @@ import { checkRateLimit } from './lib/rate-limiter.js';
 import { supabaseAdmin } from './lib/supabase-admin.js';
 import { buildContext, getUserZipCode } from './lib/context-manager.js';
 import { streamScopingQA, generateEstimate } from './lib/claude.js';
+import { validateUnderstandingUpdate, validateCostEstimate } from './lib/validators.js';
 
 const ALLOWED_ORIGIN = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5173';
 const ESCAPE_HATCH_THRESHOLD = 8; // interactions
@@ -172,19 +173,25 @@ export default async function handler(req, res) {
         metadata: result.toolUseBlock || {}
       });
 
-      // Update project understanding if tool_use received
+      // Update project understanding if tool_use received and valid
       if (result.toolUseBlock?.input) {
-        const { understanding, dimensions_resolved } = result.toolUseBlock.input;
+        const validation = validateUnderstandingUpdate(result.toolUseBlock.input);
         
-        await supabaseAdmin
-          .from('projects')
-          .update({
-            understanding_score: understanding,
-            understanding_dimensions: dimensions_resolved,
-            interaction_count: project.interaction_count + 1,
-            updated_at: new Date().toISOString()
-          })
-          .eq('id', projectId);
+        if (validation.valid) {
+          const { understanding, dimensions_resolved } = result.toolUseBlock.input;
+          
+          await supabaseAdmin
+            .from('projects')
+            .update({
+              understanding_score: understanding,
+              understanding_dimensions: dimensions_resolved,
+              interaction_count: project.interaction_count + 1,
+              updated_at: new Date().toISOString()
+            })
+            .eq('id', projectId);
+        } else {
+          console.warn('Invalid understanding update:', validation.error);
+        }
       }
 
       // Send suggest_estimate metadata if escape hatch triggered
@@ -218,6 +225,21 @@ export default async function handler(req, res) {
         }
         
         toolUseBlock = retryResult;
+      }
+
+      // Validate cost estimate
+      const validation = validateCostEstimate(toolUseBlock.input);
+      
+      if (!validation.valid) {
+        console.error('Invalid cost estimate:', validation.error);
+        const encoder = new TextEncoder();
+        res.write(encoder.encode('event: error\n'));
+        res.write(encoder.encode(`data: ${JSON.stringify({
+          message: 'Generated estimate failed validation. Please try again.',
+          retryable: true
+        })}\n\n`));
+        res.end();
+        return;
       }
 
       // Update project with scope summary and cost estimate

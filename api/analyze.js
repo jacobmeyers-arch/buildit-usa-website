@@ -14,6 +14,7 @@ import {
   streamAdditionalPhoto,
   streamCorrectionAnalysis
 } from './lib/claude.js';
+import { validateUnderstandingUpdate } from './lib/validators.js';
 
 const ALLOWED_ORIGIN = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5173';
 
@@ -149,14 +150,55 @@ export default async function handler(req, res) {
         return res.status(404).json({ error: 'Project not found', code: 404 });
       }
 
+      // Build resolved/unresolved dimensions summary
+      const dimensions = project.understanding_dimensions || {};
+      const resolvedDims = Object.entries(dimensions)
+        .filter(([_, resolved]) => resolved)
+        .map(([dim, _]) => dim.replace(/_/g, ' '))
+        .join(', ') || 'none yet';
+      
+      const unresolvedDims = Object.entries(dimensions)
+        .filter(([_, resolved]) => !resolved)
+        .map(([dim, _]) => dim.replace(/_/g, ' '))
+        .join(', ') || 'none';
+
       const projectContext = {
-        projectTitle: project.title,
-        understandingScore: project.understanding_score,
-        resolvedDimensionsSummary: 'Summary from project', // TODO: Build from dimensions
-        unresolvedDimensions: 'Unresolved dimensions' // TODO: Build from dimensions
+        projectTitle: project.title || 'Untitled project',
+        understandingScore: project.understanding_score || 0,
+        resolvedDimensionsSummary: resolvedDims,
+        unresolvedDimensions: unresolvedDims
       };
 
       result = await streamAdditionalPhoto(projectContext, storagePath, supabaseAdmin, writer);
+      
+      // Update project understanding if tool_use received and valid
+      if (result.toolUseBlock?.input) {
+        const validation = validateUnderstandingUpdate(result.toolUseBlock.input);
+        
+        if (validation.valid) {
+          const { understanding, dimensions_resolved } = result.toolUseBlock.input;
+          
+          await supabaseAdmin
+            .from('projects')
+            .update({
+              understanding_score: understanding,
+              understanding_dimensions: dimensions_resolved,
+              updated_at: new Date().toISOString()
+            })
+            .eq('id', projectId);
+        } else {
+          console.warn('Invalid understanding update from additional photo:', validation.error);
+        }
+      }
+
+      // Log interaction
+      await supabaseAdmin.from('interactions').insert({
+        project_id: projectId,
+        type: 'additional_photo',
+        user_input: null,
+        ai_response: 'Additional photo analysis',
+        metadata: result.toolUseBlock?.input || {}
+      });
     }
     else if (type === 'correction') {
       result = await streamCorrectionAnalysis(
@@ -167,8 +209,15 @@ export default async function handler(req, res) {
       );
       
       // Update project title if correction provided
+      // TODO: Extract project title from AI response and update
       if (projectId && result.success) {
-        // TODO: Extract project title from AI response and update
+        await supabaseAdmin.from('interactions').insert({
+          project_id: projectId,
+          type: 'correction',
+          user_input: sanitizedCorrectionText,
+          ai_response: 'Correction analysis',
+          metadata: {}
+        });
       }
     }
 
