@@ -2,6 +2,7 @@ import React from 'react';
 import { useProject } from './context/ProjectContext';
 import SplashScreen from './components/SplashScreen';
 import Camera from './components/Camera';
+import PhotoPreview from './components/PhotoPreview';
 
 export default function App() {
   const { appScreen } = useProject();
@@ -15,7 +16,7 @@ export default function App() {
       return <Camera />;
     
     case 'preview':
-      return <div className="min-h-screen bg-iron text-parchment p-8">Preview Screen (TODO)</div>;
+      return <PhotoPreview />;
     
     case 'analyzing':
       return <div className="min-h-screen bg-iron text-parchment p-8">Analyzing... (TODO)</div>;

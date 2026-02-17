@@ -1,153 +1,89 @@
 /**
- * API Client
+ * API client for BuildIt USA
  * 
- * Frontend helpers for calling serverless API endpoints.
- * All server-side logic uses service_role key for free tier users.
+ * Client-side functions for calling serverless API endpoints
  */
 
-const API_BASE = import.meta.env.VITE_API_URL || ''
+const API_BASE = import.meta.env.VITE_API_BASE || '/api';
 
 /**
- * Create user and project (free tier - no auth)
- * Called from EmailCapture screen
- * 
- * Moves photos from temp/{sessionId}/ to {user_id}/{project_id}/
- * Creates user record, project record, and project_photos records
+ * Convert blob to base64 string
+ */
+async function blobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+
+/**
+ * Upload photo to Supabase Storage
+ * @param {Blob} photoBlob - Image blob to upload
+ * @param {number} photoOrder - Photo order/index (0, 1, 2, etc.)
+ * @param {Object} options - Upload options
+ * @param {string} options.sessionId - Session ID for temp upload (before user creation)
+ * @param {string} options.userId - User ID (after user creation)
+ * @param {string} options.projectId - Project ID (after user creation)
+ * @returns {Promise<Object>} { success, storagePath, photoOrder }
+ */
+export async function uploadPhoto(photoBlob, photoOrder, options = {}) {
+  const { sessionId, userId, projectId } = options;
+  
+  // Convert blob to base64
+  const base64Data = await blobToBase64(photoBlob);
+  
+  const response = await fetch(`${API_BASE}/upload-photo`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      sessionId,
+      userId,
+      projectId,
+      photoOrder,
+      photoData: base64Data
+    })
+  });
+  
+  const data = await response.json();
+  
+  if (!response.ok) {
+    throw new Error(data.error || 'Upload failed');
+  }
+  
+  return data;
+}
+
+/**
+ * Create user and project (called from EmailCapture)
+ * @param {string} email - User email
+ * @param {string} zipCode - User zip code
+ * @param {string} sessionId - Session ID (for photo migration)
+ * @param {string} aiAnalysis - AI analysis text from Phase 1
+ * @returns {Promise<Object>} { user, project }
  */
 export async function createUserAndProject(email, zipCode, sessionId, aiAnalysis) {
-  const response = await fetch(`${API_BASE}/api/create-user-project`, {
+  const response = await fetch(`${API_BASE}/create-user-project`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, zipCode, sessionId, aiAnalysis })
-  })
-  
-  if (!response.ok) {
-    const error = await response.json()
-    throw new Error(error.message || 'Failed to create user and project')
-  }
-  
-  return response.json()
-}
-
-/**
- * Check plan status for a user
- * Returns plan type and project count
- */
-export async function checkPlanStatus(userId) {
-  const response = await fetch(`${API_BASE}/api/plan-status?userId=${userId}`)
-  
-  if (!response.ok) {
-    const error = await response.json()
-    throw new Error(error.message || 'Failed to check plan status')
-  }
-  
-  return response.json()
-}
-
-/**
- * Get project count for a user
- * Only counts non-deleted projects
- */
-export async function getProjectCount(userId) {
-  const response = await fetch(`${API_BASE}/api/project-count?userId=${userId}`)
-  
-  if (!response.ok) {
-    const error = await response.json()
-    throw new Error(error.message || 'Failed to get project count')
-  }
-  
-  const data = await response.json()
-  return data.count
-}
-
-/**
- * Upload photo to Supabase storage
- * Before user creation: temp/{sessionId}/{photoOrder}.jpg
- * After user creation: {userId}/{projectId}/{photoOrder}.jpg
- */
-export async function uploadPhoto(file, storagePath) {
-  const formData = new FormData()
-  formData.append('file', file)
-  formData.append('path', storagePath)
-  
-  const response = await fetch(`${API_BASE}/api/upload-photo`, {
-    method: 'POST',
-    body: formData
-  })
-  
-  if (!response.ok) {
-    const error = await response.json()
-    throw new Error(error.message || 'Failed to upload photo')
-  }
-  
-  return response.json()
-}
-
-/**
- * Get initial photo analysis
- * Streams response via SSE
- */
-export function analyzePhoto(storagePath, type = 'initial', projectId = null, correctionText = null) {
-  return fetch(`${API_BASE}/api/analyze`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ 
-      storagePath, 
-      type, 
-      projectId, 
-      correctionText 
-    })
-  })
-}
-
-/**
- * Scoping session API
- * action: 'question' | 'generate'
- */
-export function scopeSession(projectId, action, userInput = null) {
-  return fetch(`${API_BASE}/api/scope`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ 
-      projectId, 
-      action, 
-      userInput 
-    })
-  })
-}
-
-/**
- * Create Stripe checkout session
- */
-export async function createCheckoutSession(userId) {
-  const response = await fetch(`${API_BASE}/api/checkout`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userId })
-  })
-  
-  if (!response.ok) {
-    const error = await response.json()
-    throw new Error(error.message || 'Failed to create checkout session')
-  }
-  
-  return response.json()
-}
-
-/**
- * Verify payment (fallback)
- */
-export async function verifyPayment(sessionId, authToken) {
-  const response = await fetch(`${API_BASE}/api/verify-payment?session_id=${sessionId}`, {
     headers: {
-      'Authorization': `Bearer ${authToken}`
-    }
-  })
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email,
+      zipCode,
+      sessionId,
+      aiAnalysis
+    })
+  });
+  
+  const data = await response.json();
   
   if (!response.ok) {
-    const error = await response.json()
-    throw new Error(error.message || 'Failed to verify payment')
+    throw new Error(data.error || 'Failed to create account');
   }
   
-  return response.json()
+  return data;
 }
