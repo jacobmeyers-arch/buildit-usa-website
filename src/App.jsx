@@ -9,6 +9,10 @@ import EmailCapture from './components/EmailCapture';
 import BudgetQuestion from './components/BudgetQuestion';
 import ScopingSession from './components/ScopingSession';
 import ScopeEstimate from './components/ScopeEstimate';
+import UpsellScreen from './components/UpsellScreen';
+import MagicLinkPending from './components/MagicLinkPending';
+import PaymentSuccess from './components/PaymentSuccess';
+import ProjectDashboard from './components/ProjectDashboard';
 
 export default function App() {
   const { appScreen } = useProject();
@@ -43,16 +47,16 @@ export default function App() {
       return <ScopeEstimate />;
     
     case 'upsell':
-      return <div className="min-h-screen bg-iron text-parchment p-8">Upgrade Offer (TODO)</div>;
+      return <UpsellScreen />;
     
     case 'magicLinkPending':
-      return <div className="min-h-screen bg-iron text-parchment p-8">Check Your Email (TODO)</div>;
+      return <MagicLinkPending />;
     
     case 'paymentSuccess':
-      return <div className="min-h-screen bg-iron text-parchment p-8">Payment Success (TODO)</div>;
+      return <PaymentSuccess />;
     
     case 'dashboard':
-      return <div className="min-h-screen bg-iron text-parchment p-8">Dashboard (TODO)</div>;
+      return <ProjectDashboard />;
     
     case 'report':
       return <div className="min-h-screen bg-iron text-parchment p-8">Report (TODO)</div>;

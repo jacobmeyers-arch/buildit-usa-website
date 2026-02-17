@@ -1,103 +1,164 @@
-/**
- * PaymentSuccess — Verifies payment and transitions to dashboard
- * Calls /api/verify-payment with session_id from URL params
- */
 import React, { useState, useEffect } from 'react';
 import { useProject } from '../context/ProjectContext';
 
+const API_BASE = import.meta.env.VITE_API_BASE || '/api';
+
 export default function PaymentSuccess() {
   const { setPlanStatus, setAppScreen } = useProject();
-  const [status, setStatus] = useState('verifying'); // verifying | success | error
+  const [isVerifying, setIsVerifying] = useState(true);
+  const [verificationError, setVerificationError] = useState(null);
   const [retryCount, setRetryCount] = useState(0);
-
+  
+  const MAX_RETRIES = 5;
+  
   useEffect(() => {
     verifyPayment();
   }, []);
-
+  
   const verifyPayment = async () => {
-    setStatus('verifying');
+    // Get session_id from URL params
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('session_id');
+    
+    if (!sessionId) {
+      setVerificationError('Missing payment session ID');
+      setIsVerifying(false);
+      return;
+    }
+    
     try {
-      // Get session_id from URL params
-      const urlParams = new URLSearchParams(window.location.search);
-      const sessionId = urlParams.get('session_id');
-
-      if (!sessionId) {
-        // Try hash params as fallback
-        const hashParams = new URLSearchParams(window.location.hash.replace('#paymentSuccess?', ''));
-        const hashSessionId = hashParams.get('session_id');
-        if (!hashSessionId) {
-          setStatus('error');
-          return;
+      const response = await fetch(`${API_BASE}/verify-payment`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ session_id: sessionId })
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok && data.success) {
+        // Payment verified
+        setPlanStatus('paid');
+        setIsVerifying(false);
+        
+        // TODO: Fire payment_completed event
+        
+        // Transition to dashboard after 2 seconds
+        setTimeout(() => {
+          setAppScreen('dashboard');
+        }, 2000);
+        
+      } else {
+        // Verification failed
+        if (retryCount < MAX_RETRIES) {
+          // Webhook may be delayed, retry after 3 seconds
+          setTimeout(() => {
+            setRetryCount(prev => prev + 1);
+            verifyPayment();
+          }, 3000);
+        } else {
+          setVerificationError(data.error || 'Payment verification failed');
+          setIsVerifying(false);
         }
       }
-
-      const response = await fetch(`/api/verify-payment?session_id=${sessionId || ''}`);
-      const data = await response.json();
-
-      if (data.verified) {
-        setStatus('success');
-        setPlanStatus('paid');
-        // Transition to dashboard after brief success message
-        setTimeout(() => setAppScreen('dashboard'), 2000);
-      } else if (retryCount < 3) {
-        // Webhook may be delayed — retry after 3 seconds
-        setRetryCount(prev => prev + 1);
-        setTimeout(verifyPayment, 3000);
+      
+    } catch (error) {
+      console.error('Verification error:', error);
+      
+      if (retryCount < MAX_RETRIES) {
+        setTimeout(() => {
+          setRetryCount(prev => prev + 1);
+          verifyPayment();
+        }, 3000);
       } else {
-        setStatus('error');
-      }
-    } catch (err) {
-      console.error('Payment verification failed:', err);
-      if (retryCount < 3) {
-        setRetryCount(prev => prev + 1);
-        setTimeout(verifyPayment, 3000);
-      } else {
-        setStatus('error');
+        setVerificationError('Unable to verify payment. Please contact support.');
+        setIsVerifying(false);
       }
     }
   };
-
+  
+  if (isVerifying) {
+    return (
+      <div className="min-h-screen bg-iron flex flex-col items-center justify-center px-6 py-12">
+        <div className="max-w-md w-full space-y-8 text-center">
+          {/* Spinner */}
+          <div className="flex justify-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-brass"></div>
+          </div>
+          
+          {/* Message */}
+          <div className="space-y-3">
+            <h2 className="font-pencil-hand text-3xl text-parchment">
+              Verifying Your Payment
+            </h2>
+            <p className="font-serif text-parchment/70 text-sm">
+              This usually takes just a few seconds...
+            </p>
+            {retryCount > 0 && (
+              <p className="font-serif text-parchment/50 text-xs">
+                Retry {retryCount}/{MAX_RETRIES}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
+  if (verificationError) {
+    return (
+      <div className="min-h-screen bg-iron flex flex-col items-center justify-center px-6 py-12">
+        <div className="max-w-md w-full space-y-6">
+          <div className="bg-muted-red/20 border border-muted-red/40 rounded-lg p-6 text-center space-y-3">
+            <div className="text-4xl">⚠️</div>
+            <h2 className="font-pencil-hand text-2xl text-parchment">
+              Verification Issue
+            </h2>
+            <p className="font-serif text-parchment/80 text-sm">
+              {verificationError}
+            </p>
+          </div>
+          
+          <button
+            onClick={() => {
+              setRetryCount(0);
+              setVerificationError(null);
+              setIsVerifying(true);
+              verifyPayment();
+            }}
+            className="w-full min-h-[44px] bg-wood hover:bg-wood/90 text-parchment font-pencil-hand text-lg py-2 px-6 rounded-md transition-all"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+  
+  // Success state
   return (
-    <div className="min-h-screen bg-iron text-parchment flex flex-col items-center justify-center px-6 py-12">
-      <div className="max-w-md w-full space-y-6 text-center">
-        {status === 'verifying' && (
-          <>
-            <div className="animate-spin text-4xl mb-4">⚙️</div>
-            <h1 className="font-pencil-hand text-2xl">Verifying Your Payment...</h1>
-            <p className="font-serif text-parchment/70">
-              {retryCount > 0 ? `Checking again (${retryCount}/3)...` : 'Just a moment...'}
-            </p>
-          </>
-        )}
-
-        {status === 'success' && (
-          <>
-            <div className="text-5xl mb-4">✅</div>
-            <h1 className="font-pencil-hand text-3xl">You're All Set!</h1>
-            <p className="font-serif text-parchment/80">
-              Your Whole-House Plan is unlocked. Taking you to your dashboard...
-            </p>
-          </>
-        )}
-
-        {status === 'error' && (
-          <>
-            <div className="text-4xl mb-4">⚠️</div>
-            <h1 className="font-pencil-hand text-2xl">Verification Issue</h1>
-            <p className="font-serif text-parchment/70">
-              We couldn't verify your payment yet. This sometimes takes a minute.
-            </p>
-            <button
-              onClick={() => { setRetryCount(0); verifyPayment(); }}
-              className="bg-parchment text-iron font-pencil-hand py-3 px-6 rounded-xl min-h-[44px] hover:bg-parchment/90 transition-colors"
-            >
-              Try Again
-            </button>
-            <p className="text-parchment/50 font-serif text-sm">
-              If this persists, email <a href="mailto:support@builditusa.com" className="text-brass underline">support@builditusa.com</a>
-            </p>
-          </>
-        )}
+    <div className="min-h-screen bg-iron flex flex-col items-center justify-center px-6 py-12">
+      <div className="max-w-md w-full space-y-8 text-center">
+        {/* Success icon */}
+        <div className="text-6xl">
+          ✓
+        </div>
+        
+        {/* Message */}
+        <div className="space-y-3">
+          <h2 className="font-pencil-hand text-4xl text-brass">
+            Welcome to Your Plan!
+          </h2>
+          <p className="font-serif text-parchment/80">
+            Your whole-house plan is ready. Let's build your roadmap.
+          </p>
+        </div>
+        
+        {/* Redirect message */}
+        <p className="font-serif text-parchment/60 text-sm">
+          Redirecting to your dashboard...
+        </p>
       </div>
     </div>
   );
