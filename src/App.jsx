@@ -7,6 +7,8 @@ import AnalyzingScreen from './components/AnalyzingScreen';
 import AIAnalysis from './components/AIAnalysis';
 import EmailCapture from './components/EmailCapture';
 import BudgetQuestion from './components/BudgetQuestion';
+import ScopingSession from './components/ScopingSession';
+import ScopeEstimate from './components/ScopeEstimate';
 
 export default function App() {
   const { appScreen } = useProject();
@@ -34,17 +36,17 @@ export default function App() {
     case 'budgetQuestion':
       return <BudgetQuestion />;
     
-    case 'magicLinkPending':
-      return <div className="min-h-screen bg-iron text-parchment p-8">Check Your Email (TODO)</div>;
-    
     case 'scoping':
-      return <div className="min-h-screen bg-iron text-parchment p-8">Scoping... (TODO)</div>;
+      return <ScopingSession />;
     
     case 'estimate':
-      return <div className="min-h-screen bg-iron text-parchment p-8">Estimate (TODO)</div>;
+      return <ScopeEstimate />;
     
     case 'upsell':
       return <div className="min-h-screen bg-iron text-parchment p-8">Upgrade Offer (TODO)</div>;
+    
+    case 'magicLinkPending':
+      return <div className="min-h-screen bg-iron text-parchment p-8">Check Your Email (TODO)</div>;
     
     case 'paymentSuccess':
       return <div className="min-h-screen bg-iron text-parchment p-8">Payment Success (TODO)</div>;

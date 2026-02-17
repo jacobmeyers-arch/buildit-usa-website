@@ -87,3 +87,32 @@ export async function createUserAndProject(email, zipCode, sessionId, aiAnalysis
   
   return data;
 }
+
+/**
+ * Update project budget settings
+ * Called from BudgetQuestion screen
+ * @param {string} projectId - Project UUID
+ * @param {string} budgetApproach - 'target_budget' or 'dream_version'
+ * @param {string} budgetTarget - Optional budget amount for target_budget approach
+ */
+export async function updateBudget(projectId, budgetApproach, budgetTarget = null) {
+  const response = await fetch(`${API_BASE}/update-budget`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      projectId,
+      budgetApproach,
+      budgetTarget
+    })
+  });
+  
+  const data = await response.json();
+  
+  if (!response.ok) {
+    throw new Error(data.error || 'Failed to update budget');
+  }
+  
+  return data;
+}
