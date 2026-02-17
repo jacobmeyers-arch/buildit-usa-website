@@ -202,8 +202,9 @@ export default async function handler(req, res) {
       }
     } 
     else if (action === 'generate') {
-      // Generate estimate - returns {scopeSummary, toolUseBlock}
-      const estimateResult = await generateEstimate(context, writer);
+      // Generate estimate - returns {toolUseBlock, fullText}
+      let estimateResult = await generateEstimate(context, writer);
+      let scopeNarrative = estimateResult?.fullText || '';
 
       if (!estimateResult || !estimateResult.toolUseBlock || !estimateResult.toolUseBlock.input) {
         console.error('No estimate tool_use block received from Claude');
@@ -214,7 +215,7 @@ export default async function handler(req, res) {
         const retryResult = retryEstimate?.toolUseBlock;
         if (retryEstimate?.fullText) scopeNarrative = retryEstimate.fullText;
         
-        if (!retryResult || !retryResult.toolUseBlock || !retryResult.toolUseBlock.input) {
+        if (!retryResult || !retryResult.input) {
           // Send error event
           const encoder = new TextEncoder();
           res.write(encoder.encode('event: error\n'));
@@ -226,7 +227,7 @@ export default async function handler(req, res) {
           return;
         }
         
-        estimateResult = retryResult;
+        estimateResult = { toolUseBlock: retryResult, fullText: scopeNarrative };
       }
 
       // Validate cost estimate
@@ -248,7 +249,7 @@ export default async function handler(req, res) {
       await supabaseAdmin
         .from('projects')
         .update({
-          scope_summary: estimateResult.scopeSummary,
+          scope_summary: scopeNarrative,
           cost_estimate: estimateResult.toolUseBlock.input,
           status: 'estimate_ready',
           updated_at: new Date().toISOString()
@@ -260,7 +261,7 @@ export default async function handler(req, res) {
         project_id: projectId,
         type: 'estimate_request',
         user_input: null,
-        ai_response: 'Generated estimate',
+        ai_response: scopeNarrative,
         metadata: estimateResult.toolUseBlock.input
       });
     }
