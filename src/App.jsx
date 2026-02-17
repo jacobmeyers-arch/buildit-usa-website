@@ -5,6 +5,8 @@ import Camera from './components/Camera';
 import PhotoPreview from './components/PhotoPreview';
 import AnalyzingScreen from './components/AnalyzingScreen';
 import AIAnalysis from './components/AIAnalysis';
+import EmailCapture from './components/EmailCapture';
+import BudgetQuestion from './components/BudgetQuestion';
 
 export default function App() {
   const { appScreen } = useProject();
@@ -27,13 +29,13 @@ export default function App() {
       return <AIAnalysis />;
     
     case 'email':
-      return <div className="min-h-screen bg-iron text-parchment p-8">Email Capture (TODO)</div>;
+      return <EmailCapture />;
+    
+    case 'budgetQuestion':
+      return <BudgetQuestion />;
     
     case 'magicLinkPending':
       return <div className="min-h-screen bg-iron text-parchment p-8">Check Your Email (TODO)</div>;
-    
-    case 'budgetQuestion':
-      return <div className="min-h-screen bg-iron text-parchment p-8">Budget Question (TODO)</div>;
     
     case 'scoping':
       return <div className="min-h-screen bg-iron text-parchment p-8">Scoping... (TODO)</div>;
