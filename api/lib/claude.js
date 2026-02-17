@@ -357,3 +357,53 @@ export async function generateEstimate(projectContext, writer) {
     toolUseBlock: result.toolUseBlock
   };
 }
+
+/**
+ * Generate cross-project analysis (Prompt 6E)
+ * @param {Array} projects - All estimate_ready projects for the user
+ * @param {string} zipCode - User's zip code
+ * @returns {Promise<Object>} Cross-project analysis JSON
+ */
+export async function generateCrossProjectAnalysis(projects, zipCode) {
+  const systemPrompt = getCrossProjectAnalysisPrompt({
+    zipCode,
+    projectCount: projects.length,
+    allProjects: projects.map(p => ({
+      project_id: p.id,
+      title: p.title,
+      scope_summary: p.scope_summary,
+      cost_estimate: p.cost_estimate,
+      understanding_score: p.understanding_score
+    }))
+  });
+
+  const messages = [
+    {
+      role: 'user',
+      content: 'Analyze these projects and generate the priority sequencing and optimization recommendations.'
+    }
+  ];
+
+  try {
+    const response = await anthropic.messages.create({
+      model: MODEL,
+      max_tokens: 4096,
+      system: systemPrompt,
+      messages
+    });
+
+    // Extract text content (should be JSON)
+    const textContent = response.content.find(block => block.type === 'text');
+    if (!textContent) {
+      throw new Error('No text content in Claude response');
+    }
+
+    // Parse JSON response
+    const analysis = JSON.parse(textContent.text);
+    return analysis;
+
+  } catch (error) {
+    console.error('Cross-project analysis error:', error);
+    throw error;
+  }
+}

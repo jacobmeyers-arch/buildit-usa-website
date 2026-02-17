@@ -7,9 +7,136 @@
 
 import Stripe from 'stripe';
 import { supabaseAdmin } from './lib/supabase-admin.js';
+import { generateCrossProjectAnalysis } from './lib/claude.js';
+import { validateCrossProjectAnalysis } from './lib/validators.js';
+import { generatePropertyReport } from './lib/pdf-generator.js';
+import { sendReportEmail } from './lib/email.js';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+/**
+ * Generate and send Property Summary Report
+ */
+async function generateAndSendReport(userId, userEmail, zipCode) {
+  try {
+    console.log('Starting cross-project analysis for user:', userId);
+
+    // Fetch all estimate_ready projects
+    const { data: projects, error: projectsError } = await supabaseAdmin
+      .from('projects')
+      .select('*')
+      .eq('user_id', userId)
+      .eq('status', 'estimate_ready')
+      .is('deleted_at', null);
+
+    if (projectsError || !projects || projects.length === 0) {
+      console.log('No estimate_ready projects found');
+      return;
+    }
+
+    console.log(`Found ${projects.length} estimate_ready projects`);
+
+    // Generate cross-project analysis
+    const analysis = await generateCrossProjectAnalysis(projects, zipCode);
+
+    // Validate analysis
+    const validProjectIds = projects.map(p => p.id);
+    const validation = validateCrossProjectAnalysis(analysis, validProjectIds);
+
+    if (!validation.valid) {
+      console.error('Cross-project analysis validation failed:', validation.error);
+      throw new Error(`Analysis validation failed: ${validation.error}`);
+    }
+
+    console.log('Cross-project analysis generated and validated');
+
+    // Save priority data to project records
+    for (const sp of analysis.sequenced_projects) {
+      await supabaseAdmin
+        .from('projects')
+        .update({
+          priority_score: sp.priority_score,
+          priority_reason: sp.reasoning,
+          recommended_sequence: sp.recommended_sequence,
+          bundle_group: null, // Will be set in next loop
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', sp.project_id);
+    }
+
+    // Save bundle group assignments
+    for (const bundle of analysis.bundle_groups || []) {
+      for (const projectId of bundle.project_ids) {
+        await supabaseAdmin
+          .from('projects')
+          .update({
+            bundle_group: bundle.bundle_name,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', projectId);
+      }
+    }
+
+    console.log('Priority scores and bundle groups saved to projects');
+
+    // Generate PDF
+    const reportData = {
+      userEmail,
+      zipCode,
+      projectCount: projects.length,
+      projects,
+      crossProjectAnalysis: analysis,
+      generatedDate: new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })
+    };
+
+    const pdfBuffer = await generatePropertyReport(reportData);
+    console.log('PDF generated, size:', pdfBuffer.length, 'bytes');
+
+    // Upload PDF to Supabase Storage
+    const reportPath = `${userId}/property-report.pdf`;
+    const { error: uploadError } = await supabaseAdmin.storage
+      .from('property-reports')
+      .upload(reportPath, pdfBuffer, {
+        contentType: 'application/pdf',
+        upsert: true
+      });
+
+    if (uploadError) {
+      console.error('Failed to upload PDF to storage:', uploadError);
+      // Continue anyway - we can still email it
+    } else {
+      console.log('PDF uploaded to storage:', reportPath);
+    }
+
+    // Update property_plans with report path
+    await supabaseAdmin
+      .from('property_plans')
+      .update({
+        report_storage_path: reportPath,
+        report_generated_at: new Date().toISOString()
+      })
+      .eq('user_id', userId);
+
+    // Send email with PDF
+    const emailSummary = {
+      projectCount: projects.length,
+      totalLow: analysis.total_cost_range.low,
+      totalHigh: analysis.total_cost_range.high
+    };
+
+    await sendReportEmail(userEmail, pdfBuffer, emailSummary);
+    console.log('Report email sent to:', userEmail);
+
+  } catch (error) {
+    console.error('Error generating/sending report:', error);
+    // Don't throw - webhook should still return 200
+  }
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -44,6 +171,13 @@ export default async function handler(req, res) {
 
       console.log('Processing payment for user:', userId);
 
+      // Get user data
+      const { data: user } = await supabaseAdmin
+        .from('users')
+        .select('email, zip_code')
+        .eq('id', userId)
+        .single();
+
       // Create or update property_plans record
       const { data: existingPlan } = await supabaseAdmin
         .from('property_plans')
@@ -52,7 +186,6 @@ export default async function handler(req, res) {
         .single();
 
       if (existingPlan) {
-        // Update existing plan
         await supabaseAdmin
           .from('property_plans')
           .update({
@@ -62,7 +195,6 @@ export default async function handler(req, res) {
           })
           .eq('user_id', userId);
       } else {
-        // Create new plan
         await supabaseAdmin
           .from('property_plans')
           .insert({
@@ -74,27 +206,27 @@ export default async function handler(req, res) {
 
       console.log('Property plan created/updated for user:', userId);
 
-      // Check if user has 2+ projects at estimate_ready status
-      const { data: projects, error: projectsError } = await supabaseAdmin
+      // Check for 2+ estimate_ready projects and generate report
+      const { data: projects } = await supabaseAdmin
         .from('projects')
-        .select('id, status')
+        .select('id')
         .eq('user_id', userId)
         .eq('status', 'estimate_ready')
         .is('deleted_at', null);
 
-      if (!projectsError && projects && projects.length >= 2) {
-        console.log(`User has ${projects.length} estimate_ready projects - triggering cross-project analysis`);
-        
-        // TODO: Trigger cross-project analysis and report generation
-        // This will be implemented in Step 16
-        // For now, just log that it should happen
-        console.log('Cross-project analysis would be triggered here (Step 16)');
+      if (projects && projects.length >= 2 && user) {
+        console.log(`User has ${projects.length} projects - generating report`);
+        // Trigger report generation asynchronously
+        generateAndSendReport(userId, user.email, user.zip_code);
+      } else if (projects && projects.length === 1 && user) {
+        console.log('User has 1 project - generating single-project report');
+        // TODO: Could generate simplified single-project report
+        generateAndSendReport(userId, user.email, user.zip_code);
       }
 
       return res.status(200).json({ received: true });
     }
 
-    // Handle other event types if needed
     console.log(`Unhandled event type: ${event.type}`);
     return res.status(200).json({ received: true });
 
