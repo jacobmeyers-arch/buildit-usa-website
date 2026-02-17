@@ -1,7 +1,7 @@
 import React from 'react';
 import { useProject } from './context/ProjectContext';
 import SplashScreen from './components/SplashScreen';
-import Camera from './components/Camera';
+import CameraView from './components/CameraView';
 import PhotoPreview from './components/PhotoPreview';
 import AnalyzingScreen from './components/AnalyzingScreen';
 import AIAnalysis from './components/AIAnalysis';
@@ -17,7 +17,7 @@ export default function App() {
       return <SplashScreen />;
     
     case 'camera':
-      return <Camera />;
+      return <CameraView />;
     
     case 'preview':
       return <PhotoPreview />;
