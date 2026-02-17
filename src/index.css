@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Caveat:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Wrought Iron & Hardware */
+    --iron: #2A2320;
+    --iron-hover: #1A1714;
+    --iron-warm: #3B3530;
+    --iron-mid: #4D4540;
+    --iron-light: #5C5550;
+    --iron-faint: #6B6358;
+    
+    /* Aged Paper & Parchment */
+    --parchment: #F0E8DA;
+    --parchment-light: #F5EEDE;
+    --parchment-dark: #E4D9C8;
+    --old-linen: #D8CCBA;
+    --warm-sand: #C4B5A0;
+    --aged-cream: #EDE3D0;
+    
+    /* Wood Tones */
+    --wood-pale: #C4B098;
+    --wood-light: #A8956E;
+    --wood-mid: #8B7D6B;
+    --wood-rich: #6B5B45;
+    --wood-dark: #4A3D2E;
+    --wood-deep: #3A2F22;
+    
+    /* Muted Red (accent only) */
+    --brick: #7A2E2E;
+    --dusty-red: #9E4040;
+    --warm-red: #C25555;
+    --faded-red: #B85050;
+    --rose: #D4A0A0;
+    --blush: #E8D0D0;
+    
+    /* Muted Blue (accent only) */
+    --slate-navy: #2B3E5C;
+    --dusty-blue: #3B5068;
+    --steel-blue: #5B7A9A;
+    --soft-blue: #A8BFD4;
+    --ice-blue: #D0DCE8;
+    
+    /* Brass / Hardware Accent */
+    --brass: #B8975A;
+    --brass-light: #D4B878;
+    --brass-dark: #8A6E3A;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Libre Baskerville', serif;
+    background-color: var(--iron);
+    color: var(--parchment);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Architects Daughter', cursive;
+  }
+}
