@@ -22,7 +22,7 @@ const ESCAPE_HATCH_SCORE_MAX = 80;
  */
 function getClientIp(req) {
   return req.headers['x-forwarded-for']?.split(',')[0] || 
-         req.headers['x-real-ip' || 
+         req.headers['x-real-ip'] || 
          req.connection?.remoteAddress || 
          'unknown';
 }

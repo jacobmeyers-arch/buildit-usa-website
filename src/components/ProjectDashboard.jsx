@@ -1,7 +1,12 @@
+/**
+ * ProjectDashboard — User project list
+ * 
+ * Modified: 2026-02-17 — Wired fetchProjects() call (replaced TODO stub)
+ */
+
 import React, { useState, useEffect } from 'react';
 import { useProject } from '../context/ProjectContext';
-
-const API_BASE = import.meta.env.VITE_API_BASE || '/api';
+import { fetchProjects } from '../lib/api';
 
 export default function ProjectDashboard() {
   const { currentUser, planStatus, setAppScreen, setActiveProject } = useProject();
@@ -21,11 +26,10 @@ export default function ProjectDashboard() {
     }
     
     try {
-      // TODO: Call API to fetch projects for user
-      // For now, mock empty state
-      setProjects([]);
+      // Fetch real projects from API (was TODO)
+      const result = await fetchProjects(currentUser.id);
+      setProjects(result.projects || []);
       setIsLoading(false);
-      
     } catch (err) {
       console.error('Load projects error:', err);
       setError('Failed to load projects');
@@ -34,22 +38,16 @@ export default function ProjectDashboard() {
   };
   
   const handleAddProject = async () => {
-    // Check plan status and project count
     if (planStatus === 'free' && projects.length >= 1) {
-      // Redirect to upsell
       setAppScreen('upsell');
       return;
     }
-    
-    // Go to camera to start new project
     setActiveProject(null);
     setAppScreen('camera');
   };
   
   const handleProjectClick = (project) => {
     setActiveProject(project);
-    
-    // Resume based on project status
     if (project.status === 'scoping') {
       setAppScreen('scoping');
     } else if (project.status === 'estimate_ready' || project.status === 'complete') {
@@ -60,21 +58,13 @@ export default function ProjectDashboard() {
   };
   
   const handleGenerateReport = () => {
-    // TODO: Navigate to report generation
     setAppScreen('report');
   };
   
   const formatCostRange = (estimate) => {
     if (!estimate?.line_items) return 'Pending';
-    
-    const total = estimate.line_items.reduce((sum, item) => {
-      return sum + (item.cost_range?.low || 0);
-    }, 0);
-    
-    const totalHigh = estimate.line_items.reduce((sum, item) => {
-      return sum + (item.cost_range?.high || 0);
-    }, 0);
-    
+    const total = estimate.line_items.reduce((sum, item) => sum + (item.cost_range?.low || 0), 0);
+    const totalHigh = estimate.line_items.reduce((sum, item) => sum + (item.cost_range?.high || 0), 0);
     return `$${total.toLocaleString()} - $${totalHigh.toLocaleString()}`;
   };
   
@@ -122,19 +112,14 @@ export default function ProjectDashboard() {
     <div className="min-h-screen bg-iron flex flex-col">
       {/* Header */}
       <div className="bg-wood/20 px-6 py-4 border-b border-wood/30">
-        <h1 className="font-pencil-hand text-3xl text-parchment">
-          My Projects
-        </h1>
+        <h1 className="font-pencil-hand text-3xl text-parchment">My Projects</h1>
         {planStatus === 'paid' && (
-          <p className="font-serif text-brass text-sm mt-1">
-            Whole-House Plan Active
-          </p>
+          <p className="font-serif text-brass text-sm mt-1">Whole-House Plan Active</p>
         )}
       </div>
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6">
-        {/* Generate report button (paid users with ready estimates) */}
         {canGenerateReport() && (
           <button
             onClick={handleGenerateReport}
@@ -144,7 +129,6 @@ export default function ProjectDashboard() {
           </button>
         )}
         
-        {/* Add project button */}
         <button
           onClick={handleAddProject}
           className="w-full min-h-[50px] bg-wood hover:bg-wood/90 text-parchment font-pencil-hand text-lg py-3 px-6 rounded-md shadow-lg transition-all flex items-center justify-center gap-2"
@@ -153,21 +137,15 @@ export default function ProjectDashboard() {
           <span>Add New Project</span>
         </button>
         
-        {/* Projects list */}
         {projects.length === 0 ? (
           <div className="text-center py-12 space-y-3">
-            <p className="font-serif text-parchment/70">
-              No projects yet
-            </p>
-            <p className="font-serif text-parchment/50 text-sm">
-              Tap "Add New Project" to get started
-            </p>
+            <p className="font-serif text-parchment/70">No projects yet</p>
+            <p className="font-serif text-parchment/50 text-sm">Tap "Add New Project" to get started</p>
           </div>
         ) : (
           <div className="space-y-4">
             {projects
               .sort((a, b) => {
-                // Sort by priority if available, otherwise by created_at
                 if (a.recommended_sequence && b.recommended_sequence) {
                   return a.recommended_sequence - b.recommended_sequence;
                 }
@@ -180,7 +158,6 @@ export default function ProjectDashboard() {
                   className="w-full bg-parchment/10 border border-wood/30 hover:border-wood/60 rounded-lg p-5 text-left transition-all group"
                 >
                   <div className="space-y-3">
-                    {/* Title and status */}
                     <div className="flex items-start justify-between gap-4">
                       <h3 className="font-pencil-hand text-xl text-parchment group-hover:text-brass transition-colors">
                         {project.title || 'Untitled Project'}
@@ -190,7 +167,6 @@ export default function ProjectDashboard() {
                       </span>
                     </div>
                     
-                    {/* Understanding score */}
                     {project.understanding_score !== undefined && (
                       <div className="flex items-center gap-2">
                         <div className="flex-1 h-2 bg-iron rounded-full overflow-hidden">
@@ -205,14 +181,12 @@ export default function ProjectDashboard() {
                       </div>
                     )}
                     
-                    {/* Cost estimate */}
                     {project.cost_estimate && (
                       <p className="font-serif text-sm text-brass">
                         {formatCostRange(project.cost_estimate)}
                       </p>
                     )}
                     
-                    {/* Priority indicator (if available) */}
                     {project.recommended_sequence && (
                       <p className="font-serif text-xs text-parchment/60 italic">
                         Priority: #{project.recommended_sequence}

@@ -34,6 +34,12 @@ export function checkRateLimit(ip, isAuthenticated = false) {
     rateLimitStore.set(key, record);
   }
   
+  // Clean up expired entries lazily (every 100 checks) instead of setInterval
+  // setInterval keeps the process alive and conflicts with serverless cold shutdown
+  if (rateLimitStore.size > 50 && record.count % 100 === 0) {
+    cleanupExpiredEntries();
+  }
+  
   // Check if limit exceeded
   if (record.count >= limit.requests) {
     return {
@@ -54,9 +60,9 @@ export function checkRateLimit(ip, isAuthenticated = false) {
 }
 
 /**
- * Clean up expired entries (optional - runs periodically)
+ * Clean up expired entries (called lazily, not on interval)
  */
-export function cleanupExpiredEntries() {
+function cleanupExpiredEntries() {
   const now = Date.now();
   for (const [key, record] of rateLimitStore.entries()) {
     if (now > record.resetAt) {
@@ -64,6 +70,3 @@ export function cleanupExpiredEntries() {
     }
   }
 }
-
-// Clean up every 5 minutes
-setInterval(cleanupExpiredEntries, 5 * 60 * 1000);

@@ -25,8 +25,9 @@ export default {
         'old-linen': '#D8CCBA',
         'warm-sand': '#C4B5A0',
         'aged-cream': '#EDE3D0',
-        // Wood Tones
+        // Wood Tones — DEFAULT added so bg-wood, border-wood, text-wood resolve
         wood: {
+          DEFAULT: '#8B7D6B',
           pale: '#C4B098',
           light: '#A8956E',
           mid: '#8B7D6B',
@@ -34,7 +35,9 @@ export default {
           dark: '#4A3D2E',
           deep: '#3A2F22',
         },
-        // Muted Red (accent only)
+        // Muted Red — added so bg-muted-red, border-muted-red resolve for error states
+        'muted-red': '#9E4040',
+        // Legacy red aliases
         brick: '#7A2E2E',
         'dusty-red': '#9E4040',
         'warm-red': '#C25555',
@@ -55,9 +58,14 @@ export default {
         },
       },
       fontFamily: {
+        // pencil-hand: used by all components for headings/buttons
+        'pencil-hand': ['"Architects Daughter"', 'cursive'],
+        // Keep 'pencil' as alias for backwards compatibility
         'pencil': ['"Architects Daughter"', 'cursive'],
         'serif': ['"Libre Baskerville"', 'serif'],
+        // hand: Caveat — for dollar amounts, costs, statistics
         'hand': ['"Caveat"', 'cursive'],
+        'hand-accent': ['"Caveat"', 'cursive'],
         'sans': ['"DM Sans"', 'sans-serif'],
       },
       spacing: {

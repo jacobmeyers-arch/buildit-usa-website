@@ -1,3 +1,10 @@
+/**
+ * App.jsx — Main state-based router for BuildIt USA
+ * 
+ * Modified: 2026-02-17 — Added PropertyReport import + 3 address flow screens
+ *   (addressInput, profileLoading, propertyProfile)
+ */
+
 import React from 'react';
 import { useProject } from './context/ProjectContext';
 import SplashScreen from './components/SplashScreen';
@@ -13,6 +20,10 @@ import UpsellScreen from './components/UpsellScreen';
 import MagicLinkPending from './components/MagicLinkPending';
 import PaymentSuccess from './components/PaymentSuccess';
 import ProjectDashboard from './components/ProjectDashboard';
+import PropertyReport from './components/PropertyReport';
+import AddressInput from './components/AddressInput';
+import ProfileLoading from './components/ProfileLoading';
+import PropertyProfileCard from './components/PropertyProfileCard';
 
 export default function App() {
   const { appScreen } = useProject();
@@ -59,7 +70,17 @@ export default function App() {
       return <ProjectDashboard />;
     
     case 'report':
-      return <div className="min-h-screen bg-iron text-parchment p-8">Report (TODO)</div>;
+      return <PropertyReport />;
+
+    // Address-to-profile flow (new)
+    case 'addressInput':
+      return <AddressInput />;
+
+    case 'profileLoading':
+      return <ProfileLoading />;
+
+    case 'propertyProfile':
+      return <PropertyProfileCard />;
     
     default:
       return <SplashScreen />;

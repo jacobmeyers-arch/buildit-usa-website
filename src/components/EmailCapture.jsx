@@ -1,31 +1,44 @@
+/**
+ * EmailCapture — User registration (email + zip)
+ * 
+ * Modified: 2026-02-17 — Passes propertyProfileId for address flow,
+ *   pre-fills zip from validatedAddress when available.
+ */
+
 import React, { useState } from 'react';
 import { useProject } from '../context/ProjectContext';
 import { createUserAndProject } from '../lib/api';
 
 export default function EmailCapture() {
-  const { sessionId, setAppScreen, setCurrentUser, setActiveProject } = useProject();
+  const {
+    sessionId,
+    setAppScreen,
+    setCurrentUser,
+    setActiveProject,
+    propertyProfile,
+    validatedAddress
+  } = useProject();
+
   const [email, setEmail] = useState('');
-  const [zipCode, setZipCode] = useState('');
+  // Pre-fill zip from address flow if available
+  const [zipCode, setZipCode] = useState(validatedAddress?.zip || '');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Basic validation
     if (!email || !zipCode) {
       setError('Please fill in all fields');
       return;
     }
     
-    // Email format validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError('Please enter a valid email address');
       return;
     }
     
-    // Zip code validation (5 digits)
     const zipRegex = /^\d{5}$/;
     if (!zipRegex.test(zipCode)) {
       setError('Please enter a valid 5-digit zip code');
@@ -36,22 +49,21 @@ export default function EmailCapture() {
     setError(null);
     
     try {
-      // Create user and project (server moves photos from temp to final path)
+      // Pass propertyProfileId if coming from address flow
+      const profileId = propertyProfile?.id || null;
+
       const { user, project } = await createUserAndProject(
         email,
         zipCode,
         sessionId,
-        null // aiAnalysis - will be set from project_photos later
+        null,
+        profileId
       );
       
-      // Store user_id in localStorage for session persistence
       localStorage.setItem('user_id', user.id);
       
-      // Update context
       setCurrentUser(user);
       setActiveProject(project);
-      
-      // Transition to budget question (no magic link, no waiting)
       setAppScreen('budgetQuestion');
       
     } catch (err) {
@@ -73,12 +85,10 @@ export default function EmailCapture() {
       {/* Content */}
       <div className="flex-1 flex flex-col justify-center px-6 py-8">
         <div className="max-w-md w-full mx-auto space-y-6">
-          {/* Intro text */}
           <p className="font-serif text-parchment/80 text-center">
             Enter your email and zip code to receive your detailed scope and cost estimate.
           </p>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Email input */}
             <div>
@@ -140,7 +150,6 @@ export default function EmailCapture() {
             </button>
           </form>
 
-          {/* Privacy note */}
           <p className="font-serif text-parchment/50 text-xs text-center">
             We'll never share your email. Estimates are free.
           </p>

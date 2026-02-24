@@ -1,3 +1,12 @@
+/**
+ * ProjectContext — Global state management for BuildIt USA
+ * 
+ * Provides app-wide state: current user, active project, screen routing,
+ * photos, session ID, and (new) validated address + property profile.
+ * 
+ * Modified: 2026-02-17 — Added validatedAddress and propertyProfile state
+ */
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
@@ -18,6 +27,10 @@ export const ProjectProvider = ({ children }) => {
   const [appScreen, setAppScreen] = useState('splash');
   const [photos, setPhotos] = useState([]);
   const [sessionId, setSessionId] = useState(null);
+
+  // Address-to-profile flow state
+  const [validatedAddress, setValidatedAddress] = useState(null);
+  const [propertyProfile, setPropertyProfile] = useState(null);
 
   // Generate sessionId on mount
   useEffect(() => {
@@ -88,6 +101,11 @@ export const ProjectProvider = ({ children }) => {
     photos,
     setPhotos,
     sessionId,
+    // Address-to-profile state
+    validatedAddress,
+    setValidatedAddress,
+    propertyProfile,
+    setPropertyProfile,
   };
 
   return (

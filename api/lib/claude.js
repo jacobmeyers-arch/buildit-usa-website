@@ -16,10 +16,11 @@ import {
 } from './prompts.js';
 
 const anthropic = new Anthropic({
+  timeout: 60000,
   apiKey: process.env.ANTHROPIC_API_KEY
 });
 
-const MODEL = 'claude-3-5-sonnet-20241022';
+const MODEL = 'claude-sonnet-4-20250514';
 const MAX_RETRIES = 2;
 const INITIAL_RETRY_DELAY = 1000;
 

@@ -1,5 +1,12 @@
+/**
+ * BudgetQuestion — Budget approach selection
+ * 
+ * Modified: 2026-02-17 — Wired updateBudget() API call in proceedToScoping()
+ */
+
 import React, { useState } from 'react';
 import { useProject } from '../context/ProjectContext';
+import { updateBudget } from '../lib/api';
 
 export default function BudgetQuestion() {
   const { setAppScreen, activeProject } = useProject();
@@ -13,9 +20,7 @@ export default function BudgetQuestion() {
     if (approach === 'target_budget') {
       setShowTargetInput(true);
     } else {
-      // Dream version - proceed immediately
       setShowTargetInput(false);
-      // TODO: Save budget_approach to project via API
       proceedToScoping(approach, null);
     }
   };
@@ -23,15 +28,19 @@ export default function BudgetQuestion() {
   const handleTargetSubmit = (e) => {
     e.preventDefault();
     if (!budgetTarget) return;
-    
-    // TODO: Save budget_approach and budget_target to project via API
     proceedToScoping(budgetApproach, budgetTarget);
   };
 
-  const proceedToScoping = (approach, target) => {
-    // For now, just transition to scoping screen
-    // In production, would save to project record first
-    console.log('Budget approach:', approach, 'Target:', target);
+  const proceedToScoping = async (approach, target) => {
+    // Save budget to project via API (non-blocking — proceed even if save fails)
+    if (activeProject?.id) {
+      try {
+        await updateBudget(activeProject.id, approach, target);
+      } catch (err) {
+        console.error('Budget save failed (non-blocking):', err);
+      }
+    }
+
     setAppScreen('scoping');
   };
 
@@ -49,14 +58,11 @@ export default function BudgetQuestion() {
         <div className="max-w-md w-full mx-auto space-y-6">
           {!showTargetInput ? (
             <>
-              {/* Intro text */}
               <p className="font-serif text-parchment/80 text-center mb-8">
                 Choose how you'd like to build your estimate:
               </p>
 
-              {/* Budget approach options */}
               <div className="space-y-4">
-                {/* Target budget option */}
                 <button
                   onClick={() => handleApproachSelect('target_budget')}
                   className="w-full min-h-[100px] bg-wood/20 hover:bg-wood/30 border-2 border-wood/40 hover:border-wood rounded-lg p-6 text-left transition-all group"
@@ -69,7 +75,6 @@ export default function BudgetQuestion() {
                   </p>
                 </button>
 
-                {/* Dream version option */}
                 <button
                   onClick={() => handleApproachSelect('dream_version')}
                   className="w-full min-h-[100px] bg-wood/20 hover:bg-wood/30 border-2 border-wood/40 hover:border-wood rounded-lg p-6 text-left transition-all group"
@@ -83,14 +88,12 @@ export default function BudgetQuestion() {
                 </button>
               </div>
 
-              {/* Help text */}
               <p className="font-serif text-parchment/50 text-xs text-center pt-4">
                 You can always adjust this later
               </p>
             </>
           ) : (
             <>
-              {/* Budget target input */}
               <div className="space-y-4">
                 <p className="font-serif text-parchment/80 text-center">
                   What's your target budget for this project?
