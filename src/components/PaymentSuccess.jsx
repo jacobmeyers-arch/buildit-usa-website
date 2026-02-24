@@ -28,19 +28,16 @@ export default function PaymentSuccess() {
     }
     
     try {
-      const response = await fetch(`${API_BASE}/verify-payment`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ session_id: sessionId })
-      });
+      const response = await fetch(
+        `${API_BASE}/verify-payment?session_id=${encodeURIComponent(sessionId)}`
+      );
       
       const data = await response.json();
       
-      if (response.ok && data.success) {
+      if (response.ok && data.verified) {
         // Payment verified
         setPlanStatus('paid');
+        localStorage.setItem('plan_status', 'paid');
         setIsVerifying(false);
         
         // Fire payment_completed analytics event

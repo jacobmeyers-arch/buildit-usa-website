@@ -62,10 +62,11 @@ export default function ProjectDashboard() {
   };
   
   const formatCostRange = (estimate) => {
-    if (!estimate?.line_items) return 'Pending';
-    const total = estimate.line_items.reduce((sum, item) => sum + (item.cost_range?.low || 0), 0);
-    const totalHigh = estimate.line_items.reduce((sum, item) => sum + (item.cost_range?.high || 0), 0);
-    return `$${total.toLocaleString()} - $${totalHigh.toLocaleString()}`;
+    if (!estimate) return 'Pending';
+    const totalLow = estimate.total_low ?? estimate.line_items?.reduce((sum, item) => sum + (item.low || 0), 0) ?? 0;
+    const totalHigh = estimate.total_high ?? estimate.line_items?.reduce((sum, item) => sum + (item.high || 0), 0) ?? 0;
+    if (totalLow === 0 && totalHigh === 0) return 'Pending';
+    return `$${totalLow.toLocaleString()} - $${totalHigh.toLocaleString()}`;
   };
   
   const getStatusLabel = (status) => {

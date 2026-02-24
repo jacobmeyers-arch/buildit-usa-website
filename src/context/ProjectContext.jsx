@@ -38,12 +38,27 @@ export const ProjectProvider = ({ children }) => {
     setSessionId(sid);
   }, []);
 
-  // Session resume: check localStorage for user_id
+  // Parse URL params on init (for Stripe redirect back)
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const screenParam = urlParams.get('screen');
+    if (screenParam) {
+      setAppScreen(screenParam);
+    }
+  }, []);
+
+  // Session resume: check localStorage for user_id and plan_status
   useEffect(() => {
     const resumeSession = async () => {
       const userId = localStorage.getItem('user_id');
       if (userId) {
         try {
+          // Restore plan status from localStorage
+          const savedPlanStatus = localStorage.getItem('plan_status');
+          if (savedPlanStatus === 'paid') {
+            setPlanStatus('paid');
+          }
+
           const { data: projects, error } = await supabase
             .from('projects')
             .select('*')
@@ -54,10 +69,6 @@ export const ProjectProvider = ({ children }) => {
           if (!error && projects && projects.length > 0) {
             setActiveProject(projects[0]);
             setCurrentUser({ id: userId });
-            // Determine plan status from project
-            if (projects[0].plan_type === 'paid') {
-              setPlanStatus('paid');
-            }
           }
         } catch (err) {
           console.error('Session resume failed:', err);
