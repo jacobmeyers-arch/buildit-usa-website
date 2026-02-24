@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 import { useProject } from '../context/ProjectContext';
 import { updateBudget } from '../lib/api';
+import { trackEvent } from '../lib/analytics';
 
 export default function BudgetQuestion() {
   const { setAppScreen, activeProject } = useProject();
@@ -41,6 +42,7 @@ export default function BudgetQuestion() {
       }
     }
 
+    trackEvent('scoping_started', activeProject?.user_id || null, { approach, target });
     setAppScreen('scoping');
   };
 

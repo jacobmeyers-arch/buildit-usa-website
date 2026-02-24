@@ -84,7 +84,8 @@ const PropertyReportDocument = ({ reportData }) => {
     generatedDate
   } = reportData;
 
-  const { sequenced_projects, bundle_groups, quick_wins, total_cost_range, optimization_summary } = crossProjectAnalysis;
+  const isSingleProject = projectCount <= 1;
+  const { sequenced_projects, bundle_groups, quick_wins, total_cost_range, optimization_summary } = crossProjectAnalysis || {};
 
   return (
     <Document>
@@ -110,7 +111,12 @@ const PropertyReportDocument = ({ reportData }) => {
         {/* 2. Project Priority Roadmap */}
         <View style={styles.section}>
           <Text style={styles.sectionHeader}>2. Project Priority Roadmap</Text>
-          {sequenced_projects.map((sp, idx) => {
+          {isSingleProject && (
+            <Text style={styles.text}>
+              Add more projects to unlock priority sequencing and savings recommendations.
+            </Text>
+          )}
+          {!isSingleProject && sequenced_projects && sequenced_projects.map((sp, idx) => {
             const project = projects.find(p => p.id === sp.project_id);
             if (!project) return null;
 
@@ -140,7 +146,15 @@ const PropertyReportDocument = ({ reportData }) => {
 
       <Page size="A4" style={styles.page}>
         {/* 3. Smart Savings Opportunities */}
-        {bundle_groups && bundle_groups.length > 0 && (
+        {isSingleProject && (
+          <View style={styles.section}>
+            <Text style={styles.sectionHeader}>3. Smart Savings Opportunities</Text>
+            <Text style={styles.text}>
+              Add more projects to unlock bundle savings and cross-project optimization.
+            </Text>
+          </View>
+        )}
+        {!isSingleProject && bundle_groups && bundle_groups.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionHeader}>3. Smart Savings Opportunities</Text>
             {bundle_groups.map((bundle, idx) => (

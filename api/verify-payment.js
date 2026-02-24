@@ -69,6 +69,23 @@ export default async function handler(req, res) {
       });
     }
 
+    // Validate caller identity against session metadata
+    // If auth header present, verify it matches the session's user_id
+    if (authHeader) {
+      const token = authHeader.replace('Bearer ', '');
+      try {
+        const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token);
+        if (authError || !user || user.id !== userId) {
+          return res.status(401).json({
+            error: 'Unauthorized — user does not match payment session',
+            code: 401
+          });
+        }
+      } catch (authErr) {
+        console.warn('Auth validation failed, proceeding with session-only verification:', authErr.message);
+      }
+    }
+
     // Check payment status
     if (session.payment_status !== 'paid') {
       return res.status(200).json({

@@ -23,6 +23,7 @@ export default function ScopingSession() {
   const [costFlags, setCostFlags] = useState([]);
   const [showPhotoCapture, setShowPhotoCapture] = useState(false);
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
+  const [showEscapeHatch, setShowEscapeHatch] = useState(false);
   
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -69,7 +70,7 @@ export default function ScopingSession() {
       
       // Check for suggest_estimate flag (escape hatch)
       if (metadata.suggest_estimate) {
-        // Show "Generate Estimate" button
+        setShowEscapeHatch(true);
       }
     }
   }, [metadata, understandingScore]);
@@ -231,8 +232,31 @@ export default function ScopingSession() {
 
       {/* Input area */}
       <div className="bg-wood/10 px-6 py-4 border-t border-wood/30 space-y-3">
-        {/* Generate estimate button (shows when understanding >= 60%) */}
-        {understandingScore >= 60 && !isStreaming && (
+        {/* Escape hatch — offered at 8+ interactions, 60-80% understanding */}
+        {showEscapeHatch && !isStreaming && (
+          <div className="bg-brass/10 border border-brass/30 rounded-lg p-4 space-y-3">
+            <p className="font-serif text-parchment text-sm">
+              I have a solid picture — enough for a good estimate with some wider ranges on the unresolved areas. Want me to build your scope and estimate now, or keep refining?
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => { setShowEscapeHatch(false); handleGenerateEstimate(); }}
+                className="flex-1 min-h-[44px] bg-brass hover:bg-brass/90 text-iron font-pencil-hand text-base py-2 px-4 rounded-md shadow-lg transition-all"
+              >
+                Build My Estimate
+              </button>
+              <button
+                onClick={() => setShowEscapeHatch(false)}
+                className="flex-1 min-h-[44px] border border-parchment/30 hover:border-parchment/60 text-parchment font-pencil-hand text-base py-2 px-4 rounded-md transition-all"
+              >
+                Keep Refining
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Generate estimate button (shows when understanding >= 80% or user can request at >= 60%) */}
+        {!showEscapeHatch && understandingScore >= 80 && !isStreaming && (
           <button
             onClick={handleGenerateEstimate}
             className="w-full min-h-[44px] bg-brass hover:bg-brass/90 text-iron font-pencil-hand text-lg py-2 px-6 rounded-md shadow-lg transition-all"

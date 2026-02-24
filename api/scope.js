@@ -173,26 +173,29 @@ export default async function handler(req, res) {
         metadata: result.toolUseBlock || {}
       });
 
-      // Update project understanding if tool_use received and valid
+      // Always increment interaction_count (escape hatch depends on accurate count)
+      const updateFields = {
+        interaction_count: project.interaction_count + 1,
+        updated_at: new Date().toISOString()
+      };
+
+      // Update understanding score if tool_use received and valid
       if (result.toolUseBlock?.input) {
         const validation = validateUnderstandingUpdate(result.toolUseBlock.input);
         
         if (validation.valid) {
           const { understanding, dimensions_resolved } = result.toolUseBlock.input;
-          
-          await supabaseAdmin
-            .from('projects')
-            .update({
-              understanding_score: understanding,
-              understanding_dimensions: dimensions_resolved,
-              interaction_count: project.interaction_count + 1,
-              updated_at: new Date().toISOString()
-            })
-            .eq('id', projectId);
+          updateFields.understanding_score = understanding;
+          updateFields.understanding_dimensions = dimensions_resolved;
         } else {
           console.warn('Invalid understanding update:', validation.error);
         }
       }
+
+      await supabaseAdmin
+        .from('projects')
+        .update(updateFields)
+        .eq('id', projectId);
 
       // Send suggest_estimate metadata if escape hatch triggered
       if (shouldSuggestEstimate && result.success) {

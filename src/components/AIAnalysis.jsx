@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useProject } from '../context/ProjectContext';
+import { trackEvent } from '../lib/analytics';
 import { useStreaming } from '../hooks/useStreaming';
 
 const API_BASE = import.meta.env.VITE_API_BASE || '/api';

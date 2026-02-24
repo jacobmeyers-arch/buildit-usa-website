@@ -208,14 +208,32 @@ export default async function handler(req, res) {
         writer
       );
       
-      // Update project title if correction provided
-      // TODO: Extract project title from AI response and update
       if (projectId && result.success) {
+        // Extract project title from the first line of the AI response
+        // Prompt 6A format: "PROJECT: <specific project name>. <detail>"
+        let correctedTitle = null;
+        if (result.fullText) {
+          const firstLine = result.fullText.split('\n')[0] || '';
+          const projectMatch = firstLine.match(/^(?:PROJECT:\s*)?(.+?)\./);
+          if (projectMatch) {
+            correctedTitle = projectMatch[1].trim().substring(0, 100);
+          }
+        }
+
+        // Update project title if extracted
+        if (correctedTitle) {
+          await supabaseAdmin
+            .from('projects')
+            .update({ title: correctedTitle, updated_at: new Date().toISOString() })
+            .eq('id', projectId);
+          console.log('Updated project title from correction:', correctedTitle);
+        }
+
         await supabaseAdmin.from('interactions').insert({
           project_id: projectId,
           type: 'correction',
           user_input: sanitizedCorrectionText,
-          ai_response: 'Correction analysis',
+          ai_response: result.fullText || 'Correction analysis',
           metadata: {}
         });
       }

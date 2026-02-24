@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useProject } from '../context/ProjectContext';
+import { trackEvent } from '../lib/analytics';
 import { uploadPhoto } from '../lib/api';
 
 export default function PhotoPreview() {
@@ -51,7 +52,8 @@ export default function PhotoPreview() {
       
       // Auto-proceed to analyzing after 500ms
       setTimeout(() => {
-        setAppScreen('analyzing');
+        trackEvent('photo_captured', null, { sessionId });
+    setAppScreen('analyzing');
       }, 500);
       
     } catch (error) {

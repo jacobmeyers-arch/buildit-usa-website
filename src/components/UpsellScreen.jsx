@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import { useProject } from '../context/ProjectContext';
 import { supabase } from '../lib/supabase';
+import { trackEvent } from '../lib/analytics';
 
 export default function UpsellScreen() {
   const { currentUser, setAppScreen, setPlanStatus } = useProject();
@@ -19,27 +20,13 @@ export default function UpsellScreen() {
     if (val && parseInt(val) > 0) {
       setShowValue(true);
       // Fire analytics event
-      trackEvent('upsell_shown', { project_count: parseInt(val) });
+      trackEvent('upsell_shown', currentUser?.id, { project_count: parseInt(val) });
     } else {
       setShowValue(false);
     }
   };
 
-  const trackEvent = async (eventType, metadata = {}) => {
-    try {
-      await fetch('/api/plan-status', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userId: currentUser?.id,
-          eventType,
-          metadata
-        })
-      });
-    } catch (err) {
-      console.warn('Analytics event failed:', err);
-    }
-  };
+
 
   const handleUpgrade = async () => {
     setIsLoading(true);
@@ -52,7 +39,7 @@ export default function UpsellScreen() {
       if (authError) throw authError;
       
       // Fire analytics
-      trackEvent('upsell_clicked', { project_count: parseInt(projectCount) || 0 });
+      trackEvent('upsell_clicked', currentUser?.id, { project_count: parseInt(projectCount) || 0 });
       
       // Navigate to magic link pending screen
       setAppScreen('magicLinkPending');
@@ -64,7 +51,7 @@ export default function UpsellScreen() {
   };
 
   const handleMaybeLater = () => {
-    trackEvent('upsell_declined');
+    trackEvent('upsell_declined', currentUser?.id);
     setAppScreen('estimate');
   };
 

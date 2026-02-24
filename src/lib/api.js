@@ -172,3 +172,52 @@ export async function generateProfile(address, forceRefresh = false) {
 
   return data;
 }
+
+/**
+ * Create a Stripe Checkout session
+ * Called from stripe.js redirectToCheckout
+ * @param {string} userId - User UUID
+ * @returns {Promise<Object>} { sessionId, url }
+ */
+export async function createCheckoutSession(userId) {
+  const response = await fetch(`${API_BASE}/checkout`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ userId })
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || 'Failed to create checkout session');
+  }
+
+  return data;
+}
+
+/**
+ * Soft-delete a project
+ * Called from ProjectDashboard
+ * @param {string} projectId - Project UUID
+ * @param {string} userId - User UUID
+ * @returns {Promise<Object>} { success: true }
+ */
+export async function deleteProject(projectId, userId) {
+  const response = await fetch(`${API_BASE}/delete-project`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ projectId, userId })
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || 'Failed to delete project');
+  }
+
+  return data;
+}

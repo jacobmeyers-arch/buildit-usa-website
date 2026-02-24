@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useProject } from '../context/ProjectContext';
 import { signInWithMagicLink, onAuthChange } from '../lib/supabase';
+import { redirectToCheckout } from '../lib/stripe';
 
 export default function MagicLinkPending() {
   const { currentUser, setAppScreen } = useProject();
+  const [checkoutError, setCheckoutError] = useState(null);
   const [resendCount, setResendCount] = useState(0);
   const [canResend, setCanResend] = useState(false);
   const [isResending, setIsResending] = useState(false);
@@ -23,9 +25,13 @@ export default function MagicLinkPending() {
   useEffect(() => {
     const { data: subscription } = onAuthChange((event, session) => {
       if (event === 'SIGNED_IN' && session) {
-        // User authenticated, proceed to Stripe checkout
-        // TODO: Call Stripe checkout via src/lib/stripe.js
-        setAppScreen('paymentSuccess');
+        // User authenticated — redirect to Stripe Checkout
+        redirectToCheckout(currentUser?.id).catch(err => {
+          console.error('Stripe checkout redirect failed:', err);
+          setCheckoutError('Failed to start checkout. Please try again.');
+        });
+        // Note: redirectToCheckout does window.location.href = url
+        // PaymentSuccess screen loads after Stripe redirects back
       }
     });
     
@@ -110,6 +116,13 @@ export default function MagicLinkPending() {
               <p className="font-serif text-parchment/90 text-sm">
                 Still not receiving the email? Contact support for help.
               </p>
+            </div>
+          )}
+          
+          {/* Checkout error */}
+          {checkoutError && (
+            <div className="bg-muted-red/20 border border-muted-red/40 rounded-lg p-4 mt-4">
+              <p className="font-serif text-parchment text-sm">{checkoutError}</p>
             </div>
           )}
         </div>

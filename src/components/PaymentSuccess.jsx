@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useProject } from '../context/ProjectContext';
+import { trackEvent } from '../lib/analytics';
 
 const API_BASE = import.meta.env.VITE_API_BASE || '/api';
 
 export default function PaymentSuccess() {
-  const { setPlanStatus, setAppScreen } = useProject();
+  const { setPlanStatus, setAppScreen, currentUser } = useProject();
   const [isVerifying, setIsVerifying] = useState(true);
   const [verificationError, setVerificationError] = useState(null);
   const [retryCount, setRetryCount] = useState(0);
@@ -42,7 +43,8 @@ export default function PaymentSuccess() {
         setPlanStatus('paid');
         setIsVerifying(false);
         
-        // TODO: Fire payment_completed event
+        // Fire payment_completed analytics event
+        trackEvent('payment_completed', currentUser?.id, { session_id: sessionId });
         
         // Transition to dashboard after 2 seconds
         setTimeout(() => {

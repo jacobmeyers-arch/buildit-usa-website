@@ -8,6 +8,7 @@
 import React, { useState } from 'react';
 import { useProject } from '../context/ProjectContext';
 import { createUserAndProject } from '../lib/api';
+import { trackEvent } from '../lib/analytics';
 
 export default function EmailCapture() {
   const {
@@ -64,6 +65,7 @@ export default function EmailCapture() {
       
       setCurrentUser(user);
       setActiveProject(project);
+      trackEvent('email_submitted', user.id, { zipCode });
       setAppScreen('budgetQuestion');
       
     } catch (err) {
