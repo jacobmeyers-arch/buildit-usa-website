@@ -164,12 +164,12 @@ export default async function handler(req, res) {
       // Stream Q&A response
       const result = await streamScopingQA(context, sanitizedInput, writer);
 
-      // Log interaction
+      // Log interaction — save the full AI response text for rolling context
       await supabaseAdmin.from('interactions').insert({
         project_id: projectId,
         type: 'question',
         user_input: sanitizedInput,
-        ai_response: 'Streamed response', // Full text not stored to save space
+        ai_response: result.fullText || '',
         metadata: result.toolUseBlock || {}
       });
 

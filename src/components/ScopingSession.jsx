@@ -1,20 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useProject } from '../context/ProjectContext';
 import { useStreaming } from '../hooks/useStreaming';
-import { uploadPhoto } from '../lib/api';
+import { uploadPhoto, fetchProjects } from '../lib/api';
 import UnderstandingMeter from './UnderstandingMeter';
 
 const API_BASE = import.meta.env.VITE_API_BASE || '/api';
 
 export default function ScopingSession() {
-  const { 
-    activeProject, 
+  const {
+    activeProject,
+    setActiveProject,
     currentUser,
     setAppScreen,
     photos,
-    setPhotos 
+    setPhotos
   } = useProject();
-  
+
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [understandingScore, setUnderstandingScore] = useState(0);
@@ -24,6 +25,7 @@ export default function ScopingSession() {
   const [showPhotoCapture, setShowPhotoCapture] = useState(false);
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
   const [showEscapeHatch, setShowEscapeHatch] = useState(false);
+  const [isGeneratingEstimate, setIsGeneratingEstimate] = useState(false);
   
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -113,15 +115,40 @@ export default function ScopingSession() {
 
   const handleGenerateEstimate = () => {
     if (!activeProject) return;
-    
+
+    setIsGeneratingEstimate(true);
+
     // Call /api/scope with action: 'generate'
     setRequestBody({
       projectId: activeProject.id,
       action: 'generate'
     });
-    
+
     setTimeout(() => startStreaming(), 100);
   };
+
+  // When estimate generation completes, refresh project data and transition to estimate screen
+  useEffect(() => {
+    if (isGeneratingEstimate && isDone && !error) {
+      const transitionToEstimate = async () => {
+        try {
+          // Re-fetch the project to get updated cost_estimate + scope_summary
+          if (currentUser?.id) {
+            const { projects } = await fetchProjects(currentUser.id);
+            const updated = projects?.find(p => p.id === activeProject.id);
+            if (updated) {
+              setActiveProject(updated);
+            }
+          }
+        } catch (err) {
+          console.error('Failed to refresh project after estimate:', err);
+        }
+        setIsGeneratingEstimate(false);
+        setAppScreen('estimate');
+      };
+      transitionToEstimate();
+    }
+  }, [isGeneratingEstimate, isDone, error]);
 
   const handlePhotoCapture = async (event) => {
     const file = event.target.files?.[0];

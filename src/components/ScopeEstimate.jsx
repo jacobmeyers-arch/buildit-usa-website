@@ -24,9 +24,10 @@ export default function ScopeEstimate() {
     );
   }
   
-  // Calculate total range
-  const totalLow = estimate.line_items?.reduce((sum, item) => sum + (item.cost_range?.low || 0), 0) || 0;
-  const totalHigh = estimate.line_items?.reduce((sum, item) => sum + (item.cost_range?.high || 0), 0) || 0;
+  // Use totals from the locked schema (total_low/total_high are top-level fields)
+  // Fall back to summing line items if top-level totals are missing
+  const totalLow = estimate.total_low ?? estimate.line_items?.reduce((sum, item) => sum + (item.low || 0), 0) ?? 0;
+  const totalHigh = estimate.total_high ?? estimate.line_items?.reduce((sum, item) => sum + (item.high || 0), 0) ?? 0;
   
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-US', {
@@ -56,11 +57,6 @@ export default function ScopeEstimate() {
           <p className="font-pencil-hand text-4xl text-brass">
             {formatCurrency(totalLow)} - {formatCurrency(totalHigh)}
           </p>
-          {estimate.timeline && (
-            <p className="font-serif text-parchment/70 text-sm mt-2">
-              Timeline: {estimate.timeline}
-            </p>
-          )}
         </div>
 
         {/* Scope summary */}
@@ -83,28 +79,31 @@ export default function ScopeEstimate() {
             </h3>
             <div className="space-y-2">
               {estimate.line_items.map((item, idx) => (
-                <div 
+                <div
                   key={idx}
                   className="bg-parchment/10 border border-wood/30 rounded-lg p-4 space-y-2"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
                       <h4 className="font-serif font-semibold text-parchment">
-                        {item.category}
+                        {item.item}
                       </h4>
-                      {item.description && (
-                        <p className="font-serif text-sm text-parchment/70 mt-1">
-                          {item.description}
-                        </p>
+                      <p className="font-serif text-xs text-parchment/50 mt-0.5">
+                        {item.category}
+                      </p>
+                      {item.assumed && (
+                        <span className="inline-block mt-1 px-2 py-0.5 bg-brass/20 text-brass text-xs font-serif rounded">
+                          ASSUMED
+                        </span>
                       )}
                     </div>
                     <div className="text-right">
                       <p className="font-pencil-hand text-lg text-brass whitespace-nowrap">
-                        {formatCurrency(item.cost_range.low)} - {formatCurrency(item.cost_range.high)}
+                        {formatCurrency(item.low)} - {formatCurrency(item.high)}
                       </p>
                     </div>
                   </div>
-                  
+
                   {item.notes && (
                     <p className="font-serif text-xs text-parchment/60 italic">
                       {item.notes}
@@ -116,54 +115,43 @@ export default function ScopeEstimate() {
           </div>
         )}
 
-        {/* Assumptions */}
-        {estimate.assumptions && estimate.assumptions.length > 0 && (
+        {/* Confidence + unresolved areas */}
+        {estimate.confidence && (
           <div className="space-y-3">
             <h3 className="font-pencil-hand text-xl text-parchment">
-              Assumptions
+              Estimate Confidence
             </h3>
-            <ul className="space-y-2 font-serif text-parchment/80 text-sm">
-              {estimate.assumptions.map((assumption, idx) => (
-                <li key={idx} className="flex gap-2">
-                  <span>•</span>
-                  <span>{assumption}</span>
-                </li>
-              ))}
-            </ul>
+            <div className="flex items-center gap-3">
+              <span className={`inline-block px-3 py-1 rounded font-pencil-hand text-base ${
+                estimate.confidence === 'high' ? 'bg-green-800/30 text-green-300' :
+                estimate.confidence === 'medium' ? 'bg-brass/20 text-brass' :
+                'bg-muted-red/20 text-rose'
+              }`}>
+                {estimate.confidence.charAt(0).toUpperCase() + estimate.confidence.slice(1)}
+              </span>
+            </div>
+            {estimate.unresolved_areas && estimate.unresolved_areas.length > 0 && (
+              <div className="mt-2">
+                <p className="font-serif text-parchment/70 text-sm mb-1">Areas with wider ranges:</p>
+                <ul className="space-y-1 font-serif text-parchment/60 text-sm">
+                  {estimate.unresolved_areas.map((area, idx) => (
+                    <li key={idx} className="flex gap-2">
+                      <span>•</span>
+                      <span>{area}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         )}
 
-        {/* Not included */}
-        {estimate.not_included && estimate.not_included.length > 0 && (
-          <div className="space-y-3">
-            <h3 className="font-pencil-hand text-xl text-parchment">
-              Not Included
-            </h3>
-            <ul className="space-y-2 font-serif text-parchment/80 text-sm">
-              {estimate.not_included.map((item, idx) => (
-                <li key={idx} className="flex gap-2">
-                  <span>•</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {/* Next steps */}
-        {estimate.next_steps && estimate.next_steps.length > 0 && (
-          <div className="space-y-3">
-            <h3 className="font-pencil-hand text-xl text-parchment">
-              Recommended Next Steps
-            </h3>
-            <ol className="space-y-2 font-serif text-parchment/80 text-sm">
-              {estimate.next_steps.map((step, idx) => (
-                <li key={idx} className="flex gap-2">
-                  <span>{idx + 1}.</span>
-                  <span>{step}</span>
-                </li>
-              ))}
-            </ol>
+        {/* Regional note */}
+        {estimate.regional_note && (
+          <div className="bg-parchment/5 border border-wood/20 rounded-lg p-4">
+            <p className="font-serif text-parchment/70 text-sm italic">
+              {estimate.regional_note}
+            </p>
           </div>
         )}
       </div>
