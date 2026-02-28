@@ -20,7 +20,7 @@ export default function SplashScreen() {
   };
 
   return (
-    <div className="min-h-screen bg-iron flex flex-col items-center justify-center px-6 py-12">
+    <div className="min-h-screen bg-workshop flex flex-col items-center justify-center px-6 py-12">
       <div className="max-w-md w-full text-center space-y-8">
         {/* Branding */}
         <div className="space-y-2">
@@ -28,40 +28,42 @@ export default function SplashScreen() {
             BuildIt USA
           </h1>
           <p className="font-serif text-parchment/80 text-lg">
-            Turn your vision into a build plan
+            Turn your vision into a <span className="sketch-underline">build plan</span>
           </p>
         </div>
 
         {/* Value prop */}
         <div className="space-y-4 text-parchment/70 font-serif">
           <p className="text-base">
-            Snap a photo of your project site. Get a detailed scope, timeline, and budget — powered by AI.
+            Snap a photo of your project site. Get a detailed scope, timeline, and budget in minutes.
           </p>
           <p className="text-sm">
             Free estimate. Upgrade for full construction docs.
           </p>
         </div>
 
-        {/* Primary CTA — camera flow (44x44 min tap target) */}
+        {/* Primary CTA — camera flow */}
         <button
           onClick={handleCameraFlow}
-          className="w-full min-h-[44px] bg-wood hover:bg-wood/90 text-parchment font-pencil-hand text-xl py-3 px-8 rounded-md shadow-lg transition-all transform hover:scale-105 active:scale-95"
+          className="btn-iron-light w-full min-h-[50px] text-xl py-3 px-8 transition-all transform hover:scale-105 active:scale-95"
           aria-label="Start your project estimate with a photo"
         >
           Let's Go
         </button>
 
-        {/* Divider */}
+        {/* Divider with brass nail accents */}
         <div className="flex items-center gap-4">
-          <div className="flex-1 h-px bg-parchment/20"></div>
+          <div className="flex-1 h-px bg-iron-mid"></div>
+          <span className="brass-nail"></span>
           <span className="font-serif text-parchment/40 text-sm">or</span>
-          <div className="flex-1 h-px bg-parchment/20"></div>
+          <span className="brass-nail"></span>
+          <div className="flex-1 h-px bg-iron-mid"></div>
         </div>
 
         {/* Secondary CTA — address flow */}
         <button
           onClick={handleAddressFlow}
-          className="w-full min-h-[44px] border-2 border-parchment/30 hover:border-parchment/60 text-parchment/80 hover:text-parchment font-pencil-hand text-lg py-3 px-8 rounded-md transition-all transform hover:scale-105 active:scale-95"
+          className="btn-ghost-parchment w-full min-h-[50px] text-lg py-3 px-8 transition-all transform hover:scale-105 active:scale-95"
           aria-label="Start your project estimate with your address"
         >
           Enter Your Address

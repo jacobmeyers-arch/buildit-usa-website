@@ -60,7 +60,7 @@ export default function UpsellScreen() {
   const consultantHigh = count * 150;
 
   return (
-    <div className="min-h-screen bg-iron text-parchment flex flex-col items-center justify-center px-6 py-12">
+    <div className="min-h-screen bg-workshop text-parchment flex flex-col items-center justify-center px-6 py-12">
       <div className="max-w-md w-full space-y-8 text-center">
         {/* Heading */}
         <h1 className="font-pencil-hand text-3xl">
@@ -82,13 +82,13 @@ export default function UpsellScreen() {
             value={projectCount}
             onChange={handleProjectCount}
             placeholder="e.g., 5"
-            className="w-24 mx-auto block text-center text-2xl font-hand-accent bg-iron-light border-2 border-parchment/30 rounded-lg px-4 py-3 text-parchment focus:border-brass focus:outline-none"
+            className="input-workshop w-24 mx-auto block text-center text-2xl px-4 py-3"
           />
         </div>
 
         {/* Dynamic value anchor */}
         {showValue && count > 0 && (
-          <div className="bg-wood/20 rounded-xl p-6 space-y-2 animate-fadeIn">
+          <div className="card-workshop rounded-xl p-6 space-y-2 animate-fadeIn">
             <p className="font-serif text-sm text-parchment/70">
               {count} projects × individual estimates
             </p>
@@ -103,7 +103,7 @@ export default function UpsellScreen() {
 
         {/* Error */}
         {error && (
-          <p className="text-muted-red text-sm font-serif">{error}</p>
+          <p className="text-rose text-sm font-serif">{error}</p>
         )}
 
         {/* CTAs */}
@@ -111,7 +111,7 @@ export default function UpsellScreen() {
           <button
             onClick={handleUpgrade}
             disabled={isLoading}
-            className="w-full bg-parchment text-iron font-pencil-hand text-lg py-4 px-6 rounded-xl min-h-[44px] hover:bg-parchment/90 transition-colors disabled:opacity-50"
+            className="btn-iron-light w-full text-lg py-4 px-6 rounded-xl min-h-[44px] transition-colors disabled:opacity-50"
           >
             {isLoading ? 'Sending verification...' : 'Plan My Whole House'}
           </button>

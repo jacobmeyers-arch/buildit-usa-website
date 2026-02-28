@@ -188,9 +188,9 @@ export default function ScopingSession() {
   };
 
   return (
-    <div className="min-h-screen bg-iron flex flex-col">
+    <div className="min-h-screen bg-workshop flex flex-col">
       {/* Header with understanding meter */}
-      <div className="bg-wood/20 px-6 py-4 border-b border-wood/30 space-y-3">
+      <div className="bg-iron-mid px-6 py-4 border-b border-iron-warm space-y-3">
         <h2 className="font-pencil-hand text-2xl text-parchment">
           Building Your Scope
         </h2>
@@ -210,10 +210,10 @@ export default function ScopingSession() {
             key={idx} 
             className={`${
               msg.type === 'user' 
-                ? 'ml-auto max-w-[80%] bg-wood/30 text-parchment' 
+                ? 'ml-auto max-w-[80%] bg-iron-mid text-parchment'
                 : msg.type === 'system'
                 ? 'mx-auto max-w-[80%] bg-brass/20 text-parchment/70 text-center text-sm italic'
-                : 'mr-auto max-w-[80%] bg-parchment/10 text-parchment'
+                : 'mr-auto max-w-[80%] card-workshop text-parchment'
             } rounded-lg p-4 font-serif text-base leading-relaxed`}
           >
             {msg.text}
@@ -233,7 +233,7 @@ export default function ScopingSession() {
         
         {/* Streaming AI response */}
         {isStreaming && streamingText && (
-          <div className="mr-auto max-w-[80%] bg-parchment/10 text-parchment rounded-lg p-4 font-serif text-base leading-relaxed">
+          <div className="mr-auto max-w-[80%] card-workshop text-parchment rounded-lg p-4 font-serif text-base leading-relaxed">
             {streamingText}
             <span className="inline-block w-2 h-5 bg-parchment ml-1 animate-pulse"></span>
           </div>
@@ -246,7 +246,7 @@ export default function ScopingSession() {
             {error.retryable && (
               <button
                 onClick={startStreaming}
-                className="mt-2 min-h-[36px] bg-wood hover:bg-wood/90 text-parchment font-serif text-sm py-1 px-3 rounded"
+                className="btn-iron mt-2 min-h-[36px] text-sm py-1 px-3"
               >
                 Retry
               </button>
@@ -258,7 +258,7 @@ export default function ScopingSession() {
       </div>
 
       {/* Input area */}
-      <div className="bg-wood/10 px-6 py-4 border-t border-wood/30 space-y-3">
+      <div className="bg-iron-warm px-6 py-4 border-t border-iron-mid space-y-3">
         {/* Escape hatch — offered at 8+ interactions, 60-80% understanding */}
         {showEscapeHatch && !isStreaming && (
           <div className="bg-brass/10 border border-brass/30 rounded-lg p-4 space-y-3">
@@ -300,14 +300,14 @@ export default function ScopingSession() {
             onChange={(e) => setUserInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
             placeholder="Type your answer..."
-            className="flex-1 bg-parchment/10 border border-wood/40 rounded-md px-4 py-3 font-serif text-parchment placeholder-parchment/50 focus:outline-none focus:border-wood"
+            className="input-workshop flex-1 px-4 py-3 font-serif"
             disabled={isStreaming}
           />
           
           <button
             onClick={handleSendMessage}
             disabled={!userInput.trim() || isStreaming}
-            className="min-h-[44px] min-w-[44px] bg-wood hover:bg-wood/90 disabled:bg-wood/50 text-parchment font-pencil-hand text-lg px-4 rounded-md transition-all"
+            className="btn-iron min-h-[44px] min-w-[44px] text-lg px-4"
           >
             Send
           </button>
@@ -315,7 +315,7 @@ export default function ScopingSession() {
           <button
             onClick={() => fileInputRef.current?.click()}
             disabled={isStreaming || isUploadingPhoto}
-            className="min-h-[44px] min-w-[44px] bg-wood/50 hover:bg-wood/70 disabled:bg-wood/30 text-parchment text-xl rounded-md transition-all"
+            className="btn-ghost-parchment min-h-[44px] min-w-[44px] text-xl"
             title="Add photo"
           >
             📷

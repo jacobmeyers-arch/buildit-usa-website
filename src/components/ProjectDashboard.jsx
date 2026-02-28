@@ -87,7 +87,7 @@ export default function ProjectDashboard() {
   
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-iron flex items-center justify-center">
+      <div className="min-h-screen bg-workshop flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brass"></div>
       </div>
     );
@@ -95,12 +95,12 @@ export default function ProjectDashboard() {
   
   if (error) {
     return (
-      <div className="min-h-screen bg-iron flex items-center justify-center px-6">
+      <div className="min-h-screen bg-workshop flex items-center justify-center px-6">
         <div className="max-w-md text-center space-y-4">
           <p className="font-serif text-parchment/80">{error}</p>
           <button
             onClick={loadProjects}
-            className="min-h-[44px] bg-wood hover:bg-wood/90 text-parchment font-pencil-hand text-base py-2 px-6 rounded-md"
+            className="btn-iron min-h-[44px] text-base py-2 px-6"
           >
             Retry
           </button>
@@ -110,9 +110,9 @@ export default function ProjectDashboard() {
   }
   
   return (
-    <div className="min-h-screen bg-iron flex flex-col">
+    <div className="min-h-screen bg-workshop flex flex-col">
       {/* Header */}
-      <div className="bg-wood/20 px-6 py-4 border-b border-wood/30">
+      <div className="bg-iron-mid px-6 py-4 border-b border-iron-warm">
         <h1 className="font-pencil-hand text-3xl text-parchment">My Projects</h1>
         {planStatus === 'paid' && (
           <p className="font-serif text-brass text-sm mt-1">Whole-House Plan Active</p>
@@ -132,7 +132,7 @@ export default function ProjectDashboard() {
         
         <button
           onClick={handleAddProject}
-          className="w-full min-h-[50px] bg-wood hover:bg-wood/90 text-parchment font-pencil-hand text-lg py-3 px-6 rounded-md shadow-lg transition-all flex items-center justify-center gap-2"
+          className="btn-iron-light w-full min-h-[50px] text-lg py-3 px-6 transition-all flex items-center justify-center gap-2"
         >
           <span className="text-2xl">+</span>
           <span>Add New Project</span>
@@ -156,14 +156,14 @@ export default function ProjectDashboard() {
                 <button
                   key={project.id}
                   onClick={() => handleProjectClick(project)}
-                  className="w-full bg-parchment/10 border border-wood/30 hover:border-wood/60 rounded-lg p-5 text-left transition-all group"
+                  className="w-full card-workshop hover:border-iron-light rounded-lg p-5 text-left transition-all group"
                 >
                   <div className="space-y-3">
                     <div className="flex items-start justify-between gap-4">
                       <h3 className="font-pencil-hand text-xl text-parchment group-hover:text-brass transition-colors">
                         {project.title || 'Untitled Project'}
                       </h3>
-                      <span className="font-serif text-xs text-parchment/60 bg-wood/20 px-2 py-1 rounded whitespace-nowrap">
+                      <span className="font-serif text-xs text-parchment/60 bg-iron-mid px-2 py-1 rounded whitespace-nowrap">
                         {getStatusLabel(project.status)}
                       </span>
                     </div>

@@ -89,7 +89,7 @@ export default function PhotoPreview() {
   // Error state after max retries
   if (uploadState === 'error' && retryCount >= MAX_RETRIES) {
     return (
-      <div className="min-h-screen bg-iron flex flex-col items-center justify-center px-6 py-12">
+      <div className="min-h-screen bg-workshop flex flex-col items-center justify-center px-6 py-12">
         <div className="max-w-md w-full space-y-6 text-center">
           <h2 className="font-pencil-hand text-3xl text-parchment">
             Upload Issue
@@ -108,7 +108,7 @@ export default function PhotoPreview() {
           
           <button
             onClick={handleTakeNew}
-            className="w-full min-h-[44px] bg-wood hover:bg-wood/90 text-parchment font-pencil-hand text-lg py-3 px-6 rounded-md shadow-lg transition-all"
+            className="btn-iron-light w-full min-h-[50px] text-lg py-3 px-6 transition-all"
           >
             Try Again
           </button>
@@ -120,7 +120,7 @@ export default function PhotoPreview() {
   // Error state with retry options
   if (uploadState === 'error') {
     return (
-      <div className="min-h-screen bg-iron flex flex-col items-center justify-center px-6 py-12">
+      <div className="min-h-screen bg-workshop flex flex-col items-center justify-center px-6 py-12">
         <div className="max-w-md w-full space-y-6 text-center">
           <h2 className="font-pencil-hand text-3xl text-parchment">
             Upload Failed
@@ -140,14 +140,14 @@ export default function PhotoPreview() {
           <div className="space-y-3">
             <button
               onClick={handleRetry}
-              className="w-full min-h-[44px] bg-wood hover:bg-wood/90 text-parchment font-pencil-hand text-lg py-3 px-6 rounded-md shadow-lg transition-all"
+              className="btn-iron-light w-full min-h-[50px] text-lg py-3 px-6 transition-all"
             >
               Retry Upload ({retryCount}/{MAX_RETRIES})
             </button>
             
             <button
               onClick={handleTakeNew}
-              className="w-full min-h-[44px] bg-iron border-2 border-wood hover:bg-wood/20 text-parchment font-pencil-hand text-lg py-3 px-6 rounded-md transition-all"
+              className="btn-ghost-parchment w-full min-h-[50px] text-lg py-3 px-6 transition-all"
             >
               Take New Photo
             </button>
@@ -160,7 +160,7 @@ export default function PhotoPreview() {
   // Uploading state
   if (uploadState === 'uploading') {
     return (
-      <div className="min-h-screen bg-iron flex flex-col items-center justify-center px-6 py-12">
+      <div className="min-h-screen bg-workshop flex flex-col items-center justify-center px-6 py-12">
         <div className="max-w-md w-full space-y-6">
           {previewUrl && (
             <div className="relative">
@@ -184,30 +184,30 @@ export default function PhotoPreview() {
 
   // Preview state (idle) - show "Use This" / "Retake" buttons
   return (
-    <div className="min-h-screen bg-iron flex flex-col">
+    <div className="min-h-screen bg-workshop flex flex-col">
       {/* Photo preview */}
       <div className="flex-1 flex items-center justify-center p-6">
         {previewUrl && (
-          <img 
-            src={previewUrl} 
-            alt="Preview" 
+          <img
+            src={previewUrl}
+            alt="Preview"
             className="max-w-full max-h-full rounded-lg shadow-lg"
           />
         )}
       </div>
 
       {/* Action buttons */}
-      <div className="bg-wood/10 px-6 py-6 space-y-3 border-t border-wood/30">
+      <div className="bg-iron-warm px-6 py-6 space-y-3 border-t border-iron-mid">
         <button
           onClick={handleUseThis}
-          className="w-full min-h-[50px] bg-wood hover:bg-wood/90 text-parchment font-pencil-hand text-xl py-3 px-8 rounded-md shadow-lg transition-all transform hover:scale-105 active:scale-95"
+          className="btn-iron-light w-full min-h-[50px] text-xl py-3 px-8 transition-all transform hover:scale-105 active:scale-95"
         >
           Use This Photo
         </button>
-        
+
         <button
           onClick={handleRetake}
-          className="w-full min-h-[44px] bg-iron border-2 border-wood/40 hover:bg-wood/20 text-parchment font-pencil-hand text-lg py-2 px-6 rounded-md transition-all"
+          className="btn-ghost-parchment w-full min-h-[50px] text-lg py-2 px-6 transition-all"
         >
           Retake
         </button>

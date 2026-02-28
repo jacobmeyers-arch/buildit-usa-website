@@ -47,9 +47,9 @@ export default function BudgetQuestion() {
   };
 
   return (
-    <div className="min-h-screen bg-iron flex flex-col">
+    <div className="min-h-screen bg-workshop flex flex-col">
       {/* Header */}
-      <div className="bg-wood/20 px-6 py-4 border-b border-wood/30">
+      <div className="bg-iron-mid px-6 py-4 border-b border-iron-warm">
         <h2 className="font-pencil-hand text-2xl text-parchment">
           How Do You Want to Approach This?
         </h2>
@@ -67,7 +67,7 @@ export default function BudgetQuestion() {
               <div className="space-y-4">
                 <button
                   onClick={() => handleApproachSelect('target_budget')}
-                  className="w-full min-h-[100px] bg-wood/20 hover:bg-wood/30 border-2 border-wood/40 hover:border-wood rounded-lg p-6 text-left transition-all group"
+                  className="w-full min-h-[100px] card-workshop hover:bg-iron-mid border-2 border-iron-mid hover:border-iron-light rounded-lg p-6 text-left transition-all group"
                 >
                   <h3 className="font-pencil-hand text-xl text-parchment mb-2 group-hover:text-wood">
                     I Have a Budget in Mind
@@ -79,7 +79,7 @@ export default function BudgetQuestion() {
 
                 <button
                   onClick={() => handleApproachSelect('dream_version')}
-                  className="w-full min-h-[100px] bg-wood/20 hover:bg-wood/30 border-2 border-wood/40 hover:border-wood rounded-lg p-6 text-left transition-all group"
+                  className="w-full min-h-[100px] card-workshop hover:bg-iron-mid border-2 border-iron-mid hover:border-iron-light rounded-lg p-6 text-left transition-all group"
                 >
                   <h3 className="font-pencil-hand text-xl text-parchment mb-2 group-hover:text-wood">
                     Show Me the Full Scope
@@ -115,7 +115,7 @@ export default function BudgetQuestion() {
                         setBudgetTarget(value);
                       }}
                       placeholder="10000"
-                      className="w-full bg-parchment/10 border border-wood/40 rounded-md pl-8 pr-4 py-4 font-serif text-parchment text-xl placeholder-parchment/50 focus:outline-none focus:border-wood text-center"
+                      className="input-workshop w-full pl-8 pr-4 py-4 font-serif text-xl text-center"
                       autoFocus
                     />
                   </div>
@@ -123,7 +123,7 @@ export default function BudgetQuestion() {
                   <button
                     type="submit"
                     disabled={!budgetTarget}
-                    className="w-full min-h-[50px] bg-wood hover:bg-wood/90 disabled:bg-wood/50 text-parchment font-pencil-hand text-xl py-3 px-8 rounded-md shadow-lg transition-all transform hover:scale-105 active:scale-95 disabled:scale-100"
+                    className="btn-iron-light w-full min-h-[50px] text-xl py-3 px-8 transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100"
                   >
                     Continue
                   </button>

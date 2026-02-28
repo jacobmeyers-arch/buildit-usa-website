@@ -31,9 +31,9 @@ export default function PropertyReport() {
   };
 
   return (
-    <div className="min-h-screen bg-iron flex flex-col">
+    <div className="min-h-screen bg-workshop flex flex-col">
       {/* Header */}
-      <div className="bg-wood/20 px-6 py-4 border-b border-wood/30 flex items-center gap-4">
+      <div className="bg-iron-mid px-6 py-4 border-b border-iron-warm flex items-center gap-4">
         <button
           onClick={() => setAppScreen('dashboard')}
           className="min-h-[44px] min-w-[44px] flex items-center justify-center text-parchment/70 hover:text-parchment"
@@ -70,9 +70,9 @@ export default function PropertyReport() {
               </h2>
 
               {/* Total range */}
-              <div className="bg-wood/20 border border-wood/30 rounded-lg p-4 text-center">
+              <div className="card-workshop rounded-lg p-4 text-center">
                 <p className="font-serif text-parchment/60 text-sm mb-1">Estimated Total</p>
-                <p className="font-pencil-hand text-3xl text-brass">
+                <p className="font-hand text-3xl text-brass">
                   {formatCurrency(estimate.total_low)} – {formatCurrency(estimate.total_high)}
                 </p>
               </div>
@@ -80,9 +80,10 @@ export default function PropertyReport() {
               {/* Line items table */}
               <div className="space-y-2">
                 {estimate.line_items.map((item, index) => (
+                  <React.Fragment key={index}>
+                    {index > 0 && <div className="wood-divider" />}
                   <div
-                    key={index}
-                    className="bg-parchment/10 border border-wood/20 rounded-lg p-4"
+                    className="card-workshop rounded-lg p-4"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
@@ -101,11 +102,12 @@ export default function PropertyReport() {
                           </p>
                         )}
                       </div>
-                      <p className="font-serif text-parchment/80 text-sm whitespace-nowrap">
+                      <p className="font-hand text-parchment/80 text-lg whitespace-nowrap">
                         {formatCurrency(item.low)} – {formatCurrency(item.high)}
                       </p>
                     </div>
                   </div>
+                  </React.Fragment>
                 ))}
               </div>
             </section>

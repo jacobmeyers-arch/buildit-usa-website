@@ -136,7 +136,7 @@ export default function Camera() {
   // Camera denied state
   if (cameraError === 'denied') {
     return (
-      <div className="min-h-screen bg-iron flex flex-col items-center justify-center px-6 py-12">
+      <div className="min-h-screen bg-workshop flex flex-col items-center justify-center px-6 py-12">
         <div className="max-w-md w-full space-y-6 text-center">
           <h2 className="font-pencil-hand text-3xl text-parchment">
             Camera Access Needed
@@ -148,14 +148,14 @@ export default function Camera() {
           <div className="space-y-3">
             <button
               onClick={retryCamera}
-              className="w-full min-h-[44px] bg-wood hover:bg-wood/90 text-parchment font-pencil-hand text-lg py-3 px-6 rounded-md shadow-lg transition-all"
+              className="btn-iron-light w-full min-h-[50px] text-lg py-3 px-6 transition-all"
             >
               Allow Camera Access
             </button>
             
             <button
               onClick={useFallbackInput}
-              className="w-full min-h-[44px] bg-iron border-2 border-wood hover:bg-wood/20 text-parchment font-pencil-hand text-lg py-3 px-6 rounded-md transition-all"
+              className="btn-ghost-parchment w-full min-h-[50px] text-lg py-3 px-6 transition-all"
             >
               Upload a Photo Instead
             </button>
@@ -178,7 +178,7 @@ export default function Camera() {
   // File input fallback UI (for iOS Safari or when user chooses upload)
   if (useFallback) {
     return (
-      <div className="min-h-screen bg-iron flex flex-col items-center justify-center px-6 py-12">
+      <div className="min-h-screen bg-workshop flex flex-col items-center justify-center px-6 py-12">
         <div className="max-w-md w-full space-y-6 text-center">
           <h2 className="font-pencil-hand text-3xl text-parchment">
             Take a Photo
@@ -190,7 +190,7 @@ export default function Camera() {
           <button
             onClick={() => fileInputRef.current?.click()}
             disabled={isCapturing}
-            className="w-full min-h-[44px] bg-wood hover:bg-wood/90 disabled:bg-wood/50 text-parchment font-pencil-hand text-xl py-3 px-8 rounded-md shadow-lg transition-all transform hover:scale-105 active:scale-95 disabled:scale-100"
+            className="btn-iron-light w-full min-h-[50px] text-xl py-3 px-8 transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100"
           >
             {isCapturing ? 'Processing...' : 'Open Camera'}
           </button>
@@ -231,11 +231,11 @@ export default function Camera() {
       </div>
       
       {/* Controls */}
-      <div className="bg-iron py-8 px-6 space-y-4">
+      <div className="bg-iron-warm py-8 px-6 space-y-4 border-t border-iron-mid">
         <button
           onClick={captureFromStream}
           disabled={isCapturing || !stream}
-          className="w-full min-h-[60px] bg-wood hover:bg-wood/90 disabled:bg-wood/50 text-parchment font-pencil-hand text-2xl py-4 px-8 rounded-full shadow-lg transition-all transform hover:scale-105 active:scale-95 disabled:scale-100"
+          className="btn-iron-light w-full min-h-[60px] text-2xl py-4 px-8 rounded-full transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100"
         >
           {isCapturing ? 'Capturing...' : 'Capture Photo'}
         </button>

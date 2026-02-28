@@ -37,7 +37,7 @@ export default function ProjectRecommendationCard({ recommendation }) {
   const urgencyLabel = URGENCY_LABELS[urgency] || 'Routine';
 
   return (
-    <div className="bg-parchment/10 border border-wood/20 rounded-lg p-4 space-y-3">
+    <div className="card-workshop rounded-lg p-4 space-y-3">
       {/* Top row: category + urgency badge */}
       <div className="flex items-center justify-between gap-2">
         <span className="font-serif text-parchment/50 text-xs uppercase tracking-wide">
@@ -60,7 +60,7 @@ export default function ProjectRecommendationCard({ recommendation }) {
 
       {/* Cost range */}
       {estimatedCostRange && (
-        <p className="font-pencil-hand text-brass text-lg">
+        <p className="font-hand text-brass text-lg">
           {estimatedCostRange}
         </p>
       )}
@@ -71,7 +71,7 @@ export default function ProjectRecommendationCard({ recommendation }) {
           {relatedAttributes.map((attr, i) => (
             <span
               key={i}
-              className="font-serif text-xs text-parchment/40 bg-parchment/5 px-2 py-0.5 rounded"
+              className="font-serif text-xs text-parchment/40 bg-iron-warm px-2 py-0.5 rounded"
             >
               {attr}
             </span>

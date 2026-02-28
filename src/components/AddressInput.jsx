@@ -139,9 +139,9 @@ export default function AddressInput() {
   }
 
   return (
-    <div className="min-h-screen bg-iron flex flex-col">
+    <div className="min-h-screen bg-workshop flex flex-col">
       {/* Header with back button */}
-      <div className="bg-wood/20 px-6 py-4 border-b border-wood/30 flex items-center gap-4">
+      <div className="bg-iron-mid px-6 py-4 border-b border-iron-warm flex items-center gap-4">
         <button
           onClick={() => setAppScreen('splash')}
           className="min-h-[44px] min-w-[44px] flex items-center justify-center text-parchment/70 hover:text-parchment"
@@ -169,7 +169,7 @@ export default function AddressInput() {
               type="text"
               placeholder={isLoading ? 'Loading...' : 'Start typing your address...'}
               disabled={isLoading}
-              className="w-full bg-parchment/10 border border-wood/40 rounded-md px-4 py-4 font-serif text-parchment text-lg placeholder-parchment/50 focus:outline-none focus:border-wood disabled:opacity-50"
+              className="input-workshop w-full px-4 py-4 font-serif text-lg disabled:opacity-50"
               aria-label="Property address"
             />
             {isLoading && (

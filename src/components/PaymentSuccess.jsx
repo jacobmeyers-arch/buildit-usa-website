@@ -79,7 +79,7 @@ export default function PaymentSuccess() {
   
   if (isVerifying) {
     return (
-      <div className="min-h-screen bg-iron flex flex-col items-center justify-center px-6 py-12">
+      <div className="min-h-screen bg-workshop flex flex-col items-center justify-center px-6 py-12">
         <div className="max-w-md w-full space-y-8 text-center">
           {/* Spinner */}
           <div className="flex justify-center">
@@ -107,7 +107,7 @@ export default function PaymentSuccess() {
   
   if (verificationError) {
     return (
-      <div className="min-h-screen bg-iron flex flex-col items-center justify-center px-6 py-12">
+      <div className="min-h-screen bg-workshop flex flex-col items-center justify-center px-6 py-12">
         <div className="max-w-md w-full space-y-6">
           <div className="bg-muted-red/20 border border-muted-red/40 rounded-lg p-6 text-center space-y-3">
             <div className="text-4xl">⚠️</div>
@@ -126,7 +126,7 @@ export default function PaymentSuccess() {
               setIsVerifying(true);
               verifyPayment();
             }}
-            className="w-full min-h-[44px] bg-wood hover:bg-wood/90 text-parchment font-pencil-hand text-lg py-2 px-6 rounded-md transition-all"
+            className="btn-iron-light w-full min-h-[44px] text-lg py-2 px-6"
           >
             Try Again
           </button>
@@ -137,7 +137,7 @@ export default function PaymentSuccess() {
   
   // Success state
   return (
-    <div className="min-h-screen bg-iron flex flex-col items-center justify-center px-6 py-12">
+    <div className="min-h-screen bg-workshop flex flex-col items-center justify-center px-6 py-12">
       <div className="max-w-md w-full space-y-8 text-center">
         {/* Success icon */}
         <div className="text-6xl">

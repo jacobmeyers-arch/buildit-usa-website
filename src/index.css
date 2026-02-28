@@ -6,14 +6,14 @@
 
 @layer base {
   :root {
-    /* Wrought Iron & Hardware */
-    --iron: #2A2320;
+    /* Wrought Iron & Hardware (Elevation Model) */
+    --iron: #2A2320;          /* Level 0 — page background */
     --iron-hover: #1A1714;
-    --iron-warm: #3B3530;
-    --iron-mid: #4D4540;
-    --iron-light: #5C5550;
+    --iron-warm: #3B3530;     /* Level 1 — cards at rest */
+    --iron-mid: #4D4540;      /* Level 2 — raised elements, headers */
+    --iron-light: #5C5550;    /* Level 3 — floating panels, menus */
     --iron-faint: #6B6358;
-    
+
     /* Aged Paper & Parchment */
     --parchment: #F0E8DA;
     --parchment-light: #F5EEDE;
@@ -21,7 +21,7 @@
     --old-linen: #D8CCBA;
     --warm-sand: #C4B5A0;
     --aged-cream: #EDE3D0;
-    
+
     /* Wood Tones */
     --wood-pale: #C4B098;
     --wood-light: #A8956E;
@@ -29,7 +29,7 @@
     --wood-rich: #6B5B45;
     --wood-dark: #4A3D2E;
     --wood-deep: #3A2F22;
-    
+
     /* Muted Red (accent only) */
     --brick: #7A2E2E;
     --dusty-red: #9E4040;
@@ -37,18 +37,22 @@
     --faded-red: #B85050;
     --rose: #D4A0A0;
     --blush: #E8D0D0;
-    
+
     /* Muted Blue (accent only) */
     --slate-navy: #2B3E5C;
     --dusty-blue: #3B5068;
     --steel-blue: #5B7A9A;
     --soft-blue: #A8BFD4;
     --ice-blue: #D0DCE8;
-    
+
     /* Brass / Hardware Accent */
     --brass: #B8975A;
     --brass-light: #D4B878;
     --brass-dark: #8A6E3A;
+
+    /* Text helpers (WCAG-safe on dark) */
+    --text-faint: #BFB8AD;
+    --text-on-dark-muted: #C4B5A0;
   }
 
   body {
@@ -62,5 +66,188 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Architects Daughter', cursive;
+  }
+
+  /* ─── Global Focus States (Accessibility) ─── */
+  *:focus-visible {
+    outline: 2px solid var(--brass);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  button:focus-visible,
+  [role="button"]:focus-visible {
+    outline: 2px solid var(--brass-light);
+    outline-offset: 2px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   V6 COLONIAL WORKSHOP — Reusable Component Classes
+
+   These classes bring the craft aesthetic from the
+   v6 design showcase into the React app. Use them
+   as class names on any element.
+   ═══════════════════════════════════════════════════ */
+
+@layer components {
+
+  /* ─── Workshop Background ───
+     Dark iron surface with subtle paper-grain noise.
+     Use on page-level containers instead of plain bg-iron. */
+  .bg-workshop {
+    background-color: var(--iron);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+
+  /* ─── Workshop Card ───
+     Elevated surface (Level 1) with subtle inset border.
+     For cards, panels, sidebar boxes sitting on the workshop bg. */
+  .card-workshop {
+    background: var(--iron-warm);
+    border-radius: 12px;
+    box-shadow: inset 0 0 0 1px var(--iron-mid);
+  }
+
+  /* ─── Wrought Iron Button (dark) ───
+     Iron-colored button with inner highlight and hover lift.
+     For secondary actions on elevated surfaces. */
+  .btn-iron {
+    padding: 12px 28px;
+    background: var(--iron);
+    color: var(--parchment);
+    border: none;
+    border-radius: 8px;
+    font-family: 'Architects Daughter', cursive;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgb(42 35 32 / 0.25),
+                inset 0 1px 0 rgb(255 255 255 / 0.04);
+  }
+  .btn-iron:hover {
+    background: var(--iron-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgb(42 35 32 / 0.3);
+  }
+
+  /* ─── Wrought Iron Button (light) ───
+     Parchment-colored button on dark backgrounds.
+     For primary CTAs: "Let's Go", "Continue", "Analyze". */
+  .btn-iron-light {
+    padding: 12px 28px;
+    background: var(--parchment);
+    color: var(--iron);
+    border: none;
+    border-radius: 8px;
+    font-family: 'Architects Daughter', cursive;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.15);
+  }
+  .btn-iron-light:hover {
+    background: var(--parchment-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.2);
+  }
+
+  /* ─── Ghost Button (parchment border) ───
+     Transparent with subtle border. For tertiary actions:
+     "Retake", "Cancel", "Go back". */
+  .btn-ghost-parchment {
+    padding: 12px 28px;
+    background: transparent;
+    color: var(--text-on-dark-muted);
+    border: 1.5px solid var(--iron-mid);
+    border-radius: 8px;
+    font-family: 'Architects Daughter', cursive;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-ghost-parchment:hover {
+    border-color: var(--warm-sand);
+    color: var(--parchment);
+  }
+
+  /* ─── Workshop Form Input ───
+     Iron-warm background with brass focus glow.
+     Replaces the flat parchment/10 inputs. */
+  .input-workshop {
+    width: 100%;
+    background: var(--iron-warm);
+    color: var(--parchment);
+    border: 1.5px solid var(--iron-mid);
+    border-radius: 8px;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.82rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .input-workshop::placeholder {
+    font-style: italic;
+    color: var(--iron-faint);
+  }
+  .input-workshop:focus {
+    border-color: var(--brass);
+    box-shadow: 0 0 0 3px rgb(184 151 90 / 0.15);
+  }
+
+  /* ─── Wood-Grain Divider ───
+     Horizontal hand-drawn wood grain lines.
+     Place between cost line items, sections. */
+  .wood-divider {
+    width: 100%;
+    height: 8px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='8'%3E%3Cpath d='M0 1.5 Q 20 0.5, 60 2 T 140 1 T 220 2.2 T 300 1 T 400 2 T 500 0.8 T 600 2 T 700 1 T 800 1.5' stroke='%238B7D6B' stroke-width='0.7' fill='none'/%3E%3Cpath d='M0 3.5 Q 30 2.5, 80 4 T 180 3 T 280 4.2 T 380 3 T 500 3.8 T 620 3 T 740 4 T 800 3.5' stroke='%238B7D6B' stroke-width='0.5' fill='none'/%3E%3Cpath d='M0 5.5 Q 25 5, 70 6 T 150 5.2 T 250 6 T 350 5 T 460 5.8 T 580 5.2 T 700 6 T 800 5.5' stroke='%238B7D6B' stroke-width='0.4' fill='none'/%3E%3Cpath d='M0 7 Q 40 6.5, 90 7.3 T 200 6.8 T 320 7.2 T 440 6.5 T 560 7 T 680 6.8 T 800 7' stroke='%238B7D6B' stroke-width='0.3' fill='none'/%3E%3C/svg%3E") repeat-x center;
+    background-size: 800px 8px;
+    opacity: 0.4;
+  }
+
+  /* ─── Brass Nail Accent ───
+     Tiny metallic dot with radial gradient highlight.
+     Use sparingly for "pinned to the workbench" feel. */
+  .brass-nail {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, var(--brass-light), var(--brass-dark));
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
+    vertical-align: middle;
+  }
+
+  /* ─── Sketch Underline ───
+     Hand-drawn wavy red line beneath text.
+     Add this class to a <span> wrapping key phrases. */
+  .sketch-underline {
+    position: relative;
+    display: inline-block;
+  }
+  .sketch-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: -2%;
+    width: 104%;
+    height: 10px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='10'%3E%3Cpath d='M0 6 Q 25 2, 50 5.5 T 100 4 T 150 6 T 200 4' stroke='%23C25555' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x;
+    background-size: 200px 10px;
+    opacity: 0.45;
+  }
+
+  /* ─── Photo Scrim Overlay ───
+     Gradient overlay for legible text on photo backgrounds.
+     Bottom-heavy: transparent in middle, dark at edges. */
+  .photo-scrim {
+    background: linear-gradient(
+      180deg,
+      rgb(30 25 20 / 0.35) 0%,
+      rgb(30 25 20 / 0.05) 25%,
+      transparent 40%,
+      transparent 55%,
+      rgb(30 25 20 / 0.2) 72%,
+      rgb(30 25 20 / 0.72) 100%
+    );
   }
 }

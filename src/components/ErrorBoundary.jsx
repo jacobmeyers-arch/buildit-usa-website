@@ -32,7 +32,7 @@ export default class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-iron flex flex-col items-center justify-center px-6 py-12">
+        <div className="min-h-screen bg-workshop flex flex-col items-center justify-center px-6 py-12">
           <div className="max-w-md w-full space-y-6 text-center">
             <h2 className="font-pencil-hand text-3xl text-parchment">
               Something went wrong
@@ -43,7 +43,7 @@ export default class ErrorBoundary extends React.Component {
             <div className="space-y-3 pt-4">
               <button
                 onClick={this.handleReload}
-                className="w-full min-h-[44px] bg-wood hover:bg-wood/90 text-parchment font-pencil-hand text-lg py-2 px-6 rounded-md transition-all"
+                className="btn-iron-light w-full min-h-[50px] text-lg py-2 px-6 transition-all"
               >
                 Reload Page
               </button>

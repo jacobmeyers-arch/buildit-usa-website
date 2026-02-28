@@ -51,7 +51,7 @@ export default function UnderstandingMeter({
             Understanding
           </span>
           <div className="flex items-center gap-2">
-            <span className={`font-pencil-hand text-2xl transition-all duration-500 ${getColor(displayScore)}`}>
+            <span className={`font-hand text-2xl transition-all duration-500 ${getColor(displayScore)}`}>
               {Math.round(displayScore)}%
             </span>
             {delta > 0 && showDelta && (
@@ -63,7 +63,7 @@ export default function UnderstandingMeter({
         </div>
         
         {/* Progress bar */}
-        <div className="h-3 bg-iron rounded-full overflow-hidden border border-wood/30">
+        <div className="h-3 bg-iron rounded-full overflow-hidden border border-iron-mid">
           <div 
             className="h-full bg-gradient-to-r from-brass to-wood transition-all duration-1000 ease-out"
             style={{ width: `${displayScore}%` }}

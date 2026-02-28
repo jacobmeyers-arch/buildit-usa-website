@@ -98,7 +98,7 @@ export default function ProfileLoading() {
   };
 
   return (
-    <div className="min-h-screen bg-iron flex flex-col items-center justify-center px-6 py-12">
+    <div className="min-h-screen bg-workshop flex flex-col items-center justify-center px-6 py-12">
       <div className="max-w-md w-full text-center space-y-8">
 
         {/* Address being looked up */}
@@ -119,7 +119,7 @@ export default function ProfileLoading() {
             </div>
             <button
               onClick={handleRetry}
-              className="min-h-[44px] bg-wood hover:bg-wood/90 text-parchment font-pencil-hand text-lg py-2 px-6 rounded-md transition-all"
+              className="btn-iron-light min-h-[44px] text-lg py-2 px-6"
             >
               Try Again
             </button>

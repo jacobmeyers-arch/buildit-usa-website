@@ -62,7 +62,7 @@ export default function MagicLinkPending() {
   };
   
   return (
-    <div className="min-h-screen bg-iron flex flex-col items-center justify-center px-6 py-12">
+    <div className="min-h-screen bg-workshop flex flex-col items-center justify-center px-6 py-12">
       <div className="max-w-md w-full space-y-8 text-center">
         {/* Icon */}
         <div className="text-6xl">
@@ -89,7 +89,7 @@ export default function MagicLinkPending() {
             <button
               onClick={handleResend}
               disabled={isResending}
-              className="w-full min-h-[44px] bg-wood/50 hover:bg-wood/70 disabled:bg-wood/30 text-parchment font-serif text-sm py-2 px-4 rounded-md transition-all"
+              className="btn-iron w-full min-h-[44px] text-sm py-2 px-4"
             >
               {isResending ? 'Sending...' : 'Resend Link'}
             </button>

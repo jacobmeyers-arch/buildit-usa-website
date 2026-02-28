@@ -76,9 +76,9 @@ export default function EmailCapture() {
   };
 
   return (
-    <div className="min-h-screen bg-iron flex flex-col">
+    <div className="min-h-screen bg-workshop flex flex-col">
       {/* Header */}
-      <div className="bg-wood/20 px-6 py-4 border-b border-wood/30">
+      <div className="bg-iron-mid px-6 py-4 border-b border-iron-warm">
         <h2 className="font-pencil-hand text-2xl text-parchment">
           Let's Get Your Estimate
         </h2>
@@ -106,7 +106,7 @@ export default function EmailCapture() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full bg-parchment/10 border border-wood/40 rounded-md px-4 py-3 font-serif text-parchment placeholder-parchment/50 focus:outline-none focus:border-wood"
+                className="input-workshop px-4 py-3 font-serif"
                 disabled={isSubmitting}
                 autoComplete="email"
               />
@@ -129,7 +129,7 @@ export default function EmailCapture() {
                 value={zipCode}
                 onChange={(e) => setZipCode(e.target.value.replace(/\D/g, ''))}
                 placeholder="12345"
-                className="w-full bg-parchment/10 border border-wood/40 rounded-md px-4 py-3 font-serif text-parchment placeholder-parchment/50 focus:outline-none focus:border-wood"
+                className="input-workshop px-4 py-3 font-serif"
                 disabled={isSubmitting}
                 autoComplete="postal-code"
               />
@@ -146,7 +146,7 @@ export default function EmailCapture() {
             <button
               type="submit"
               disabled={isSubmitting || !email || !zipCode}
-              className="w-full min-h-[50px] bg-wood hover:bg-wood/90 disabled:bg-wood/50 text-parchment font-pencil-hand text-xl py-3 px-8 rounded-md shadow-lg transition-all transform hover:scale-105 active:scale-95 disabled:scale-100"
+              className="btn-iron-light w-full min-h-[50px] text-xl py-3 px-8 transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100"
             >
               {isSubmitting ? 'Saving...' : 'Continue'}
             </button>

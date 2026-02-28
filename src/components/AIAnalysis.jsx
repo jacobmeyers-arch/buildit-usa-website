@@ -56,9 +56,9 @@ export default function AIAnalysis() {
   };
 
   return (
-    <div className="min-h-screen bg-iron flex flex-col">
+    <div className="min-h-screen bg-workshop flex flex-col">
       {/* Header */}
-      <div className="bg-wood/20 px-6 py-4 border-b border-wood/30">
+      <div className="bg-iron-mid px-6 py-4 border-b border-iron-warm">
         <h2 className="font-pencil-hand text-2xl text-parchment">
           What I See
         </h2>
@@ -85,7 +85,7 @@ export default function AIAnalysis() {
             {error.retryable && (
               <button
                 onClick={startStreaming}
-                className="mt-3 min-h-[44px] bg-wood hover:bg-wood/90 text-parchment font-pencil-hand text-sm py-2 px-4 rounded-md"
+                className="btn-iron mt-3 min-h-[44px] text-sm py-2 px-4"
               >
                 Retry
               </button>
@@ -111,21 +111,21 @@ export default function AIAnalysis() {
               value={correctionText}
               onChange={(e) => setCorrectionText(e.target.value)}
               placeholder="Tell me what this project is really about..."
-              className="w-full min-h-[100px] bg-parchment/10 border border-wood/40 rounded-md p-3 font-serif text-parchment placeholder-parchment/50 focus:outline-none focus:border-wood"
+              className="input-workshop w-full min-h-[100px] p-3 font-serif resize-y"
               autoFocus
             />
             <div className="flex gap-3">
               <button
                 type="submit"
                 disabled={!correctionText.trim()}
-                className="flex-1 min-h-[44px] bg-wood hover:bg-wood/90 disabled:bg-wood/50 text-parchment font-pencil-hand text-base py-2 px-4 rounded-md"
+                className="btn-iron flex-1 min-h-[44px] text-base py-2 px-4 disabled:opacity-50"
               >
                 Update Analysis
               </button>
               <button
                 type="button"
                 onClick={() => setShowCorrection(false)}
-                className="min-h-[44px] bg-iron border-2 border-wood/40 hover:bg-wood/20 text-parchment font-pencil-hand text-base py-2 px-4 rounded-md"
+                className="btn-ghost-parchment min-h-[44px] text-base py-2 px-4"
               >
                 Cancel
               </button>
@@ -136,10 +136,10 @@ export default function AIAnalysis() {
 
       {/* Continue button (shows when done) */}
       {isDone && !error && (
-        <div className="bg-wood/10 px-6 py-4 border-t border-wood/30">
+        <div className="bg-iron-warm px-6 py-4 border-t border-iron-mid">
           <button
             onClick={handleContinue}
-            className="w-full min-h-[50px] bg-wood hover:bg-wood/90 text-parchment font-pencil-hand text-xl py-3 px-8 rounded-md shadow-lg transition-all transform hover:scale-105 active:scale-95"
+            className="btn-iron-light w-full min-h-[50px] text-xl py-3 px-8 transition-all transform hover:scale-105 active:scale-95"
           >
             Continue
           </button>

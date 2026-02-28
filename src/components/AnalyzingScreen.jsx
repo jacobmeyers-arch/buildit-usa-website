@@ -15,11 +15,11 @@ export default function AnalyzingScreen() {
   }, [setAppScreen]);
 
   return (
-    <div className="min-h-screen bg-iron flex flex-col items-center justify-center px-6 py-12">
+    <div className="min-h-screen bg-workshop flex flex-col items-center justify-center px-6 py-12">
       <div className="max-w-md w-full space-y-8 text-center">
         {/* Animated spinner */}
         <div className="flex justify-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-wood"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-brass"></div>
         </div>
 
         {/* Message */}
