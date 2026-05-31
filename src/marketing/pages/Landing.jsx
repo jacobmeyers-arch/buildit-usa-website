@@ -64,7 +64,7 @@ export default function Landing() {
         <div className="grid gap-6 mobile:grid-cols-3 mt-12">
           {WAYS.map((w) => (
             <Card key={w.to} className="flex flex-col">
-              <img src={w.img} alt="" className="h-40 w-full object-cover rounded-card mb-5" />
+              <img src={w.img} alt="" className="aspect-square w-full object-cover rounded-card mb-5" />
               <h3 className="text-2xl text-parchment">{w.title}</h3>
               <p className="text-warm-sand mt-3 flex-1 leading-relaxed">{w.body}</p>
               <Link to={w.to} className="text-brass-light font-pencil-hand text-lg mt-5 hover:underline">

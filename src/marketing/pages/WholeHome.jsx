@@ -53,7 +53,6 @@ const DETAILS = [
     today: '58%',
     todayRange: '$20,670 – 31,650',
     likely: '$24,190 – 28,130',
-    photos: ['/projects/bathroom/bathroom-before.webp'],
     scope: [
       'Gut both bathrooms to studs and subfloor',
       'Relocate a non-bearing wall → one full bath + one half bath',
@@ -90,6 +89,7 @@ const DETAILS = [
     today: '67%',
     todayRange: '$7,640 – 12,360',
     likely: '$8,750 – 11,250',
+    portrait: true,
     photos: [
       '/projects/bedroom/bedroom-01.webp',
       '/projects/bedroom/bedroom-02.webp',
@@ -142,7 +142,9 @@ function ProjectDetail({ p }) {
               key={src}
               src={src}
               alt=""
-              className="rounded-card w-full mobile:flex-1 h-60 mobile:h-52 object-cover"
+              className={`rounded-card w-full object-cover mobile:flex-1 ${
+                p.portrait ? 'aspect-[3/4] max-w-xs' : 'aspect-[4/3]'
+              } ${p.photos.length === 1 && !p.portrait ? 'mobile:max-w-lg' : ''}`}
             />
           ))}
         </div>
