@@ -168,8 +168,22 @@ export default function AIForWork() {
           eyebrow="The math"
           title="Add it up across a normal week."
         />
-        <div className="card-workshop p-5 mobile:p-7 mt-8 overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[460px]">
+        {/* Mobile: stacked rows — fits the screen, no horizontal scroll */}
+        <ul className="card-workshop p-4 mt-8 divide-y divide-iron-mid mobile:hidden">
+          {TIME_ROWS.map(([task, without, withAi, saved]) => (
+            <li key={task} className="py-3">
+              <div className="text-parchment">{task}</div>
+              <div className="mt-1 flex items-baseline gap-2 text-sm text-warm-sand">
+                <span>{without} → {withAi}</span>
+                <span className="ml-auto font-hand text-lg text-brass-light">save {saved}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        {/* Desktop: table */}
+        <div className="card-workshop p-7 mt-8 hidden mobile:block">
+          <table className="w-full text-left border-collapse">
             <thead>
               <tr className="text-brass-light font-pencil-hand">
                 <th className="py-2 pr-4 font-normal">Task</th>

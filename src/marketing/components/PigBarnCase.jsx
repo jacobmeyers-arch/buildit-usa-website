@@ -67,8 +67,24 @@ export default function PigBarnCase() {
       </div>
 
       {/* AI vs actual */}
-      <div className="card-workshop p-5 mobile:p-7 mt-8 overflow-x-auto">
-        <table className="w-full text-left border-collapse min-w-[560px]">
+      {/* Mobile: stacked — fits the screen, no horizontal scroll */}
+      <div className="mt-8 space-y-3 mobile:hidden">
+        {COMPARE.map(([k, ai, act]) => (
+          <div key={k} className="card-workshop p-4">
+            <div className="text-parchment font-pencil-hand">{k}</div>
+            <div className="mt-2 text-sm text-warm-sand">
+              <span className="text-brass-light">AI estimate (10 min): </span>{ai}
+            </div>
+            <div className="mt-1 text-sm text-parchment">
+              <span className="text-brass-light">Actual: </span>{act}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop: table */}
+      <div className="card-workshop p-7 mt-8 hidden mobile:block">
+        <table className="w-full text-left border-collapse">
           <thead>
             <tr className="text-brass-light font-pencil-hand">
               <th className="py-2 pr-4 font-normal"></th>
