@@ -11,6 +11,7 @@ const INTERESTS = [
   'Free 1-hour intro',
   '1:1 follow-up',
   '4-hour deep dive',
+  'Whole-Home Planner',
   'General question',
 ];
 

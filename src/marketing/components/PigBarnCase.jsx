@@ -29,14 +29,15 @@ const COMPARE = [
 export default function PigBarnCase() {
   return (
     <Section>
-      <Eyebrow>Real example — my own property</Eyebrow>
+      <Eyebrow>The proof — one project, executed</Eyebrow>
       <h2 className="text-3xl mobile:text-4xl text-parchment mt-2 leading-tight max-w-3xl">
         Scoped in under 10 minutes. The plan held.
       </h2>
       <p className="text-warm-sand text-lg mt-4 leading-relaxed max-w-3xl">
-        I handed the system photos of an old ~300 SF post-and-beam barn. In under ten minutes it
-        produced a full scope of work, a priced estimate, and a confidence range — the write-up
-        that normally eats an evening. Then I tore it down and tracked the actuals against it.
+        Estimates are easy to doubt — so I executed one. Of the five, the pig-barn teardown is the
+        project I did myself, tracking every hour and dollar against what the plan said. From photos
+        of an old ~300 SF post-and-beam barn, the system wrote a full scope, a priced estimate, and
+        a confidence range in under ten minutes. Then I tore it down. Here's the plan against the actuals.
       </p>
 
       {/* Photo gallery — scale */}

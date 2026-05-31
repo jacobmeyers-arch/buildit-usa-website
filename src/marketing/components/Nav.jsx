@@ -12,6 +12,7 @@ const LINKS = [
   { to: '/', label: 'Home', end: true },
   { to: '/about', label: 'About' },
   { to: '/ai-for-your-work', label: 'AI for Your Work' },
+  { to: '/whole-home-planner', label: 'Whole-Home Planner' },
   { to: '/training', label: 'Training' },
 ];
 

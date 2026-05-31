@@ -9,6 +9,7 @@ import SiteLayout from './marketing/SiteLayout.jsx';
 import Landing from './marketing/pages/Landing.jsx';
 import About from './marketing/pages/About.jsx';
 import AIForWork from './marketing/pages/AIForWork.jsx';
+import WholeHome from './marketing/pages/WholeHome.jsx';
 import Training from './marketing/pages/Training.jsx';
 
 createRoot(document.getElementById('root')).render(
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/" element={<Landing />} />
             <Route path="/about" element={<About />} />
             <Route path="/ai-for-your-work" element={<AIForWork />} />
+            <Route path="/whole-home-planner" element={<WholeHome />} />
             <Route path="/training" element={<Training />} />
           </Route>
 

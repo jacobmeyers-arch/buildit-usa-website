@@ -7,7 +7,6 @@
  * Copy drafted from context; review/edit freely.
  */
 import { Section, SectionHeading, Card, CTA, Eyebrow } from '../components/primitives.jsx';
-import PigBarnCase from '../components/PigBarnCase.jsx';
 
 /* Illustrative headline stats */
 const STATS = [
@@ -94,8 +93,25 @@ export default function AIForWork() {
         </p>
       </Section>
 
-      {/* Featured: real case study — pig-barn demolition */}
-      <PigBarnCase />
+      {/* Teaser → the Whole-Home Planner service (where the real case study now lives) */}
+      <Section className="!pt-4">
+        <div className="card-workshop p-8 mobile:p-10 grid gap-6 mobile:grid-cols-[1.4fr_1fr] items-center">
+          <div>
+            <Eyebrow>A real example, start to finish</Eyebrow>
+            <h2 className="text-3xl mobile:text-4xl text-parchment mt-2 leading-tight">
+              I scoped my whole property in an afternoon.
+            </h2>
+            <p className="text-warm-sand text-lg mt-4 leading-relaxed">
+              Five projects on my own house and outbuildings — each scoped, priced, and put in
+              order in one sitting. Then I executed one and tracked the plan against the actuals.
+              It's the clearest proof of what running AI as a system actually produces.
+            </p>
+          </div>
+          <div className="mobile:text-right">
+            <CTA to="/whole-home-planner" variant="light">See the Whole-Home Planner</CTA>
+          </div>
+        </div>
+      </Section>
 
       {/* Featured: morning daily brief */}
       <Section className="!pt-4">
