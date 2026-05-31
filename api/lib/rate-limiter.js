@@ -16,13 +16,19 @@ const LIMITS = {
  * Check rate limit for an IP address
  * @param {string} ip - IP address
  * @param {boolean} isAuthenticated - Whether user is authenticated
+ * @param {Object} [overrides] - Optional custom limits { maxRequests, windowMs }
  * @returns {{allowed: boolean, remaining: number, resetAt: number}}
  */
-export function checkRateLimit(ip, isAuthenticated = false) {
+export function checkRateLimit(ip, isAuthenticated = false, overrides = null) {
   const now = Date.now();
-  const limit = isAuthenticated ? LIMITS.authenticated : LIMITS.unauthenticated;
-  
-  const key = `${ip}:${isAuthenticated ? 'auth' : 'unauth'}`;
+  const defaultLimit = isAuthenticated ? LIMITS.authenticated : LIMITS.unauthenticated;
+  const limit = overrides
+    ? { requests: overrides.maxRequests, windowMs: overrides.windowMs }
+    : defaultLimit;
+
+  // Include override hash in key so different endpoints get separate buckets
+  const bucketSuffix = overrides ? `:${overrides.maxRequests}/${overrides.windowMs}` : '';
+  const key = `${ip}:${isAuthenticated ? 'auth' : 'unauth'}${bucketSuffix}`;
   let record = rateLimitStore.get(key);
   
   // Initialize or reset if expired

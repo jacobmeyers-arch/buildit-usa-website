@@ -130,13 +130,21 @@ export default function ProjectDashboard() {
           </button>
         )}
         
-        <button
-          onClick={handleAddProject}
-          className="btn-iron-light w-full min-h-[50px] text-lg py-3 px-6 transition-all flex items-center justify-center gap-2"
-        >
-          <span className="text-2xl">+</span>
-          <span>Add New Project</span>
-        </button>
+        <div className="flex gap-3">
+          <button
+            onClick={handleAddProject}
+            className="btn-iron-light flex-1 min-h-[50px] text-lg py-3 px-6 transition-all flex items-center justify-center gap-2"
+          >
+            <span className="text-2xl">+</span>
+            <span>Add Project</span>
+          </button>
+          <button
+            onClick={() => setAppScreen('invoices')}
+            className="btn-iron-light min-h-[50px] text-lg py-3 px-5 transition-all flex items-center justify-center"
+          >
+            Invoices
+          </button>
+        </div>
         
         {projects.length === 0 ? (
           <div className="text-center py-12 space-y-3">

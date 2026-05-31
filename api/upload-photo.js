@@ -7,8 +7,13 @@
  */
 
 import { supabaseAdmin } from './lib/supabase-admin.js';
+import { checkRateLimit } from './lib/rate-limiter.js';
 
 const ALLOWED_ORIGIN = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5173';
+// Max photo size: 5MB base64 (decodes to ~3.75MB image)
+const MAX_PHOTO_BASE64_LENGTH = 5 * 1024 * 1024 * 1.37; // ~6.85M chars
+// JPEG magic bytes: FF D8 FF
+const JPEG_MAGIC = [0xFF, 0xD8, 0xFF];
 
 /**
  * Validate UUID format
@@ -43,12 +48,41 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Rate limit: 20 uploads per hour per IP
+    const clientIp = req.headers['x-forwarded-for']?.split(',')[0]?.trim()
+      || req.headers['x-real-ip']
+      || 'unknown';
+    const rateLimitResult = checkRateLimit(clientIp, false, { maxRequests: 20, windowMs: 60 * 60 * 1000 });
+    if (!rateLimitResult.allowed) {
+      return res.status(429).json({
+        error: "You've reached the upload limit. Try again in a few minutes.",
+        code: 429
+      });
+    }
+
     const { sessionId, userId, projectId, photoOrder, photoData } = req.body;
 
     // Validate required fields
     if (!photoData || photoOrder === undefined) {
       return res.status(400).json({
         error: 'Missing required fields: photoData, photoOrder',
+        code: 400
+      });
+    }
+
+    // Validate photoOrder is a positive integer within range
+    const order = Number(photoOrder);
+    if (!Number.isInteger(order) || order < 1 || order > 20) {
+      return res.status(400).json({
+        error: 'photoOrder must be an integer between 1 and 20',
+        code: 400
+      });
+    }
+
+    // Validate photo data size
+    if (photoData.length > MAX_PHOTO_BASE64_LENGTH) {
+      return res.status(400).json({
+        error: 'Photo exceeds maximum size of 5MB',
         code: 400
       });
     }
@@ -90,6 +124,14 @@ export default async function handler(req, res) {
     } catch (error) {
       return res.status(400).json({
         error: 'Invalid photo data format',
+        code: 400
+      });
+    }
+
+    // Validate JPEG magic bytes
+    if (buffer.length < 3 || buffer[0] !== JPEG_MAGIC[0] || buffer[1] !== JPEG_MAGIC[1] || buffer[2] !== JPEG_MAGIC[2]) {
+      return res.status(400).json({
+        error: 'Invalid file type — only JPEG images are accepted',
         code: 400
       });
     }

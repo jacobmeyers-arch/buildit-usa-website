@@ -57,8 +57,11 @@ export async function getStreetViewUrl(lat, lng) {
 
     // Build the image URL using the CLIENT key (this URL is rendered in browser <img> tags)
     // The client key should be restricted to HTTP referrers in Google Cloud Console
-    const imageKey = GOOGLE_MAPS_CLIENT_KEY || GOOGLE_MAPS_SERVER_KEY;
-    const imageUrl = `${STREET_VIEW_BASE}?size=600x400&location=${lat},${lng}&key=${imageKey}`;
+    if (!GOOGLE_MAPS_CLIENT_KEY) {
+      console.error('VITE_GOOGLE_MAPS_API_KEY not configured — refusing to fall back to server key');
+      return { available: false, imageUrl: null, latencyMs: Date.now() - startTime };
+    }
+    const imageUrl = `${STREET_VIEW_BASE}?size=600x400&location=${lat},${lng}&key=${GOOGLE_MAPS_CLIENT_KEY}`;
 
     return {
       available: true,

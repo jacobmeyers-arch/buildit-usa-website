@@ -14,7 +14,10 @@ export async function redirectToCheckout(userId) {
   try {
     const { sessionId, url } = await createCheckoutSession(userId);
     
-    // Redirect to Stripe Checkout
+    // Validate checkout URL points to Stripe before redirecting
+    if (!url || !url.startsWith('https://checkout.stripe.com/')) {
+      throw new Error('Invalid checkout URL received');
+    }
     window.location.href = url;
     
     return { sessionId };

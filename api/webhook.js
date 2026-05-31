@@ -155,15 +155,40 @@ export default async function handler(req, res) {
     );
   } catch (err) {
     console.error('Webhook signature verification failed:', err.message);
-    return res.status(400).json({ error: `Webhook Error: ${err.message}` });
+    return res.status(400).json({ error: 'Invalid webhook signature' });
   }
 
   // Handle the event
   try {
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object;
-      const userId = session.metadata.user_id;
+      const invoiceNumber = session.metadata?.invoice_number;
+      const userId = session.metadata?.user_id;
 
+      // Case 1: Invoice payment via QR code (has invoice_number, no user_id)
+      if (invoiceNumber && !userId) {
+        console.log('Processing invoice payment:', invoiceNumber);
+
+        const { error: updateError } = await supabaseAdmin
+          .from('invoices')
+          .update({
+            status: 'paid',
+            stripe_session_id: session.id,
+            paid_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          })
+          .eq('invoice_number', invoiceNumber);
+
+        if (updateError) {
+          console.error('Failed to update invoice status:', updateError);
+        } else {
+          console.log('Invoice marked as paid:', invoiceNumber);
+        }
+
+        return res.status(200).json({ received: true });
+      }
+
+      // Case 2: Plan purchase (has user_id)
       if (!userId) {
         console.error('No user_id in session metadata');
         return res.status(400).json({ error: 'Missing user_id in metadata' });

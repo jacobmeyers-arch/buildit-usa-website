@@ -82,7 +82,11 @@ export default async function handler(req, res) {
           });
         }
       } catch (authErr) {
-        console.warn('Auth validation failed, proceeding with session-only verification:', authErr.message);
+        console.error('Auth validation error:', authErr.message);
+        return res.status(401).json({
+          error: 'Authentication failed',
+          code: 401
+        });
       }
     }
 

@@ -19,7 +19,7 @@ export async function sendReportEmail(to, pdfBuffer, reportSummary) {
 
   try {
     const { data, error } = await resend.emails.send({
-      from: 'BuildIt USA <noreply@builditusa.com>',
+      from: 'BuildIt USA <noreply@buildit-usa.com>',
       to: [to],
       subject: 'Your BuildIt USA Property Summary Report',
       html: `
@@ -42,7 +42,7 @@ export async function sendReportEmail(to, pdfBuffer, reportSummary) {
           <li>Recommended next steps</li>
         </ul>
         
-        <p>Questions? Reply to this email or contact support@builditusa.com</p>
+        <p>Questions? Reply to this email or contact support@buildit-usa.com</p>
         
         <p>Best regards,<br>The BuildIt USA Team</p>
       `,
@@ -64,6 +64,57 @@ export async function sendReportEmail(to, pdfBuffer, reportSummary) {
 
   } catch (error) {
     console.error('Failed to send report email:', error);
+    throw error;
+  }
+}
+
+/** Escape user-supplied text before placing it in HTML email body. */
+function escapeHtml(str = '') {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/**
+ * Send a contact-form inquiry to Jacob.
+ * @param {Object} fields
+ * @param {string} fields.name
+ * @param {string} fields.email - submitter's email (used as reply-to)
+ * @param {string} fields.interest
+ * @param {string} fields.message
+ */
+export async function sendContactEmail({ name, email, interest, message }) {
+  const to = 'jacob.meyers@buildit-usa.com';
+
+  try {
+    const { data, error } = await resend.emails.send({
+      from: 'Build It USA <noreply@buildit-usa.com>',
+      to: [to],
+      replyTo: email,
+      subject: `New inquiry: ${interest || 'General'} — ${name}`,
+      html: `
+        <h2>New contact form submission</h2>
+        <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+        <p><strong>Interested in:</strong> ${escapeHtml(interest || 'General')}</p>
+        <p><strong>Message:</strong></p>
+        <p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>
+      `,
+    });
+
+    if (error) {
+      console.error('Resend API error (contact):', error);
+      throw error;
+    }
+
+    console.log('Contact email sent successfully:', data.id);
+    return data;
+
+  } catch (error) {
+    console.error('Failed to send contact email:', error);
     throw error;
   }
 }

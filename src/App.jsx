@@ -24,6 +24,7 @@ import PropertyReport from './components/PropertyReport';
 import AddressInput from './components/AddressInput';
 import ProfileLoading from './components/ProfileLoading';
 import PropertyProfileCard from './components/PropertyProfileCard';
+import InvoiceManager from './components/InvoiceManager';
 
 export default function App() {
   const { appScreen } = useProject();
@@ -81,7 +82,10 @@ export default function App() {
 
     case 'propertyProfile':
       return <PropertyProfileCard />;
-    
+
+    case 'invoices':
+      return <InvoiceManager />;
+
     default:
       return <SplashScreen />;
   }

@@ -198,6 +198,51 @@ export async function createCheckoutSession(userId) {
 }
 
 /**
+ * Create an invoice with QR code payment link
+ * @param {Object} params - Invoice parameters
+ * @param {string} params.userId - User UUID
+ * @param {string} [params.projectId] - Optional project UUID
+ * @param {string} params.description - Invoice description
+ * @param {number} params.amountDollars - Amount in dollars
+ * @param {string} [params.customerEmail] - Customer email
+ * @param {string} [params.customerName] - Customer name
+ * @param {string} [params.dueDate] - Due date ISO string
+ * @returns {Promise<Object>} { invoice }
+ */
+export async function createInvoice(params) {
+  const response = await fetch(`${API_BASE}/create-invoice`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(params),
+  });
+
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || 'Failed to create invoice');
+  return data;
+}
+
+/**
+ * Fetch all invoices for a user
+ * @param {string} userId - User UUID
+ * @returns {Promise<Object>} { invoices: Array }
+ */
+export async function fetchInvoices(userId) {
+  const response = await fetch(`${API_BASE}/invoices?userId=${encodeURIComponent(userId)}`);
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || 'Failed to fetch invoices');
+  return data;
+}
+
+/**
+ * Get invoice PDF URL
+ * @param {string} invoiceId - Invoice UUID
+ * @returns {string} PDF URL
+ */
+export function getInvoicePdfUrl(invoiceId) {
+  return `${API_BASE}/invoice-pdf?invoiceId=${encodeURIComponent(invoiceId)}`;
+}
+
+/**
  * Soft-delete a project
  * Called from ProjectDashboard
  * @param {string} projectId - Project UUID

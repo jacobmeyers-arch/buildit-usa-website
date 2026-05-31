@@ -166,7 +166,7 @@ async function streamClaudeResponse({ systemPrompt, messages, tools = [], writer
     // Send error event after exhausting retries
     const isRetryable = isRetryableError(error);
     sendSSE(writer, 'error', {
-      message: error.message || 'An error occurred while processing your request',
+      message: 'An error occurred while processing your request',
       retryable: isRetryable
     });
     
