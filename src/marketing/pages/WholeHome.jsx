@@ -12,7 +12,7 @@
 import { Section, SectionHeading, Card, CTA, Eyebrow } from '../components/primitives.jsx';
 import ContactForm from '../components/ContactForm.jsx';
 import PigBarnCase from '../components/PigBarnCase.jsx';
-import { CONTACT } from '../config.js';
+import { CONTACT, PAYMENT_LINKS } from '../config.js';
 
 /* The 250 Hop City plan — the five priority projects. Ranges are the
    confidence-compressed "likely" band from each estimate (the full ranges run
@@ -199,8 +199,8 @@ export default function WholeHome() {
             budget years out instead of guessing one quote at a time.
           </p>
           <div className="flex flex-wrap gap-4 mt-9">
-            <CTA href="#contact" variant="light">Get your plan — $500</CTA>
-            <CTA to="/training" variant="ghost">See the training</CTA>
+            <CTA href={PAYMENT_LINKS.wholeHouse} variant="light">Get your plan — $500</CTA>
+            <CTA href="#contact" variant="ghost">Questions first?</CTA>
           </div>
         </div>
       </section>
@@ -316,8 +316,11 @@ export default function WholeHome() {
             </div>
             <p className="text-warm-sand text-lg mt-5 leading-relaxed">
               One flat price for your five priority projects — each one scoped and priced into a
-              single plan. Tell me about your place below and I'll get you started.
+              single plan. Pay below to get started, or reach out with questions first.
             </p>
+            <div className="mt-7">
+              <CTA href={PAYMENT_LINKS.wholeHouse} variant="light">Book &amp; pay — $500</CTA>
+            </div>
             <div className="mt-8 space-y-2">
               <a href={`mailto:${CONTACT.email}`} className="block text-parchment hover:text-brass-light transition-colors break-all">
                 {CONTACT.email}

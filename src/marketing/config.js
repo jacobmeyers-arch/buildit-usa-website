@@ -21,6 +21,7 @@ export const CONTACT = {
 export const PAYMENT_LINKS = {
   oneOnOne: 'https://buy.stripe.com/28EbJ04cObeC1XpfJu6EU00',  // $100/hr — 1:1 Follow-Up
   deepDive: 'https://buy.stripe.com/aFa5kC5gSbeCgSj0OA6EU01',  // $300 — 4-Hour Deep Dive
+  wholeHouse: 'https://buy.stripe.com/5kQaEWfVwbeC9pR54Q6EU02', // $500 — Whole-Home Planner
 };
 
 /**
