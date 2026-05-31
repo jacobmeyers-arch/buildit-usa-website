@@ -1,104 +1,75 @@
 /**
- * About.jsx — Who Jacob Meyers is (role-level, no firms named)
+ * About.jsx — Who Jacob Meyers is (simple, first-principles + systems framing)
  * Created: 2026-05-31
- * Copy drafted from context; review/edit freely.
+ * Rewritten: 2026-05-31 — simplified per SIMPLE tenet; concise voice; domain breadth
+ *   (engineering, construction, food mfg, mine reclamation, environmental data,
+ *   biomedical) with first-principles + systems thinking as the throughline.
+ * Role/domain-level only — no firms named.
  */
-import { Section, SectionHeading, Card, CTA, Eyebrow } from '../components/primitives.jsx';
+import { Section, Eyebrow, CTA } from '../components/primitives.jsx';
 
-const PRINCIPLES = [
-  {
-    title: 'Plain language',
-    body: 'No jargon, no mystique. If I can\'t explain it so you can use it tomorrow, I haven\'t done my job.',
-  },
-  {
-    title: 'Grounded in real work',
-    body: 'Estimates, proposals, scheduling, client communication, reporting — the actual work, not toy demos.',
-  },
-  {
-    title: 'Systems that compound',
-    body: 'The goal isn\'t a clever prompt. It\'s a setup that gets better every time you use it — and that you own.',
-  },
-  {
-    title: 'Straight talk',
-    body: 'I\'ll tell you where AI helps and where it doesn\'t. You make better decisions with honest information.',
-  },
+const FIELDS = [
+  'Construction & engineering',
+  'Food manufacturing',
+  'Mine reclamation',
+  'Environmental data systems',
+  'Biomedical engineering',
 ];
 
 export default function About() {
   return (
     <>
       {/* Hero */}
-      <section className="max-w-container mx-auto px-5 pt-20 pb-12 mobile:pt-28">
-        <div className="grid gap-10 mobile:grid-cols-[1.4fr_1fr] items-center">
-          <div>
-            <Eyebrow>About</Eyebrow>
-            <h1 className="text-4xl mobile:text-5xl leading-tight text-parchment mt-3">
-              I'm Jacob Meyers.
-            </h1>
-            <p className="text-warm-sand text-lg mt-6 leading-relaxed">
-              I've spent my career in construction and project management — running large
-              industrial, commercial, and environmental builds where the budgets are big, the
-              constraints are real, and the schedule doesn't care about excuses.
-            </p>
-            <p className="text-warm-sand text-lg mt-4 leading-relaxed">
-              I'm a blue-collar intellectual: equally at home reading a set of drawings and
-              reasoning from first principles. That mix is exactly why I got serious about AI —
-              not as a gadget, but as a way to do more, faster, without dropping quality.
-            </p>
-          </div>
-          <img
-            src="/jacob-family.jpg"
-            alt="Jacob Meyers with his family"
-            className="rounded-frame w-full object-cover max-h-[28rem] mobile:max-h-none"
-          />
-        </div>
-      </section>
-
-      <div className="wood-divider max-w-container mx-auto" />
-
-      {/* The turn to AI */}
-      <Section narrow>
-        <SectionHeading
-          eyebrow="How I got here"
-          title="I learned AI by running my own work on it."
-        />
-        <div className="text-warm-sand text-lg mt-6 space-y-4 leading-relaxed">
-          <p>
-            I didn't start with theory. I started by handing AI the real work in front of me —
-            estimates, write-ups, research, planning — and figuring out how to make it
-            genuinely useful instead of generically wrong.
-          </p>
-          <p>
-            Along the way I built something most people never do: a system. Not a pile of
-            prompts, but a setup with its own memory and operating rules that improves every
-            time I use it. It knows how I work, holds onto what it learns, and compounds. That
-            system is what I now help other people build for themselves.
-          </p>
-        </div>
-        <figure className="mt-10">
-          <img
-            src="/jacob-family-wide.jpg"
-            alt="Jacob Meyers and his family"
-            className="rounded-frame w-full object-cover"
-          />
-          <figcaption className="text-warm-sand/70 text-sm mt-3 text-center">
-            Why I do this — the people behind the work.
-          </figcaption>
-        </figure>
+      <Section narrow className="!pb-8">
+        <Eyebrow>About</Eyebrow>
+        <h1 className="text-4xl mobile:text-5xl leading-tight text-parchment mt-3">
+          I'm Jacob Meyers.
+        </h1>
+        <p className="text-warm-sand text-lg mt-5 leading-relaxed">
+          I solve problems from first principles and build systems that compound. I've done it
+          across very different fields — the approach travels; the industry doesn't.
+        </p>
       </Section>
 
-      {/* Principles */}
-      <Section className="!pt-0">
-        <SectionHeading eyebrow="How I work" title="What you can expect from me" center />
-        <div className="grid gap-6 mobile:grid-cols-2 mt-12 max-w-4xl mx-auto">
-          {PRINCIPLES.map((p) => (
-            <Card key={p.title}>
-              <h3 className="text-2xl text-parchment">{p.title}</h3>
-              <p className="text-warm-sand mt-3 leading-relaxed">{p.body}</p>
-            </Card>
+      {/* Vista banner */}
+      <div className="max-w-container mx-auto px-5">
+        <img
+          src="/vista.jpg"
+          alt=""
+          className="rounded-frame w-full object-cover max-h-[26rem]"
+        />
+      </div>
+
+      {/* Fields */}
+      <Section narrow className="!pb-8">
+        <Eyebrow>Fields I've worked in</Eyebrow>
+        <ul className="mt-5 flex flex-wrap gap-3">
+          {FIELDS.map((f) => (
+            <li
+              key={f}
+              className="card-workshop px-4 py-2 text-parchment font-pencil-hand text-lg"
+            >
+              {f}
+            </li>
           ))}
+        </ul>
+      </Section>
+
+      {/* How I think */}
+      <Section narrow className="!pt-0">
+        <Eyebrow>How I think</Eyebrow>
+        <div className="text-warm-sand text-lg mt-5 space-y-4 leading-relaxed">
+          <p>
+            <span className="text-parchment font-pencil-hand">First principles.</span> Break a
+            problem down to what's actually true, then build back up. No cargo-culting.
+          </p>
+          <p>
+            <span className="text-parchment font-pencil-hand">Systems thinking.</span> Design the
+            whole, not the part — so it improves over time instead of needing constant rescue.
+          </p>
+          <p>AI is just the newest system. That's why I can teach it in any field — including yours.</p>
         </div>
-        <div className="text-center mt-12">
+        <div className="mt-8">
           <CTA to="/training" variant="light">Work with me</CTA>
         </div>
       </Section>
