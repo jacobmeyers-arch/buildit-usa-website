@@ -2,8 +2,6 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './index.css';
-import App from './App.jsx';
-import { ProjectProvider } from './context/ProjectContext';
 import ErrorBoundary from './components/ErrorBoundary';
 
 // Marketing site (public)
@@ -26,15 +24,8 @@ createRoot(document.getElementById('root')).render(
             <Route path="/training" element={<Training />} />
           </Route>
 
-          {/* Estimation tool — parked: kept functional, not linked from the site */}
-          <Route
-            path="/app/*"
-            element={
-              <ProjectProvider>
-                <App />
-              </ProjectProvider>
-            }
-          />
+          {/* Estimation tool parked — not deployed for now (see .vercelignore).
+              To restore: re-add the App import + ProjectProvider and an /app route. */}
 
           {/* Unknown paths fall back to the landing page */}
           <Route path="*" element={<Navigate to="/" replace />} />

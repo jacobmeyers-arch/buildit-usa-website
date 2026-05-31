@@ -1,0 +1,15 @@
+# Deployment scope — marketing site only (2026-05-31)
+#
+# The estimation tool is parked: its code stays in the repo, but its API
+# functions are NOT deployed, to stay under Vercel's Hobby plan limit of 12
+# Serverless Functions. Only the contact endpoint (and the email helper it
+# imports) ship. To bring the tool back, delete the lines below and redeploy
+# on a plan that allows enough functions.
+
+# All estimator API functions (keep only contact.js)
+api/*.js
+!api/contact.js
+
+# All estimator API libs (keep only email.js, which contact.js imports)
+api/lib/*
+!api/lib/email.js
