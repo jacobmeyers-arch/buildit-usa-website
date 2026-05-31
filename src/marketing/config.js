@@ -19,8 +19,8 @@ export const CONTACT = {
 
 // Paste your Stripe Payment Link URLs here (leave blank to fall back to contact form).
 export const PAYMENT_LINKS = {
-  oneOnOne: '',  // $100/hr — 1:1 Follow-Up
-  deepDive: '',  // $300 — 4-Hour Deep Dive
+  oneOnOne: 'https://buy.stripe.com/28EbJ04cObeC1XpfJu6EU00',  // $100/hr — 1:1 Follow-Up
+  deepDive: 'https://buy.stripe.com/aFa5kC5gSbeCgSj0OA6EU01',  // $300 — 4-Hour Deep Dive
 };
 
 /**

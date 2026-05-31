@@ -7,22 +7,13 @@
  * Copy drafted from context; review/edit freely.
  */
 import { Section, SectionHeading, Card, CTA, Eyebrow } from '../components/primitives.jsx';
+import PigBarnCase from '../components/PigBarnCase.jsx';
 
 /* Illustrative headline stats */
 const STATS = [
   { value: '~8–10 hrs', label: 'put back in your week' },
   { value: '~$2,000+', label: 'of your time saved each month' },
   { value: 'Every job', label: 'a little easier than the last' },
-];
-
-/* Illustrative estimate snippet (bathroom remodel, design-build mid-range) */
-const ESTIMATE_LINES = [
-  ['Demo & disposal', '$1,800'],
-  ['Plumbing rough-in', '$3,200'],
-  ['Tile & wet-wall surfaces', '$4,500'],
-  ['Vanity, fixtures & finishes', '$3,800'],
-  ['Labor', '$6,500'],
-  ['Soft costs & contingency', '$2,400'],
 ];
 
 /* Remaining use cases with a concrete "what it looks like" + time figure */
@@ -103,53 +94,8 @@ export default function AIForWork() {
         </p>
       </Section>
 
-      {/* Featured: estimating & proposals */}
-      <Section className="!pt-4">
-        <SectionHeading
-          eyebrow="Example: estimating & proposals"
-          title="From a page of notes to a priced estimate and a proposal."
-          intro="Hand it your messy site notes and a budget number. Get back a line-itemed estimate at your rates and a client-ready proposal in your voice."
-        />
-
-        <div className="grid gap-6 mobile:grid-cols-2 mt-10 items-stretch">
-          {/* Before / time */}
-          <Card className="flex flex-col">
-            <span className="font-pencil-hand text-brass-light text-sm uppercase tracking-widest">Before AI</span>
-            <p className="text-warm-sand mt-3 leading-relaxed">
-              An evening at the kitchen table: digging up unit prices, rebuilding the same
-              spreadsheet, then writing the proposal from scratch. Easy to fat-finger a number
-              or forget the soft costs.
-            </p>
-            <div className="mt-auto pt-6">
-              <TimeBadge from="~3 hrs" to="~30 min" />
-              <p className="text-warm-sand mt-2 text-sm">per estimate — and far fewer mistakes.</p>
-            </div>
-          </Card>
-
-          {/* After — sample estimate */}
-          <Card>
-            <span className="font-pencil-hand text-brass-light text-sm uppercase tracking-widest">
-              After AI — sample output
-            </span>
-            <p className="text-parchment mt-2 font-pencil-hand text-lg">Bathroom remodel — estimate</p>
-            <ul className="mt-3 divide-y divide-iron-mid">
-              {ESTIMATE_LINES.map(([item, cost]) => (
-                <li key={item} className="flex justify-between py-1.5">
-                  <span className="text-warm-sand">{item}</span>
-                  <span className="font-hand text-brass-light text-xl">{cost}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="flex justify-between mt-3 pt-3 border-t border-wood">
-              <span className="text-parchment font-pencil-hand text-lg">Estimated range</span>
-              <span className="font-hand text-2xl text-parchment">$22k–26k</span>
-            </div>
-            <p className="text-warm-sand/60 text-xs italic mt-3">
-              Illustrative example — built on your own rates and templates.
-            </p>
-          </Card>
-        </div>
-      </Section>
+      {/* Featured: real case study — pig-barn demolition */}
+      <PigBarnCase />
 
       {/* Featured: morning daily brief */}
       <Section className="!pt-4">
