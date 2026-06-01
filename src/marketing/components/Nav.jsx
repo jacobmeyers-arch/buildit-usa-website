@@ -13,7 +13,7 @@ const LINKS = [
   { to: '/about', label: 'About' },
   { to: '/ai-for-your-work', label: 'AI for Your Work' },
   { to: '/whole-home-planner', label: 'Whole-Home Planner' },
-  { to: '/training', label: 'Training' },
+  { to: '/services', label: 'Services' },
 ];
 
 function linkClass({ isActive }) {
@@ -47,7 +47,7 @@ export default function Nav() {
             </li>
           ))}
           <li>
-            <Link to="/training" className="btn-iron-light !py-2 !px-5 text-base">
+            <Link to="/services" className="btn-iron-light !py-2 !px-5 text-base">
               Get in touch
             </Link>
           </li>
@@ -79,7 +79,7 @@ export default function Nav() {
           ))}
           <li>
             <Link
-              to="/training"
+              to="/services"
               className="btn-iron-light inline-block !py-2 !px-5 text-base"
               onClick={() => setOpen(false)}
             >

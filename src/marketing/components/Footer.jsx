@@ -28,7 +28,7 @@ export default function Footer() {
           <Link to="/about" className="text-parchment hover:text-brass-light transition-colors">About</Link>
           <Link to="/ai-for-your-work" className="text-parchment hover:text-brass-light transition-colors">AI for Your Work</Link>
           <Link to="/whole-home-planner" className="text-parchment hover:text-brass-light transition-colors">Whole-Home Planner</Link>
-          <Link to="/training" className="text-parchment hover:text-brass-light transition-colors">Training</Link>
+          <Link to="/services" className="text-parchment hover:text-brass-light transition-colors">Services</Link>
         </nav>
 
         {/* Contact */}

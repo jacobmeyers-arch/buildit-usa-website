@@ -10,7 +10,7 @@ import Landing from './marketing/pages/Landing.jsx';
 import About from './marketing/pages/About.jsx';
 import AIForWork from './marketing/pages/AIForWork.jsx';
 import WholeHome from './marketing/pages/WholeHome.jsx';
-import Training from './marketing/pages/Training.jsx';
+import Services from './marketing/pages/Services.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -23,7 +23,9 @@ createRoot(document.getElementById('root')).render(
             <Route path="/about" element={<About />} />
             <Route path="/ai-for-your-work" element={<AIForWork />} />
             <Route path="/whole-home-planner" element={<WholeHome />} />
-            <Route path="/training" element={<Training />} />
+            <Route path="/services" element={<Services />} />
+            {/* Old path → Services (keeps existing links/QR codes working) */}
+            <Route path="/training" element={<Navigate to="/services" replace />} />
           </Route>
 
           {/* Estimation tool parked — not deployed for now (see .vercelignore).

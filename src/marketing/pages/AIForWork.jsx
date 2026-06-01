@@ -290,7 +290,7 @@ export default function AIForWork() {
             the part that turns AI into the system that earns those hours back, week after week.
           </p>
           <div className="mt-7">
-            <CTA to="/training" variant="light">See the training</CTA>
+            <CTA to="/services" variant="light">See the training</CTA>
           </div>
         </div>
       </Section>

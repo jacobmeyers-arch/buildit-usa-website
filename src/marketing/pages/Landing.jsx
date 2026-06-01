@@ -22,10 +22,10 @@ const WAYS = [
     img: '/beavers/architecture.jpg',
   },
   {
-    to: '/training',
-    title: 'Get trained',
-    body: 'From a free one-hour intro to a four-hour deep dive that leaves you running your own AI system.',
-    cta: 'View training',
+    to: '/services',
+    title: 'Work with me',
+    body: 'A done-for-you Whole-Home Planner, or hands-on AI training from a free intro to a full deep dive. Find the way that fits.',
+    cta: 'See services',
     img: '/beavers/framing.jpg',
   },
 ];
@@ -47,7 +47,7 @@ export default function Landing() {
           </p>
           <div className="flex flex-wrap gap-4 mt-9">
             <CTA to="/ai-for-your-work" variant="light">See what AI can do</CTA>
-            <CTA to="/training" variant="ghost">Book a free intro</CTA>
+            <CTA to="/services" variant="ghost">Book a free intro</CTA>
           </div>
         </div>
       </section>
@@ -90,7 +90,7 @@ export default function Landing() {
               and makes you money.
             </p>
             <div className="mt-8">
-              <CTA to="/training" variant="light">Get started</CTA>
+              <CTA to="/services" variant="light">Get started</CTA>
             </div>
           </div>
         </div>

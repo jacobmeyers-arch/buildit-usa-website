@@ -70,7 +70,7 @@ export default function About() {
           <p>AI is just the newest system. That's why I can teach it in any field — including yours.</p>
         </div>
         <div className="mt-8">
-          <CTA to="/training" variant="light">Work with me</CTA>
+          <CTA to="/services" variant="light">Work with me</CTA>
         </div>
       </Section>
     </>
