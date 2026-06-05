@@ -180,10 +180,10 @@ export default function WholeHome() {
             Every project on your property — scoped, priced, and put in order.
           </h1>
           <p className="text-warm-sand text-lg mt-6 leading-relaxed">
-            Most homeowners juggle a mental list of "someday" projects with no real plan and no
-            real numbers. The Whole-Home Planner turns that into one document: your five priority
-            projects scoped, a cost range on each, and a sensible order to tackle them — so you can
-            budget years out instead of guessing one quote at a time.
+            Most homeowners juggle a mental list of "someday" projects with no plan and no numbers.
+            The Whole-Home Planner turns that into one document: your five priority projects scoped,
+            a cost range on each, and a sensible order to tackle them — so you can budget years out,
+            not guess one quote at a time.
           </p>
           <div className="flex flex-wrap gap-4 mt-9">
             <CTA href={PAYMENT_LINKS.wholeHouse} variant="light">Get your plan — $500</CTA>

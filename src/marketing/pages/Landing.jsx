@@ -24,7 +24,7 @@ const WAYS = [
   {
     to: '/services',
     title: 'Work with me',
-    body: 'A done-for-you Whole-Home Planner, or hands-on AI training from a free intro to a full deep dive. Find the way that fits.',
+    body: 'A done-for-you Whole-Home Planner, or hands-on AI training from a free intro to a full deep dive.',
     cta: 'See services',
     img: '/beavers/framing.jpg',
   },
@@ -41,9 +41,9 @@ export default function Landing() {
             AI that works the way you work.
           </h1>
           <p className="text-warm-sand text-lg mobile:text-xl mt-6 leading-relaxed">
-            I'm Jacob Meyers. I spent my career managing complex builds — then learned to run
-            my own work on AI and built systems that get sharper every day. Build It USA helps
-            businesses and professionals do the same: real adoption, no hype.
+            I'm Jacob Meyers. I spent my career managing complex builds, then learned to run my
+            own work on AI. Build It USA helps businesses and professionals do the same — real
+            adoption, no hype.
           </p>
           <div className="flex flex-wrap gap-4 mt-9">
             <CTA to="/ai-for-your-work" variant="light">See what AI can do</CTA>
@@ -84,10 +84,9 @@ export default function Landing() {
               From the job site, not the lab.
             </h2>
             <p className="text-warm-sand text-lg mt-5 leading-relaxed">
-              Most AI advice is written by people who've never had to hit a deadline, hold a
-              budget, or answer to a client. I have. I teach AI the way I'd teach a new hire —
-              in plain language, grounded in real work, focused on what actually saves you time
-              and makes you money.
+              Most AI advice comes from people who've never hit a deadline, held a budget, or
+              answered to a client. I have. I teach it the way I'd teach a new hire — plain
+              language, real work, focused on what saves you time and makes you money.
             </p>
             <div className="mt-8">
               <CTA to="/services" variant="light">Get started</CTA>

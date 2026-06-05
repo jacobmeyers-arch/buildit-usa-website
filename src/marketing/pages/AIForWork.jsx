@@ -71,9 +71,9 @@ export default function AIForWork() {
             What AI can actually do for your business or career.
           </h1>
           <p className="text-warm-sand text-lg mt-6 leading-relaxed">
-            Forget the hype. Here's where AI earns its keep in real work — shown in hours and
-            dollars, with a real look at what it produces. This is the value of running AI as a
-            system, which is exactly what the training builds with you.
+            Forget the hype. Here's where AI earns its keep in real work — in hours and dollars,
+            with a real look at what it produces. That's what running AI as a system delivers,
+            and what the training builds with you.
           </p>
         </div>
       </section>
@@ -102,9 +102,9 @@ export default function AIForWork() {
               I scoped my whole property in an afternoon.
             </h2>
             <p className="text-warm-sand text-lg mt-4 leading-relaxed">
-              Five projects on my own house and outbuildings — each scoped, priced, and put in
-              order in one sitting. Then I executed one and tracked the plan against the actuals.
-              It's the clearest proof of what running AI as a system actually produces.
+              Five projects on my own house and outbuildings — each scoped, priced, and ordered
+              in one sitting. Then I built one and tracked the plan against the actuals. The
+              clearest proof of what running AI as a system produces.
             </p>
           </div>
           <div className="mobile:text-right">
@@ -242,15 +242,14 @@ export default function AIForWork() {
             </h2>
             <div className="text-warm-sand text-lg mt-5 space-y-4 leading-relaxed">
               <p>
-                Most people use AI one disposable conversation at a time. It never learns your
-                business, so you re-explain yourself constantly and the quality never climbs —
-                and you never see numbers like the ones above.
+                Most people use AI one disposable chat at a time. It never learns your business,
+                so you re-explain yourself constantly and the quality never climbs.
               </p>
               <p>
                 A <strong className="text-parchment">local AI operation</strong> is different:
-                AI set up around <em>your</em> work, with your context and your rules, that you
-                control. Your information stays yours. The value builds instead of resetting.
-                And you're not locked into anyone else's tool or pricing.
+                AI set up around <em>your</em> work, with your context and your rules. Your
+                information stays yours, the value builds instead of resetting, and you're not
+                locked into anyone else's tool or pricing.
               </p>
             </div>
           </div>
@@ -287,7 +286,7 @@ export default function AIForWork() {
         <div className="card-workshop p-8 mobile:p-10 mt-12 text-center max-w-3xl mx-auto">
           <p className="text-parchment text-xl mobile:text-2xl leading-snug">
             The free hour gets you started. The 1:1 and Deep Dive build the compounding backend —
-            the part that turns AI into the system that earns those hours back, week after week.
+            the part that turns AI into a system that earns those hours back, every week.
           </p>
           <div className="mt-7">
             <CTA to="/services" variant="light">See the training</CTA>

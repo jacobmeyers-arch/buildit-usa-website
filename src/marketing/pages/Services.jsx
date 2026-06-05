@@ -65,8 +65,8 @@ export default function Services() {
             Ways to work with me.
           </h1>
           <p className="text-warm-sand text-lg mt-6 leading-relaxed">
-            Two ways in: have me build the plan for you, or learn to run AI on your own work.
-            Pick what fits — both start with a real conversation, not a sales pitch.
+            Have me do the work — a Whole-Home plan or help around your property — or learn to
+            run AI on your own. Either way, it starts with a real conversation, not a sales pitch.
           </p>
         </div>
       </section>
@@ -192,9 +192,8 @@ export default function Services() {
               Let's talk.
             </h2>
             <p className="text-warm-sand text-lg mt-5 leading-relaxed">
-              Tell me a bit about your business, your property, or what you'd like help with, and
-              I'll get back to you personally. Ready to book a paid service? Use the buttons above —
-              or reach out here and we'll find a time.
+              Tell me about your business, your property, or what you need, and I'll get back to
+              you personally. Ready to book? Use the buttons above.
             </p>
             <div className="mt-8 space-y-2">
               <a href={`mailto:${CONTACT.email}`} className="block text-parchment hover:text-brass-light transition-colors break-all">
