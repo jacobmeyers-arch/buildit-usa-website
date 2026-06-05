@@ -1,5 +1,5 @@
 /**
- * PigBarnCase.jsx — Real case study: 250 Hop City Rd pig-barn demolition
+ * PigBarnCase.jsx — Real case study: pig-barn demolition on my own property
  * Created: 2026-05-31
  *
  * Shows the AI estimate vs. the actual outcome and the <10-minute SOW time-save.

@@ -4,7 +4,7 @@
  *
  * The estimating service as its own offering (sibling to Training). $500 for the
  * five priority projects on a property. Built around one real worked example: my
- * own property at 250 Hop City Rd — five projects scoped and priced in a single
+ * own property — five projects scoped and priced in a single
  * sitting (drawn from a 9-project trial run). Per-project ranges only, no grand
  * total. Then the pig-barn block (PigBarnCase) is the proof: I executed one and
  * the plan held. Copy drafted from context; review/edit freely.
@@ -14,7 +14,7 @@ import ContactForm from '../components/ContactForm.jsx';
 import PigBarnCase from '../components/PigBarnCase.jsx';
 import { CONTACT, PAYMENT_LINKS } from '../config.js';
 
-/* The 250 Hop City plan — the five priority projects. Ranges are the
+/* The plan — the five priority projects. Ranges are the
    confidence-compressed "likely" band from each estimate (the full ranges run
    wider). `done` marks the one project actually executed. */
 const PROJECTS = [
@@ -38,14 +38,12 @@ const DETAILS = [
     likely: '$27,900 – 32,420',
     photos: ['/projects/porch/porch-01.webp'],
     scope: [
-      'Full demo — drywall, insulation, carpet, subfloor, old windows, baseboard heat',
-      'Floor joist + carrying beam reinforcement to kill the deflection',
+      'Full demo + floor framing reinforced to kill the deflection',
       'Frame 8 floor-to-ceiling screen openings with structural headers',
-      'New PT pine deck floor (~235 SF) + siding to match the house',
-      'Pellet stove with chimney liner and a new ceiling fan',
+      'New PT deck floor (~235 SF), matching siding, pellet stove',
     ],
     driver:
-      "The carrying beam can't be inspected until demo — reinforce vs. full replacement is a $1,500–3,000 swing.",
+      "Carrying beam can't be inspected until demo — reinforce vs. replace is a $1,500–3,000 swing.",
   },
   {
     name: 'Downstairs bathroom',
@@ -54,14 +52,12 @@ const DETAILS = [
     todayRange: '$20,670 – 31,650',
     likely: '$24,190 – 28,130',
     scope: [
-      'Gut both bathrooms to studs and subfloor',
-      'Relocate a non-bearing wall → one full bath + one half bath',
-      'All-new plumbing rough-in and electrical circuits (GFCIs, fan, lighting)',
-      'Tile floors (~62 SF) + tub surround (~50 SF), two vanities, tub, two toilets',
-      'New drywall, trim, doors, and paint throughout',
+      'Gut both baths; relocate a wall → one full + one half bath',
+      'All-new plumbing rough-in and electrical (GFCIs, fan, lighting)',
+      'Tile floors + tub surround, two vanities, tub, two toilets, paint',
     ],
     driver:
-      'Material grade is the lever — jumping from mid-range tile and fixtures to high-end adds $2,000–5,000+.',
+      'Material grade is the lever — mid-range to high-end tile and fixtures adds $2,000–5,000+.',
   },
   {
     name: 'Garage exterior',
@@ -74,14 +70,12 @@ const DETAILS = [
       '/projects/garage/garage-02.webp',
     ],
     scope: [
-      'Swap two swing barn doors for two new overhead garage doors',
+      'Swap two swing barn doors for two new overhead doors',
       'Scrape and repaint all four faces — heavy prep on peeling clapboard',
-      'Targeted siding replacement (bottom courses + damaged sections) and trim',
-      'Full door-trim repair around both bays',
-      'Scrape and repaint the upper loft door',
+      'Targeted siding + trim replacement; repair both door surrounds',
     ],
     driver:
-      'Door choice is the single biggest variable — overhead vs. swing moves material $500–1,500; hidden rot adds ~$15–25/SF.',
+      'Door choice drives it — overhead vs. swing moves material $500–1,500; hidden rot adds ~$15–25/SF.',
   },
   {
     name: 'Bedroom addition',
@@ -89,20 +83,13 @@ const DETAILS = [
     today: '67%',
     todayRange: '$7,640 – 12,360',
     likely: '$8,750 – 11,250',
-    portrait: true,
-    photos: [
-      '/projects/bedroom/bedroom-01.webp',
-      '/projects/bedroom/bedroom-02.webp',
-    ],
     scope: [
       'Mid-grade carpet + pad — bedroom, closet, landing (~260 SF)',
-      'Built-up baseboard, window, and door casing milled to match the old house',
-      'Two prehung interior doors + a site-built custom door into the old house',
-      'Hang and wire a ceiling fan and baseboard heat to existing rough-ins',
-      'Two coats of paint on all walls and new trim',
+      'Trim milled to match the old house; three interior doors',
+      'Ceiling fan, baseboard heat, two coats of paint throughout',
     ],
     driver:
-      'The custom door into the old house is the wildcard — a narrow, angled opening priced site-built; structural changes push it up.',
+      'The custom door into the old house is the wildcard — a narrow, angled opening priced site-built.',
   },
 ];
 
@@ -207,12 +194,12 @@ export default function WholeHome() {
 
       <div className="wood-divider max-w-container mx-auto" />
 
-      {/* The worked example — 250 Hop City */}
+      {/* The worked example — my own property */}
       <Section>
         <SectionHeading
           eyebrow="A real plan — my own property"
-          title="250 Hop City Rd: five projects in an afternoon."
-          intro="I pointed the system at my own house and outbuildings. In one sitting it produced a full plan — five priority projects, each scoped and priced. The kind of whole-property picture that's normally weeks of contractor visits and still no document at the end."
+          title="My own property: five projects in an afternoon."
+          intro="I pointed the system at my own house and outbuildings. In one sitting it produced a full plan — five priority projects, each scoped and priced — the kind of whole-property picture that's normally weeks of contractor visits."
         />
 
         {/* Project list — mobile stacked */}
@@ -256,9 +243,8 @@ export default function WholeHome() {
         </div>
 
         <p className="text-warm-sand/70 text-sm italic mt-4 max-w-3xl">
-          Ranges are the realistic "likely" band for each project. Shown per project on purpose —
-          so you can prioritize and sequence the work rather than stare at one intimidating lump
-          sum. The plan is built to be worked down over years.
+          Ranges are the realistic "likely" band, shown per project so you can prioritize and
+          sequence the work instead of staring at one intimidating lump sum.
         </p>
 
         {/* Per-project detail — the estimate behind each number */}
@@ -267,9 +253,8 @@ export default function WholeHome() {
             What's behind each number
           </h3>
           <p className="text-warm-sand mt-3 max-w-3xl leading-relaxed">
-            Each estimate is a real scope of work, not a guess — here's the plan for the four I
-            haven't built yet, with how the range tightens after a contractor walks it and the one
-            variable most likely to move the price. The fifth, I didn't just estimate. I built it →
+            Each estimate is a real scope of work — here are the four I haven't built yet, with how
+            the range tightens after a contractor walk. The fifth I didn't just estimate — I built it →
           </p>
           <div className="space-y-5 mt-8">
             {DETAILS.map((p) => (
