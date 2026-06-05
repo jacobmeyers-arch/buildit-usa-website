@@ -12,6 +12,7 @@ const INTERESTS = [
   '1:1 follow-up',
   '4-hour deep dive',
   'Whole-Home Planner',
+  'Property — land, farm & repair',
   'General question',
 ];
 

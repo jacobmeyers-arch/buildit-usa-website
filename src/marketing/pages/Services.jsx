@@ -119,6 +119,51 @@ export default function Services() {
 
       <div className="wood-divider max-w-container mx-auto" />
 
+      {/* Done-for-you — Property (land, farm & repair) */}
+      <Section className="!pt-4">
+        <SectionHeading
+          eyebrow="Done for you"
+          title="Property"
+          intro="General contracting and farm help on your property — build and repair, drainage and land work, equipment and seasonal labor, plus AI put to work planning your operation."
+        />
+        <div className="card-workshop p-7 mobile:p-9 mt-10 grid gap-8 mobile:grid-cols-[1.1fr_1fr] items-center">
+          <div>
+            <p className="text-parchment text-lg leading-relaxed">
+              Same standards as my remodeling work, pointed at the land and the food you can
+              produce yourself. Own your home, own your land, own your food.
+            </p>
+            <ul className="mt-6 space-y-2.5">
+              {[
+                'Build & repair — decks, outbuildings, barns, fencing',
+                'Land & drainage — grading, runoff, access',
+                'Equipment & seasonal labor — tractor work, baling, extra hands',
+                'AI planning for your operation — crops, animals, logistics',
+              ].map((b) => (
+                <li key={b} className="text-warm-sand flex gap-2 leading-relaxed">
+                  <span className="text-brass-light" aria-hidden="true">—</span>
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="flex flex-wrap gap-3 mt-7">
+              <CTA to="/property" variant="light">See what I do</CTA>
+              <CTA href="#contact" variant="ghost">Request an estimate</CTA>
+            </div>
+          </div>
+          <div>
+            <p className="text-parchment text-lg leading-relaxed">
+              I do this on my own place — baling hay, fixing drainage, raising animals, building
+              what the property needs.
+            </p>
+            <p className="text-warm-sand mt-4 leading-relaxed">
+              Every job starts with an onsite walk and a real number — no guessing from photos.
+            </p>
+          </div>
+        </div>
+      </Section>
+
+      <div className="wood-divider max-w-container mx-auto" />
+
       {/* Teach-you — Training */}
       <Section className="!pt-4">
         <SectionHeading

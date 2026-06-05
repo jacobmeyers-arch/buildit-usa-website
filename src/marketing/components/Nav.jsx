@@ -11,8 +11,9 @@ import { Link, NavLink } from 'react-router-dom';
 const LINKS = [
   { to: '/', label: 'Home', end: true },
   { to: '/about', label: 'About' },
-  { to: '/ai-for-your-work', label: 'AI for Your Work' },
-  { to: '/whole-home-planner', label: 'Whole-Home Planner' },
+  { to: '/ai-for-your-work', label: 'AI Tools' },
+  { to: '/whole-home-planner', label: 'Planner' },
+  { to: '/property', label: 'Property' },
   { to: '/services', label: 'Services' },
 ];
 
