@@ -8,13 +8,15 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
+/* Ordered by the funnel: what AI does → what you can buy → the proof → who I am.
+   "Home" dropped — the logo covers it. */
 const LINKS = [
-  { to: '/', label: 'Home', end: true },
-  { to: '/about', label: 'About' },
   { to: '/ai-for-your-work', label: 'AI Tools' },
+  { to: '/services', label: 'Services' },
   { to: '/whole-home-planner', label: 'Planner' },
   { to: '/property', label: 'Property' },
-  { to: '/services', label: 'Services' },
+  { to: '/projects', label: 'Projects' },
+  { to: '/about', label: 'About' },
 ];
 
 function linkClass({ isActive }) {
@@ -48,9 +50,10 @@ export default function Nav() {
             </li>
           ))}
           <li>
-            <Link to="/services" className="btn-iron-light !py-2 !px-5 text-base">
-              Get in touch
-            </Link>
+            {/* Plain anchor — every page has a ContactSection with id="contact" */}
+            <a href="#contact" className="btn-iron-light !py-2 !px-5 text-base">
+              Book a free intro
+            </a>
           </li>
         </ul>
 
@@ -79,13 +82,13 @@ export default function Nav() {
             </li>
           ))}
           <li>
-            <Link
-              to="/services"
+            <a
+              href="#contact"
               className="btn-iron-light inline-block !py-2 !px-5 text-base"
               onClick={() => setOpen(false)}
             >
-              Get in touch
-            </Link>
+              Book a free intro
+            </a>
           </li>
         </ul>
       )}

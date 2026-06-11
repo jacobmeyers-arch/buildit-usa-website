@@ -1,15 +1,17 @@
 /**
- * Services.jsx — Everything you can buy: done-for-you services + AI training.
- * Created: 2026-05-31 (was Training.jsx — renamed to Services; added the
- *   $500 Whole-Home Planner as a done-for-you offering above the training tiers).
+ * Services.jsx — Everything you can buy: AI training + done-for-you services.
+ * Created: 2026-05-31 (was Training.jsx)
+ * Reordered: 2026-06-11 — AI training now leads (intro calls are the primary
+ *   conversion); the Whole-Home Planner and Property follow as done-for-you
+ *   service products. Contact section now uses the shared ContactSection.
  *
  * Paid items link to a Stripe Payment Link from config.js; the free intro and any
- * blank link fall back to the contact form. Done-for-you (Planner) is kept visually
- * separate from teach-you (Training) so the offering stays coherent.
+ * blank link fall back to the contact form.
  */
 import { Section, SectionHeading, Card, CTA, Eyebrow } from '../components/primitives.jsx';
-import ContactForm from '../components/ContactForm.jsx';
-import { TRAINING_TIERS, PAYMENT_LINKS, CONTACT } from '../config.js';
+import ContactSection from '../components/ContactSection.jsx';
+import usePageMeta from '../usePageMeta.js';
+import { TRAINING_TIERS, PAYMENT_LINKS } from '../config.js';
 
 const PLANNER_BULLETS = [
   'Every project scoped — a real scope of work, not a wishlist',
@@ -55,6 +57,11 @@ function TierCard({ tier }) {
 }
 
 export default function Services() {
+  usePageMeta(
+    'Services — AI Training & Done-for-You | Build It USA',
+    'Hands-on AI training from a free intro session to a full deep dive, plus done-for-you services: the $500 Whole-Home Planner and property work. Capital District, NY.'
+  );
+
   return (
     <>
       {/* Hero */}
@@ -65,11 +72,31 @@ export default function Services() {
             Ways to work with me.
           </h1>
           <p className="text-warm-sand text-lg mt-6 leading-relaxed">
-            Have me do the work — a Whole-Home plan or help around your property — or learn to
-            run AI on your own. Either way, it starts with a real conversation, not a sales pitch.
+            Learn to run AI on your own — starting with a free hour — or have me do the work: a
+            Whole-Home plan or help around your property. Either way, it starts with a real
+            conversation, not a sales pitch.
           </p>
         </div>
       </section>
+
+      {/* Teach-you — Training (primary) */}
+      <Section className="!pt-4">
+        <SectionHeading
+          eyebrow="Training"
+          title="Learn to run AI like a pro."
+          intro="Hands-on and built around your actual work — you leave using what we built, not holding a binder you'll never open. Start with the free hour; there's no catch and no pitch."
+        />
+        <div className="grid gap-6 mobile:grid-cols-3 items-stretch mt-10">
+          {TRAINING_TIERS.map((t) => (
+            <TierCard key={t.key} tier={t} />
+          ))}
+        </div>
+        <p className="text-warm-sand/80 text-sm mt-6 text-center">
+          Follow-up questions after any session are always free. Open door.
+        </p>
+      </Section>
+
+      <div className="wood-divider max-w-container mx-auto" />
 
       {/* Done-for-you — Whole-Home Planner */}
       <Section className="!pt-4">
@@ -101,7 +128,7 @@ export default function Services() {
               >
                 Book &amp; pay — $500
               </a>
-              <CTA to="/whole-home-planner" variant="ghost">See a real example</CTA>
+              <CTA to="/projects" variant="ghost">See a real example</CTA>
             </div>
           </div>
           <div>
@@ -164,49 +191,12 @@ export default function Services() {
 
       <div className="wood-divider max-w-container mx-auto" />
 
-      {/* Teach-you — Training */}
-      <Section className="!pt-4">
-        <SectionHeading
-          eyebrow="Training"
-          title="Learn to run AI like a pro."
-          intro="Hands-on and built around your actual work — you leave using what we built, not holding a binder you'll never open."
-        />
-        <div className="grid gap-6 mobile:grid-cols-3 items-stretch mt-10">
-          {TRAINING_TIERS.map((t) => (
-            <TierCard key={t.key} tier={t} />
-          ))}
-        </div>
-        <p className="text-warm-sand/70 text-sm mt-6 text-center">
-          Follow-up questions after any session are always free. Open door.
-        </p>
-      </Section>
-
-      <div className="wood-divider max-w-container mx-auto" />
-
       {/* Contact */}
-      <Section id="contact">
-        <div className="grid gap-10 mobile:grid-cols-[1fr_1.2fr] items-start">
-          <div>
-            <Eyebrow>Get in touch</Eyebrow>
-            <h2 className="text-3xl mobile:text-4xl text-parchment mt-2 leading-tight">
-              Let's talk.
-            </h2>
-            <p className="text-warm-sand text-lg mt-5 leading-relaxed">
-              Tell me about your business, your property, or what you need, and I'll get back to
-              you personally. Ready to book? Use the buttons above.
-            </p>
-            <div className="mt-8 space-y-2">
-              <a href={`mailto:${CONTACT.email}`} className="block text-parchment hover:text-brass-light transition-colors break-all">
-                {CONTACT.email}
-              </a>
-              <a href={CONTACT.phoneHref} className="block text-parchment hover:text-brass-light transition-colors">
-                {CONTACT.phone}
-              </a>
-            </div>
-          </div>
-          <ContactForm />
-        </div>
-      </Section>
+      <ContactSection
+        eyebrow="Get in touch"
+        title="Let's talk."
+        intro="Tell me about your business, your property, or what you need, and I'll get back to you personally. Ready to book? Use the buttons above."
+      />
     </>
   );
 }

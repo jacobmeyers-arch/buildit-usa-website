@@ -1,0 +1,5 @@
+# robots.txt — Build It USA
+User-agent: *
+Allow: /
+
+Sitemap: https://www.buildit-usa.com/sitemap.xml

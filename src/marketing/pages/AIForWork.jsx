@@ -7,6 +7,8 @@
  * Copy drafted from context; review/edit freely.
  */
 import { Section, SectionHeading, Card, CTA, Eyebrow } from '../components/primitives.jsx';
+import ContactSection from '../components/ContactSection.jsx';
+import usePageMeta from '../usePageMeta.js';
 
 /* Illustrative headline stats */
 const STATS = [
@@ -61,6 +63,11 @@ function TimeBadge({ from, to }) {
 }
 
 export default function AIForWork() {
+  usePageMeta(
+    'AI for Your Work — Build It USA',
+    'What AI can actually do for your business or career — in hours and dollars, with real examples. Hands-on training starts with a free one-hour intro session.'
+  );
+
   return (
     <>
       {/* Hero */}
@@ -88,7 +95,7 @@ export default function AIForWork() {
             </Card>
           ))}
         </div>
-        <p className="text-warm-sand/60 text-sm italic mt-4 text-center">
+        <p className="text-warm-sand/85 text-sm italic mt-4 text-center">
           Illustrative figures — your actual savings depend on your work and your rate.
         </p>
       </Section>
@@ -225,7 +232,7 @@ export default function AIForWork() {
           Even valued at $50/hr, that's about <span className="font-hand text-2xl text-brass-light">$1,700+ a month</span> —
           at your real rate, a good deal more.
         </p>
-        <p className="text-warm-sand/60 text-sm italic mt-3">
+        <p className="text-warm-sand/85 text-sm italic mt-3">
           Illustrative — swap in your own tasks, times, and rate.
         </p>
       </Section>
@@ -293,6 +300,12 @@ export default function AIForWork() {
           </div>
         </div>
       </Section>
+
+      <ContactSection
+        eyebrow="Start here"
+        title="The free hour is the intro call."
+        intro="Bring a real problem from your work — an estimate, an inbox, a report that eats your evenings — and we'll point AI at it together. You leave using it the same day."
+      />
     </>
   );
 }

@@ -13,7 +13,8 @@
  * service list, geography, and how you want the estimate model described.
  */
 import { Section, SectionHeading, Card, CTA, Eyebrow } from '../components/primitives.jsx';
-import ContactForm from '../components/ContactForm.jsx';
+import ContactSection from '../components/ContactSection.jsx';
+import usePageMeta from '../usePageMeta.js';
 import { CONTACT } from '../config.js';
 
 /* The work, grouped. Edit freely — these are the buckets from our conversation. */
@@ -49,6 +50,11 @@ const STEPS = [
 ];
 
 export default function Property() {
+  usePageMeta(
+    'Property — Land, Farm & Home Repair | Build It USA',
+    'General contracting and farm help in the Capital District: build and repair, drainage and land work, equipment and seasonal labor, plus AI planning for your operation.'
+  );
+
   return (
     <>
       {/* Hero — plain headline, concrete work named immediately */}
@@ -116,7 +122,7 @@ export default function Property() {
               hands, the right equipment, and a smarter way to plan. That's the gap I'm built to
               fill."
             </p>
-            <p className="text-warm-sand/70 text-sm mt-4">— Jacob</p>
+            <p className="text-warm-sand/85 text-sm mt-4">— Jacob</p>
           </Card>
         </div>
       </Section>
@@ -144,29 +150,11 @@ export default function Property() {
       <div className="wood-divider max-w-container mx-auto" />
 
       {/* Contact */}
-      <Section id="contact">
-        <div className="grid gap-10 mobile:grid-cols-[1fr_1.2fr] items-start">
-          <div>
-            <Eyebrow>Request an estimate</Eyebrow>
-            <h2 className="text-3xl mobile:text-4xl text-parchment mt-2 leading-tight">
-              Tell me about the property.
-            </h2>
-            <p className="text-warm-sand text-lg mt-5 leading-relaxed">
-              A project, a season of help, or a plan for your operation — tell me what you're
-              working on and I'll come walk it. No cost to get a real estimate.
-            </p>
-            <div className="mt-8 space-y-2">
-              <a href={`mailto:${CONTACT.email}`} className="block text-parchment hover:text-brass-light transition-colors break-all">
-                {CONTACT.email}
-              </a>
-              <a href={CONTACT.phoneHref} className="block text-parchment hover:text-brass-light transition-colors">
-                {CONTACT.phone}
-              </a>
-            </div>
-          </div>
-          <ContactForm />
-        </div>
-      </Section>
+      <ContactSection
+        eyebrow="Request an estimate"
+        title="Tell me about the property."
+        intro="A project, a season of help, or a plan for your operation — tell me what you're working on and I'll come walk it. No cost to get a real estimate."
+      />
     </>
   );
 }

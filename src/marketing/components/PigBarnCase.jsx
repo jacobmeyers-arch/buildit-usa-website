@@ -52,7 +52,7 @@ export default function PigBarnCase() {
             <img key={src} src={src} alt="" className="rounded-card w-full h-24 object-cover" />
           ))}
         </div>
-        <figcaption className="text-warm-sand/70 text-sm mt-3">
+        <figcaption className="text-warm-sand/85 text-sm mt-3">
           ~300 SF outbuilding (20′ × 15′ × 9′) — overgrown, leaning, full of debris.
         </figcaption>
       </figure>
@@ -107,7 +107,7 @@ export default function PigBarnCase() {
         </table>
       </div>
 
-      <p className="text-warm-sand/70 text-sm italic mt-4 max-w-3xl">
+      <p className="text-warm-sand/85 text-sm italic mt-4 max-w-3xl">
         Labor valued at ~$50/hr (lower-skill demo &amp; haul-off; my skilled rate is $70). Figures
         rounded. The estimate also caught the lead-paint risk and the salvage worth keeping —
         siding, doors, and hardware.

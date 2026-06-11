@@ -11,10 +11,15 @@ import Nav from './components/Nav.jsx';
 import Footer from './components/Footer.jsx';
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    // Honor in-page anchors (e.g. /services#contact); otherwise start at the top.
+    if (hash) {
+      document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
   return null;
 }
 

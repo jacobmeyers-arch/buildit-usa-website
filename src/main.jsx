@@ -12,6 +12,7 @@ import AIForWork from './marketing/pages/AIForWork.jsx';
 import WholeHome from './marketing/pages/WholeHome.jsx';
 import Services from './marketing/pages/Services.jsx';
 import Property from './marketing/pages/Property.jsx';
+import Projects from './marketing/pages/Projects.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -25,6 +26,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/ai-for-your-work" element={<AIForWork />} />
             <Route path="/whole-home-planner" element={<WholeHome />} />
             <Route path="/property" element={<Property />} />
+            <Route path="/projects" element={<Projects />} />
             <Route path="/services" element={<Services />} />
             {/* Old path → Services (keeps existing links/QR codes working) */}
             <Route path="/training" element={<Navigate to="/services" replace />} />

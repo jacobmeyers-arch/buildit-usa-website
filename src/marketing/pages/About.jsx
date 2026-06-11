@@ -7,6 +7,8 @@
  * Role/domain-level only — no firms named.
  */
 import { Section, Eyebrow, CTA } from '../components/primitives.jsx';
+import ContactSection from '../components/ContactSection.jsx';
+import usePageMeta from '../usePageMeta.js';
 
 const FIELDS = [
   'Construction & engineering',
@@ -17,6 +19,11 @@ const FIELDS = [
 ];
 
 export default function About() {
+  usePageMeta(
+    'About Jacob Meyers — Build It USA',
+    'First-principles problem solving and systems that compound, across construction, engineering, food manufacturing, and more. AI is just the newest system.'
+  );
+
   return (
     <>
       {/* Hero */}
@@ -73,6 +80,8 @@ export default function About() {
           <CTA to="/services" variant="light">Work with me</CTA>
         </div>
       </Section>
+
+      <ContactSection />
     </>
   );
 }
