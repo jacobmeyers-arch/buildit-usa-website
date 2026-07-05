@@ -34,8 +34,12 @@ export default function About() {
         </h1>
         <p className="text-warm-sand text-lg mt-5 leading-relaxed">
           I solve problems from first principles and build systems that compound. I've done it
-          across very different fields — the approach travels; the industry doesn't.
+          across very different fields — the approach travels; the industry doesn't. Today that
+          means putting AI to work for businesses, homeowners, and property owners.
         </p>
+        <div className="mt-8">
+          <CTA href="#contact" variant="light">Book a free intro</CTA>
+        </div>
       </Section>
 
       {/* Vista banner */}

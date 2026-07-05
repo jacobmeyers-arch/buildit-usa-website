@@ -39,8 +39,8 @@ export default function HeroDemo() {
       </ol>
       <div className="mt-5 pt-4 border-t border-iron-mid flex items-baseline justify-between gap-3 flex-wrap">
         <div>
-          <span className="font-hand text-3xl text-brass-light leading-none">$5,990 – 6,970</span>
-          <span className="text-warm-sand text-sm block mt-1">estimated from photos — and it held</span>
+          <span className="font-hand text-3xl text-brass-light leading-none">&lt; 10 min</span>
+          <span className="text-warm-sand text-sm block mt-1">from photos to a priced scope — built as planned</span>
         </div>
         <Link to="/projects" className="text-brass-light font-pencil-hand text-lg hover:underline">
           See the proof →

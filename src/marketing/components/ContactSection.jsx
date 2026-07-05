@@ -14,6 +14,7 @@ export default function ContactSection({
   eyebrow = 'Get in touch',
   title = 'Start with a free intro call.',
   intro = "A working session, not a sales pitch — bring a real problem from your work and we'll point AI at it together. You'll know within the hour whether this is worth your time.",
+  defaultInterest,
   children,
 }) {
   return (
@@ -36,7 +37,7 @@ export default function ContactSection({
             </a>
           </div>
         </div>
-        <ContactForm />
+        <ContactForm defaultInterest={defaultInterest} />
       </div>
     </Section>
   );

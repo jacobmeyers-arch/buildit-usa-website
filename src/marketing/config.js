@@ -19,7 +19,7 @@ export const CONTACT = {
 
 // Paste your Stripe Payment Link URLs here (leave blank to fall back to contact form).
 export const PAYMENT_LINKS = {
-  oneOnOne: 'https://buy.stripe.com/28EbJ04cObeC1XpfJu6EU00',  // $100/hr — 1:1 Follow-Up
+  oneOnOne: 'https://buy.stripe.com/28EbJ04cObeC1XpfJu6EU00',  // $100 flat — 1:1 Follow-Up
   deepDive: 'https://buy.stripe.com/aFa5kC5gSbeCgSj0OA6EU01',  // $300 — 4-Hour Deep Dive
   wholeHouse: 'https://buy.stripe.com/5kQaEWfVwbeC9pR54Q6EU02', // $500 — Whole-Home Planner
 };
@@ -48,7 +48,6 @@ export const TRAINING_TIERS = [
     key: 'oneOnOne',
     name: '1:1 Follow-Up',
     price: '$100',
-    unit: '/hr',
     tagline: 'Targeted help on a real problem.',
     summary:
       'Power-user setup and workflows aimed at one specific problem in your business or work.',

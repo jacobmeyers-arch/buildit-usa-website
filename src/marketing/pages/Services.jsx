@@ -1,9 +1,10 @@
 /**
  * Services.jsx — Everything you can buy: AI training + done-for-you services.
  * Created: 2026-05-31 (was Training.jsx)
- * Reordered: 2026-06-11 — AI training now leads (intro calls are the primary
- *   conversion); the Whole-Home Planner and Property follow as done-for-you
- *   service products. Contact section now uses the shared ContactSection.
+ * Consolidated: 2026-07-05 — absorbed the AI-for-Your-Work value case (stats +
+ *   the math), the Whole-Home Planner page, and the Property page. Those routes
+ *   now redirect here (#planner / #property anchors). One page sells everything;
+ *   /projects proves it. Training leads — intro calls are the primary conversion.
  *
  * Paid items link to a Stripe Payment Link from config.js; the free intro and any
  * blank link fall back to the contact form.
@@ -11,13 +12,28 @@
 import { Section, SectionHeading, Card, CTA, Eyebrow } from '../components/primitives.jsx';
 import ContactSection from '../components/ContactSection.jsx';
 import usePageMeta from '../usePageMeta.js';
-import { TRAINING_TIERS, PAYMENT_LINKS } from '../config.js';
+import { TRAINING_TIERS, PAYMENT_LINKS, CONTACT } from '../config.js';
+
+/* Illustrative headline stats — what running AI as a system returns.
+   $ figure matches the math: 8–10 hrs/week valued at $50/hr. */
+const STATS = [
+  { value: '~8–10 hrs', label: 'put back in your week' },
+  { value: '~$1,700+', label: 'of your time back each month, valued at $50/hr' },
+  { value: 'Every job', label: 'a little easier than the last' },
+];
 
 const PLANNER_BULLETS = [
   'Every project scoped — a real scope of work, not a wishlist',
   'A realistic cost range on each, with the big drivers called out',
   'Prioritized and sequenced — what to do first, what can wait',
   'It all lands in one Whole-Home Report you can budget against',
+];
+
+const PROPERTY_BULLETS = [
+  'Build & repair — decks, outbuildings, barns, fencing',
+  'Land & drainage — grading, runoff, access',
+  'Equipment & seasonal labor — tractor work, baling, extra hands',
+  'AI planning for your operation — crops, animals, logistics',
 ];
 
 function TierCard({ tier }) {
@@ -58,8 +74,8 @@ function TierCard({ tier }) {
 
 export default function Services() {
   usePageMeta(
-    'Services — AI Training & Done-for-You | Build It USA',
-    'Hands-on AI training from a free intro session to a full deep dive, plus done-for-you services: the $500 Whole-Home Planner and property work. Capital District, NY.'
+    'Services — AI Training, Whole-Home Planner & Property | Build It USA',
+    'Hands-on AI training from a free intro to a full deep dive, the $500 Whole-Home Planner, and property work — land, farm, and repair. Capital District, NY.'
   );
 
   return (
@@ -76,11 +92,29 @@ export default function Services() {
             Whole-Home plan or help around your property. Either way, it starts with a real
             conversation, not a sales pitch.
           </p>
+          <div className="mt-8">
+            <CTA href="#contact" variant="light">Book a free intro</CTA>
+          </div>
         </div>
       </section>
 
+      {/* What it's worth — the case, compressed */}
+      <Section className="!pt-2 !pb-10">
+        <div className="grid gap-6 mobile:grid-cols-3">
+          {STATS.map((s) => (
+            <Card key={s.label} className="text-center">
+              <div className="font-hand text-5xl text-brass-light leading-none">{s.value}</div>
+              <p className="text-warm-sand mt-3">{s.label}</p>
+            </Card>
+          ))}
+        </div>
+        <p className="text-warm-sand text-sm italic mt-4 text-center">
+          Illustrative figures — your actual savings depend on your work and your rate.
+        </p>
+      </Section>
+
       {/* Teach-you — Training (primary) */}
-      <Section className="!pt-4">
+      <Section id="training" className="!pt-4">
         <SectionHeading
           eyebrow="Training"
           title="Learn to run AI like a pro."
@@ -99,7 +133,7 @@ export default function Services() {
       <div className="wood-divider max-w-container mx-auto" />
 
       {/* Done-for-you — Whole-Home Planner */}
-      <Section className="!pt-4">
+      <Section id="planner" className="!pt-4">
         <SectionHeading
           eyebrow="Done for you"
           title="Whole-Home Planner"
@@ -147,7 +181,7 @@ export default function Services() {
       <div className="wood-divider max-w-container mx-auto" />
 
       {/* Done-for-you — Property (land, farm & repair) */}
-      <Section className="!pt-4">
+      <Section id="property" className="!pt-4">
         <SectionHeading
           eyebrow="Done for you"
           title="Property"
@@ -160,12 +194,7 @@ export default function Services() {
               produce yourself. Own your home, own your land, own your food.
             </p>
             <ul className="mt-6 space-y-2.5">
-              {[
-                'Build & repair — decks, outbuildings, barns, fencing',
-                'Land & drainage — grading, runoff, access',
-                'Equipment & seasonal labor — tractor work, baling, extra hands',
-                'AI planning for your operation — crops, animals, logistics',
-              ].map((b) => (
+              {PROPERTY_BULLETS.map((b) => (
                 <li key={b} className="text-warm-sand flex gap-2 leading-relaxed">
                   <span className="text-brass-light" aria-hidden="true">—</span>
                   <span>{b}</span>
@@ -173,8 +202,8 @@ export default function Services() {
               ))}
             </ul>
             <div className="flex flex-wrap gap-3 mt-7">
-              <CTA to="/property" variant="light">See what I do</CTA>
-              <CTA href="#contact" variant="ghost">Request an estimate</CTA>
+              <CTA href="#contact" variant="light">Request an estimate</CTA>
+              <CTA href={CONTACT.phoneHref} variant="ghost">Or call me</CTA>
             </div>
           </div>
           <div>
@@ -183,7 +212,8 @@ export default function Services() {
               what the property needs.
             </p>
             <p className="text-warm-sand mt-4 leading-relaxed">
-              Every job starts with an onsite walk and a real number — no guessing from photos.
+              Remodels I can scope from photos — land needs boots on it. Every property job
+              starts with an onsite walk and a real number.
             </p>
           </div>
         </div>
@@ -194,7 +224,7 @@ export default function Services() {
       {/* Contact */}
       <ContactSection
         eyebrow="Get in touch"
-        title="Let's talk."
+        title="Start with a free intro call."
         intro="Tell me about your business, your property, or what you need, and I'll get back to you personally. Ready to book? Use the buttons above."
       />
     </>

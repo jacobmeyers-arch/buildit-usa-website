@@ -8,13 +8,11 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
-/* Ordered by the funnel: what AI does → what you can buy → the proof → who I am.
-   "Home" dropped — the logo covers it. */
+/* Ordered by the funnel: what you can buy → the proof → who I am.
+   "Home" dropped — the logo covers it. Consolidated 2026-07-05: AI Tools,
+   Planner, and Property now live as sections on /services. */
 const LINKS = [
-  { to: '/ai-for-your-work', label: 'AI Tools' },
   { to: '/services', label: 'Services' },
-  { to: '/whole-home-planner', label: 'Planner' },
-  { to: '/property', label: 'Property' },
   { to: '/projects', label: 'Projects' },
   { to: '/about', label: 'About' },
 ];

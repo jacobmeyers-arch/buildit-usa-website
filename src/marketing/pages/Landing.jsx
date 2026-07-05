@@ -1,10 +1,11 @@
 /**
  * Landing.jsx — Home page
  * Created: 2026-05-31
- * Reworked: 2026-06-11 — hero now demonstrates instead of describing (HeroDemo
- *   slot, future home of the live estimator), cards reorganized around customer
- *   outcomes (AI services first — the primary conversion), and the page ends at
- *   the shared ContactSection like every other page.
+ * Reworked: 2026-06-11 — hero demonstrates instead of describing (HeroDemo slot,
+ *   future home of the live estimator).
+ * Simplified: 2026-07-05 — one primary CTA (the free intro), outcome cards are
+ *   text-first and point at the consolidated /services sections, and the
+ *   pig-barn proof appears once (the hero card), not three times.
  */
 import { Link } from 'react-router-dom';
 import { Section, SectionHeading, Card, CTA, Eyebrow } from '../components/primitives.jsx';
@@ -13,28 +14,25 @@ import ContactSection from '../components/ContactSection.jsx';
 import usePageMeta from '../usePageMeta.js';
 
 /* Outcome cards — ordered by conversion priority: AI services (primary),
-   the planner (secondary, a service product), then the proof. */
+   the planner, then property work. Proof lives in the hero card + /projects. */
 const WAYS = [
   {
-    to: '/ai-for-your-work',
+    to: '/services',
     title: 'Get your business running on AI',
     body: 'Hours back every week — email, estimates, reports, and research handled by a system built around your work. Starts with a free one-hour session.',
-    cta: 'See what it does',
-    img: '/beavers/blueprints.jpg',
+    cta: 'See the training',
   },
   {
-    to: '/whole-home-planner',
+    to: '/services#planner',
     title: 'Plan your whole property — $500',
     body: 'Every project on your place scoped, priced, and put in order — one report you can budget against for years instead of guessing one quote at a time.',
     cta: 'See the planner',
-    img: '/projects/porch/porch-01.webp',
   },
   {
-    to: '/projects',
-    title: 'See real projects',
-    body: 'Real scopes, real numbers, one project executed and tracked against the plan. Judge the work, not the pitch.',
-    cta: 'See the proof',
-    img: '/projects/pigbarn/pigbarn-01.jpg',
+    to: '/services#property',
+    title: 'Get work done on your land',
+    body: 'Build and repair, drainage and land work, equipment and seasonal labor — scoped with an onsite walk and priced straight.',
+    cta: 'See property services',
   },
 ];
 
@@ -59,9 +57,11 @@ export default function Landing() {
               own work on AI. Build It USA helps businesses and professionals do the same — real
               adoption, no hype.
             </p>
-            <div className="flex flex-wrap gap-4 mt-9">
+            <div className="flex flex-wrap items-center gap-5 mt-9">
               <CTA href="#contact" variant="light">Book a free intro</CTA>
-              <CTA to="/ai-for-your-work" variant="ghost">See what AI can do</CTA>
+              <Link to="/services" className="text-brass-light font-pencil-hand text-lg hover:underline">
+                See what AI can do →
+              </Link>
             </div>
           </div>
           <HeroDemo />
@@ -80,7 +80,6 @@ export default function Landing() {
         <div className="grid gap-6 mobile:grid-cols-3 mt-12">
           {WAYS.map((w) => (
             <Card key={w.to} className="flex flex-col">
-              <img src={w.img} alt="" className="aspect-square w-full object-cover rounded-card mb-5" />
               <h3 className="text-2xl text-parchment">{w.title}</h3>
               <p className="text-warm-sand mt-3 flex-1 leading-relaxed">{w.body}</p>
               <Link to={w.to} className="text-brass-light font-pencil-hand text-lg mt-5 hover:underline">

@@ -16,7 +16,7 @@ const INTERESTS = [
   'General question',
 ];
 
-export default function ContactForm() {
+export default function ContactForm({ defaultInterest = INTERESTS[0] }) {
   const [status, setStatus] = useState('idle'); // idle | sending | sent | error
   const [error, setError] = useState('');
 
@@ -93,7 +93,7 @@ export default function ContactForm() {
 
       <label className="flex flex-col gap-2">
         <span className="text-parchment font-pencil-hand text-lg">What are you interested in?</span>
-        <select name="interest" defaultValue={INTERESTS[0]} className="input-workshop">
+        <select name="interest" defaultValue={defaultInterest} className="input-workshop">
           {INTERESTS.map((i) => (
             <option key={i} value={i}>{i}</option>
           ))}

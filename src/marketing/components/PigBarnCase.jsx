@@ -23,7 +23,7 @@ const COMPARE = [
   ['Labor', '4–6 working days', '77 hrs — 15 brush · 4 tractor · 8 demo · 50 haul'],
   ['Biggest cost driver', 'Flagged the ~80-yd hand-carry to the dumpster', '50 of 77 hrs — exactly that'],
   ['Disposal', '1–2 × 30-yd dumpster', '~$800, one container'],
-  ['Bottom line', '~$5,200–$7,800 contractor price', '~$4,700 self-performed'],
+  ['Bottom line', '~$5,200–$7,800 at contractor rates', '~$4,700 self-performed — under the contractor band, as self-performed work should be'],
 ];
 
 export default function PigBarnCase() {
@@ -74,7 +74,7 @@ export default function PigBarnCase() {
           <div key={k} className="card-workshop p-4">
             <div className="text-parchment font-pencil-hand">{k}</div>
             <div className="mt-2 text-sm text-warm-sand">
-              <span className="text-brass-light">AI estimate (10 min): </span>{ai}
+              <span className="text-brass-light">The estimate (10 min, from photos): </span>{ai}
             </div>
             <div className="mt-1 text-sm text-parchment">
               <span className="text-brass-light">Actual: </span>{act}
@@ -90,7 +90,7 @@ export default function PigBarnCase() {
             <tr className="text-brass-light font-pencil-hand">
               <th className="py-2 pr-4 font-normal"></th>
               <th className="py-2 px-3 font-normal">
-                AI estimate <span className="text-warm-sand text-sm font-serif">(10 min)</span>
+                The estimate <span className="text-warm-sand text-sm font-serif">(10 min, from photos)</span>
               </th>
               <th className="py-2 pl-3 font-normal">Actual</th>
             </tr>
