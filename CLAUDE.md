@@ -47,7 +47,7 @@ The old two-sided estimator platform is **PARKED** — its code stays warm in th
 |---|---|
 | `/` | Landing — hero, PigBarnCase proof, intro-call CTA |
 | `/services` | All offerings: training tiers, Whole-Home Planner ($500), property services |
-| `/projects` | Proof page — five-project plan + pig-barn plan-vs-actual |
+| `/projects` | Proof page — five-project plan + two executed plan-vs-actual case studies (pig barn, garage) |
 | `/about` | About Jacob |
 | `/training`, `/ai-for-your-work`, `/whole-home-planner`, `/property` | Redirects into `/services` sections — keep them; existing links and QR codes depend on them |
 

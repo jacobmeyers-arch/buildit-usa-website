@@ -1,13 +1,16 @@
 /**
- * Projects.jsx — Real projects: the worked whole-property plan + the executed pig barn
+ * Projects.jsx — Real projects: the worked whole-property plan + the two executed builds
  * Created: 2026-06-11
- * Compressed: 2026-07-05 — the four unbuilt estimates are now compact cards
- *   (scope + biggest variable) instead of full teardowns; the pig barn keeps the
- *   in-depth plan-vs-actual treatment (PigBarnCase). One project shown deep beats
- *   five shown exhaustively — and the page is half as tall on a phone.
+ * Compressed: 2026-07-05 — the unbuilt estimates are compact cards (scope + biggest
+ *   variable) instead of full teardowns; the executed projects keep the in-depth
+ *   plan-vs-actual treatment. Depth on what's built beats breadth on what isn't.
+ * Updated: 2026-07-29 — garage exterior moved from estimate to executed (GarageCase).
+ *   Its plan-table range is now the June re-issue, not the original April figure that
+ *   the in-house audit found low; the footnote says so.
  */
 import { Section, SectionHeading, Eyebrow, CTA } from '../components/primitives.jsx';
 import PigBarnCase from '../components/PigBarnCase.jsx';
+import GarageCase from '../components/GarageCase.jsx';
 import ContactSection from '../components/ContactSection.jsx';
 import usePageMeta from '../usePageMeta.js';
 
@@ -17,7 +20,7 @@ import usePageMeta from '../usePageMeta.js';
 const PROJECTS = [
   { name: 'Screened porch', detail: 'Existing room → 3-season conversion', range: '$27,900 – 32,420' },
   { name: 'Downstairs bathroom', detail: 'Gut & reconfigure (2 full → 1 full + 1 half)', range: '$24,190 – 28,130' },
-  { name: 'Garage exterior', detail: 'Siding, doors & trim', range: '$11,450 – 13,300' },
+  { name: 'Garage exterior', detail: 'Siding, doors & trim — built, see below', range: '$19,450 – 29,180', done: true },
   { name: 'Bedroom addition', detail: 'Finish-out: carpet, trim, doors, paint', range: '$8,750 – 11,250' },
   { name: 'Pig barn teardown', detail: 'Demo & debris removal — built, see below', range: '$5,990 – 6,970', done: true },
 ];
@@ -45,15 +48,6 @@ const DETAILS = [
       'Material grade is the lever — mid-range to high-end tile and fixtures adds $2,000–5,000+.',
   },
   {
-    name: 'Garage exterior',
-    timeline: 'Est. 5–8 working days',
-    likely: '$11,450 – 13,300',
-    scope:
-      'Two swing barn doors swapped for overhead doors; scrape and repaint all four faces with heavy prep; targeted siding, trim, and door-surround repair.',
-    driver:
-      'Door choice drives it — overhead vs. swing moves material $500–1,500; hidden rot adds ~$15–25/SF.',
-  },
-  {
     name: 'Bedroom addition',
     timeline: 'Est. 5–8 working days',
     likely: '$8,750 – 11,250',
@@ -72,7 +66,7 @@ function RangePill({ children, tone = 'default' }) {
 export default function Projects() {
   usePageMeta(
     'Real Projects — Build It USA',
-    'Real scopes and real numbers: a five-project whole-property plan, and one project executed and tracked against the plan. Judge the work, not the pitch.'
+    'Real scopes and real numbers: a five-project whole-property plan, and two projects executed and tracked against the plan — hours, receipts, and where the estimate was wrong. Judge the work, not the pitch.'
   );
 
   return (
@@ -82,12 +76,12 @@ export default function Projects() {
         <div className="max-w-3xl">
           <Eyebrow>Real projects</Eyebrow>
           <h1 className="text-4xl mobile:text-5xl leading-tight text-parchment mt-3">
-            Real scopes. Real numbers. One built and checked.
+            Real scopes. Real numbers. Two built and checked.
           </h1>
           <p className="text-warm-sand text-lg mt-6 leading-relaxed">
             Everything here is from my own property, with the numbers public: five projects scoped
-            and priced in an afternoon, then one executed with every hour and dollar tracked
-            against the plan. Judge the work, not the pitch.
+            and priced in an afternoon, then two of them executed with every hour and dollar tracked
+            against the plan — including where the plan was wrong. Judge the work, not the pitch.
           </p>
         </div>
       </section>
@@ -144,7 +138,9 @@ export default function Projects() {
 
         <p className="text-warm-sand/80 text-sm italic mt-4 max-w-3xl">
           Ranges are the realistic "likely" band, shown per project so you can prioritize and
-          sequence the work instead of staring at one intimidating lump sum.
+          sequence the work instead of staring at one intimidating lump sum. The garage figure is
+          the June re-issue: an in-house audit found the original April estimate on that building
+          was low, so it was corrected and re-priced. The number shown is the current one.
         </p>
 
         {/* Per-project summary — the estimate behind each number */}
@@ -154,7 +150,7 @@ export default function Projects() {
           </h3>
           <p className="text-warm-sand mt-3 max-w-3xl leading-relaxed">
             Each estimate is a real scope of work with the biggest variable called out. Here are
-            the four I haven't built yet. The fifth I didn't just estimate — I built it →
+            the three I haven't built yet. The other two I didn't just estimate — I built them →
           </p>
           <div className="grid gap-5 mobile:grid-cols-2 mt-8">
             {DETAILS.map((p) => (
@@ -183,6 +179,11 @@ export default function Projects() {
 
       {/* Case study 2 — the executed pig barn (plan vs. actual) */}
       <PigBarnCase />
+
+      <div className="wood-divider max-w-container mx-auto" />
+
+      {/* Case study 3 — the executed garage (plan vs. actual, scope changed mid-stream) */}
+      <GarageCase />
 
       <div className="wood-divider max-w-container mx-auto" />
 
