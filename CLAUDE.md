@@ -41,13 +41,14 @@ The old two-sided estimator platform is **PARKED** — its code stays warm in th
 | Payments | **Stripe Payment Links** (no checkout code in the live path) — URLs live in `src/marketing/config.js` |
 | Parked estimator deps | @anthropic-ai/sdk, Supabase, @react-pdf/renderer, stripe — in package.json but unused by the live site |
 
-## Site Map (7→4 pages 2026-07-05, 4→2 pages 2026-07-31)
+## Site Map (7→4 pages 2026-07-05, 4→2 2026-07-31, `/pricing` restored same day)
 
 | Route | Page |
 |---|---|
-| `/` | Landing — hero + HeroDemo, proof strip, **pricing table**, about, contact |
-| `/projects` | Proof page — five-project plan + two executed plan-vs-actual case studies (pig barn, garage) |
-| `/services`, `/training`, `/ai-for-your-work`, `/whole-home-planner`, `/property` | Redirect → `/#pricing`. **Keep them** — QR codes and existing links depend on them |
+| `/` | Landing — hero + HeroDemo, proof strip, price strip pointing at `/pricing`, about, contact |
+| `/pricing` | The payment page — all five offerings, "what you get", Stripe buttons |
+| `/projects` | Proof page — delivery-tier explainer, five-project plan, two executed case studies |
+| `/services`, `/training`, `/ai-for-your-work`, `/whole-home-planner`, `/property` | Redirect → `/pricing`. **Keep them** — QR codes and existing links depend on them |
 | `/about` | Redirect → `/` |
 
 - Marketing code lives in `src/marketing/` (pages, components, `SiteLayout.jsx`, `config.js`).
@@ -56,11 +57,28 @@ The old two-sided estimator platform is **PARKED** — its code stays warm in th
 
 ## Copy Budget (set 2026-07-31)
 
-The site was cut from 2,763 rendered words to **773** — measure with
-`document.body.innerText`, not source strings. **Prose is the exception, not the
-default:** offerings and plan-vs-actual data belong in tables; a paragraph has to
-earn its place by saying something no table can. Before adding copy, check whether
-an existing table already carries it.
+Cut from a 2,763-word baseline. Measure with `document.body.innerText`, not source
+strings. **Prose is the exception, not the default:** offerings and plan-vs-actual
+data belong in tables; a paragraph earns its place only by saying something no
+table can. Before adding copy, check whether an existing table already carries it.
+
+| Page | Words | Status |
+|---|---|---|
+| `/` | ~240 | **Budget applies.** Keep it here. |
+| `/pricing` | ~270 | **Exempt** (Jacob) — its job is to close a sale |
+| `/projects` | ~1,140 | **Exempt** (Jacob) — its job is to explain the estimator |
+
+## Published Numbers Are Sourced, Never Typed
+
+Every price on `/projects` comes from a v3 estimate's embedded `estimate-data`
+block in the client folder — not from memory, not from an older version of the
+page. Four of five rows silently rotted to pre-v3 values once already (porch ~2x
+low, bathroom ~2.5x low, pig barn on v1's broken math) and shipped that way.
+
+- Ranges publish at the **Solo GC** tier (1.25x) so they compare to self-performed actuals.
+- **Never publish a raw quote-vs-actual ratio as a tool-accuracy result** — the
+  calibration memos say this explicitly. Publish the decomposition.
+- Re-verify against the client folder before changing any figure here.
 
 ## Branch State
 
