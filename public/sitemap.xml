@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- sitemap.xml — Build It USA marketing pages. Update when routes change (see src/main.jsx). -->
+<!-- sitemap.xml — Build It USA marketing pages. Update when routes change (see src/main.jsx).
+     Cut to 2 pages 2026-07-31: /services and /about were absorbed into the home
+     page and now redirect there. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://www.buildit-usa.com/</loc></url>
-  <url><loc>https://www.buildit-usa.com/services</loc></url>
   <url><loc>https://www.buildit-usa.com/projects</loc></url>
-  <url><loc>https://www.buildit-usa.com/about</loc></url>
 </urlset>

@@ -1,19 +1,18 @@
 /**
  * HeroDemo.jsx — The landing hero's "show, don't tell" slot
  * Created: 2026-06-11
+ * Tightened: 2026-07-31 — three steps, three words each. The duplicate
+ *   "see the proof" link was dropped; the proof strip directly below carries it.
  *
- * Today: a static annotated demo — real pig-barn photo in, scope + price out —
- * drawn from the executed case study on /projects.
+ * Today: a static annotated demo — real pig-barn photo in, scope + price out.
  * Future: the live photo-upload estimator drops into this same component
  * boundary when that build ships. Keep the outer container's footprint stable
  * so the swap is a component change, not a homepage redesign.
  */
-import { Link } from 'react-router-dom';
-
 const FLOW = [
-  ['Photos in', 'one walk-around with a phone camera'],
-  ['Ten minutes later', 'a full scope of work and a priced estimate'],
-  ['Then I built it', 'tracked every hour and dollar — the plan held'],
+  ['Photos in', 'one walk-around, phone camera'],
+  ['Ten minutes', 'full scope, priced'],
+  ['Then I built it', 'the plan held'],
 ];
 
 export default function HeroDemo() {
@@ -37,15 +36,6 @@ export default function HeroDemo() {
           </li>
         ))}
       </ol>
-      <div className="mt-5 pt-4 border-t border-iron-mid flex items-baseline justify-between gap-3 flex-wrap">
-        <div>
-          <span className="font-hand text-3xl text-brass-light leading-none">&lt; 10 min</span>
-          <span className="text-warm-sand text-sm block mt-1">from photos to a priced scope — built as planned</span>
-        </div>
-        <Link to="/projects" className="text-brass-light font-pencil-hand text-lg hover:underline">
-          See the proof →
-        </Link>
-      </div>
     </div>
   );
 }

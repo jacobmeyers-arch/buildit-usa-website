@@ -1,6 +1,9 @@
 /**
  * Nav.jsx — Sticky top navigation for the marketing site
  * Created: 2026-05-31
+ * Reduced: 2026-07-31 — /services and /about were absorbed into the home page,
+ *   so the nav is one link plus the CTA. Pricing lives on the home page and is
+ *   reachable by scrolling; the page is short enough that a link would be noise.
  *
  * Workshop aesthetic: iron bar, parchment links, brass active accent.
  * Collapses to a toggle menu below the `mobile` breakpoint (860px).
@@ -8,14 +11,7 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
-/* Ordered by the funnel: what you can buy → the proof → who I am.
-   "Home" dropped — the logo covers it. Consolidated 2026-07-05: AI Tools,
-   Planner, and Property now live as sections on /services. */
-const LINKS = [
-  { to: '/services', label: 'Services' },
-  { to: '/projects', label: 'Projects' },
-  { to: '/about', label: 'About' },
-];
+const LINKS = [{ to: '/projects', label: 'Projects' }];
 
 function linkClass({ isActive }) {
   return [
@@ -42,7 +38,7 @@ export default function Nav() {
         <ul className="hidden mobile:flex items-center gap-8">
           {LINKS.map((l) => (
             <li key={l.to}>
-              <NavLink to={l.to} end={l.end} className={linkClass}>
+              <NavLink to={l.to} className={linkClass}>
                 {l.label}
               </NavLink>
             </li>
@@ -74,7 +70,7 @@ export default function Nav() {
         <ul className="mobile:hidden border-t border-iron-mid bg-iron px-5 py-4 flex flex-col gap-4">
           {LINKS.map((l) => (
             <li key={l.to}>
-              <NavLink to={l.to} end={l.end} className={linkClass} onClick={() => setOpen(false)}>
+              <NavLink to={l.to} className={linkClass} onClick={() => setOpen(false)}>
                 {l.label}
               </NavLink>
             </li>

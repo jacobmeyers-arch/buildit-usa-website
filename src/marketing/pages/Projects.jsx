@@ -1,116 +1,72 @@
 /**
- * Projects.jsx — Real projects: the worked whole-property plan + the two executed builds
+ * Projects.jsx — The proof page. Photos and tables, almost no prose.
  * Created: 2026-06-11
- * Compressed: 2026-07-05 — the unbuilt estimates are compact cards (scope + biggest
- *   variable) instead of full teardowns; the executed projects keep the in-depth
- *   plan-vs-actual treatment. Depth on what's built beats breadth on what isn't.
- * Updated: 2026-07-29 — garage exterior moved from estimate to executed (GarageCase).
- *   Its plan-table range is now the June re-issue, not the original April figure that
- *   the in-house audit found low; the footnote says so.
+ * Cut: 2026-07-31 — the three "what's behind each number" scope cards and the
+ *   cross-sell block were deleted; the table already carries that information.
+ *   Depth lives in the two executed case studies below, which are the product.
  */
-import { Section, SectionHeading, Eyebrow, CTA } from '../components/primitives.jsx';
+import { Section, Eyebrow, Reveal, Rule } from '../components/primitives.jsx';
 import PigBarnCase from '../components/PigBarnCase.jsx';
 import GarageCase from '../components/GarageCase.jsx';
 import ContactSection from '../components/ContactSection.jsx';
 import usePageMeta from '../usePageMeta.js';
 
-/* The plan — the five priority projects. Ranges are the
-   confidence-compressed "likely" band from each estimate (the full ranges run
-   wider). `done` marks the one project actually executed. */
+/* The five priority projects. Ranges are the confidence-compressed "likely"
+   band from each estimate. `done` marks the two actually executed. */
 const PROJECTS = [
   { name: 'Screened porch', detail: 'Existing room → 3-season conversion', range: '$27,900 – 32,420' },
-  { name: 'Downstairs bathroom', detail: 'Gut & reconfigure (2 full → 1 full + 1 half)', range: '$24,190 – 28,130' },
-  { name: 'Garage exterior', detail: 'Siding, doors & trim — built, see below', range: '$19,450 – 29,180', done: true },
+  { name: 'Downstairs bathroom', detail: 'Gut & reconfigure two baths', range: '$24,190 – 28,130' },
+  { name: 'Garage exterior', detail: 'Siding, doors & trim', range: '$19,450 – 29,180', done: true },
   { name: 'Bedroom addition', detail: 'Finish-out: carpet, trim, doors, paint', range: '$8,750 – 11,250' },
-  { name: 'Pig barn teardown', detail: 'Demo & debris removal — built, see below', range: '$5,990 – 6,970', done: true },
+  { name: 'Pig barn teardown', detail: 'Demo & debris removal', range: '$5,990 – 6,970', done: true },
 ];
 
-/* Per-project estimate summary for the four estimate-only projects — scope in
-   one line each plus the single biggest cost driver. The pig barn gets the full
-   plan-vs-actual treatment below. */
-const DETAILS = [
-  {
-    name: 'Screened porch',
-    timeline: 'Est. 3–4 weeks',
-    likely: '$27,900 – 32,420',
-    scope:
-      'Full demo, floor framing reinforced, 8 floor-to-ceiling screen openings with structural headers, new PT deck floor (~235 SF), matching siding, pellet stove.',
-    driver:
-      "Carrying beam can't be inspected until demo — reinforce vs. replace is a $1,500–3,000 swing.",
-  },
-  {
-    name: 'Downstairs bathroom',
-    timeline: 'Est. 3–4 weeks',
-    likely: '$24,190 – 28,130',
-    scope:
-      'Gut both baths and relocate a wall → one full + one half bath; all-new plumbing rough-in and electrical; tile, two vanities, tub, two toilets, paint.',
-    driver:
-      'Material grade is the lever — mid-range to high-end tile and fixtures adds $2,000–5,000+.',
-  },
-  {
-    name: 'Bedroom addition',
-    timeline: 'Est. 5–8 working days',
-    likely: '$8,750 – 11,250',
-    scope:
-      'Mid-grade carpet + pad (~260 SF), trim milled to match the old house, three interior doors, ceiling fan, baseboard heat, two coats of paint.',
-    driver:
-      'The custom door into the old house is the wildcard — a narrow, angled opening priced site-built.',
-  },
-];
-
-function RangePill({ children, tone = 'default' }) {
-  const cls = tone === 'done' ? 'text-brass-light' : 'text-parchment';
-  return <span className={`font-hand text-xl whitespace-nowrap ${cls}`}>{children}</span>;
+function Range({ children, done }) {
+  return (
+    <span className={`font-hand text-xl whitespace-nowrap ${done ? 'text-brass-light' : 'text-parchment'}`}>
+      {children}
+    </span>
+  );
 }
 
 export default function Projects() {
   usePageMeta(
     'Real Projects — Build It USA',
-    'Real scopes and real numbers: a five-project whole-property plan, and two projects executed and tracked against the plan — hours, receipts, and where the estimate was wrong. Judge the work, not the pitch.'
+    'Real scopes and real numbers: a five-project whole-property plan, and two projects built and tracked against it — hours, receipts, and where the estimate was wrong.'
   );
 
   return (
     <>
       {/* Hero */}
-      <section className="max-w-container mx-auto px-5 pt-20 pb-12 mobile:pt-28">
-        <div className="max-w-3xl">
-          <Eyebrow>Real projects</Eyebrow>
+      <section className="hero-grid max-w-container mx-auto px-5 pt-14 pb-10 mobile:pt-20">
+        <Reveal className="max-w-3xl">
+          <Eyebrow>My own property</Eyebrow>
           <h1 className="text-4xl mobile:text-5xl leading-tight text-parchment mt-3">
             Real scopes. Real numbers. Two built and checked.
           </h1>
-          <p className="text-warm-sand text-lg mt-6 leading-relaxed">
-            Everything here is from my own property, with the numbers public: five projects scoped
-            and priced in an afternoon, then two of them executed with every hour and dollar tracked
-            against the plan — including where the plan was wrong. Judge the work, not the pitch.
-          </p>
-        </div>
+        </Reveal>
       </section>
 
-      <div className="wood-divider max-w-container mx-auto" />
-
-      {/* The worked example — my own property */}
-      <Section>
-        <SectionHeading
-          eyebrow="Case study 1 — the whole-property plan"
-          title="Five projects in an afternoon."
-          intro="I pointed the system at my own house and outbuildings. In one sitting it produced a full plan — five priority projects, each scoped and priced — the kind of whole-property picture that's normally weeks of contractor visits."
-        />
-
-        {/* Project list — mobile stacked */}
-        <div className="mt-10 space-y-3 mobile:hidden">
-          {PROJECTS.map((p) => (
-            <div key={p.name} className="card-workshop p-4">
+      {/* The plan — five projects */}
+      <Section className="!pt-6">
+        {/* Mobile: stacked */}
+        <div className="space-y-2.5 mobile:hidden">
+          {PROJECTS.map((p, i) => (
+            <Reveal key={p.name} delay={i * 60} className="card-workshop p-4">
               <div className="flex items-start justify-between gap-3">
-                <div className="text-parchment font-pencil-hand text-lg">{p.name}</div>
-                <RangePill tone={p.done ? 'done' : 'default'}>{p.range}</RangePill>
+                <div className="text-parchment font-pencil-hand text-lg">
+                  {p.name}
+                  {p.done && <span className="text-brass-light text-sm font-serif"> ✓ built</span>}
+                </div>
+                <Range done={p.done}>{p.range}</Range>
               </div>
               <p className="text-warm-sand text-sm mt-1">{p.detail}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
 
-        {/* Project list — desktop table */}
-        <div className="card-workshop p-7 mt-10 hidden mobile:block">
+        {/* Desktop: table */}
+        <Reveal className="card-workshop p-7 hidden mobile:block">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="text-brass-light font-pencil-hand">
@@ -121,95 +77,36 @@ export default function Projects() {
             </thead>
             <tbody className="divide-y divide-iron-mid align-top">
               {PROJECTS.map((p) => (
-                <tr key={p.name} className="text-warm-sand">
-                  <td className="py-2.5 pr-4 text-parchment font-pencil-hand whitespace-nowrap">
+                <tr key={p.name} className="text-warm-sand row-live">
+                  <td className="py-3 pr-4 text-parchment font-pencil-hand whitespace-nowrap">
                     {p.name}
                     {p.done && <span className="text-brass-light text-sm font-serif"> ✓ built</span>}
                   </td>
-                  <td className="py-2.5 px-3">{p.detail}</td>
-                  <td className="py-2.5 pl-3 text-right">
-                    <RangePill tone={p.done ? 'done' : 'default'}>{p.range}</RangePill>
+                  <td className="py-3 px-3">{p.detail}</td>
+                  <td className="py-3 pl-3 text-right">
+                    <Range done={p.done}>{p.range}</Range>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
+        </Reveal>
 
         <p className="text-warm-sand/80 text-sm italic mt-4 max-w-3xl">
-          Ranges are the realistic "likely" band, shown per project so you can prioritize and
-          sequence the work instead of staring at one intimidating lump sum. The garage figure is
-          the June re-issue: an in-house audit found the original April estimate on that building
-          was low, so it was corrected and re-priced. The number shown is the current one.
+          The garage figure is the June re-issue — an in-house audit found the April estimate low.
         </p>
-
-        {/* Per-project summary — the estimate behind each number */}
-        <div className="mt-14">
-          <h3 className="text-2xl mobile:text-3xl text-parchment leading-tight">
-            What's behind each number
-          </h3>
-          <p className="text-warm-sand mt-3 max-w-3xl leading-relaxed">
-            Each estimate is a real scope of work with the biggest variable called out. Here are
-            the three I haven't built yet. The other two I didn't just estimate — I built them →
-          </p>
-          <div className="grid gap-5 mobile:grid-cols-2 mt-8">
-            {DETAILS.map((p) => (
-              <div key={p.name} className="card-workshop p-6 flex flex-col">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <h4 className="text-xl text-parchment font-pencil-hand leading-tight">{p.name}</h4>
-                    <p className="text-warm-sand/80 text-sm mt-1">{p.timeline}</p>
-                  </div>
-                  <RangePill>{p.likely}</RangePill>
-                </div>
-                <p className="text-warm-sand mt-4 leading-relaxed flex-1">{p.scope}</p>
-                <p className="text-warm-sand text-sm mt-4 pt-4 border-t border-iron-mid">
-                  <span className="font-pencil-hand text-brass-light uppercase tracking-widest text-xs">
-                    Biggest variable{' '}
-                  </span>
-                  {p.driver}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
       </Section>
 
-      <div className="wood-divider max-w-container mx-auto" />
-
-      {/* Case study 2 — the executed pig barn (plan vs. actual) */}
+      <Rule />
       <PigBarnCase />
-
-      <div className="wood-divider max-w-container mx-auto" />
-
-      {/* Case study 3 — the executed garage (plan vs. actual, scope changed mid-stream) */}
+      <Rule />
       <GarageCase />
 
-      <div className="wood-divider max-w-container mx-auto" />
-
-      {/* Cross-sell — get this for your place */}
-      <Section className="!pt-4">
-        <div className="card-workshop p-8 mobile:p-10 grid gap-6 mobile:grid-cols-[1.4fr_1fr] items-center">
-          <div>
-            <Eyebrow>Want this for your place?</Eyebrow>
-            <h2 className="text-3xl mobile:text-4xl text-parchment mt-2 leading-tight">
-              The Whole-Home Planner is exactly this — for your property.
-            </h2>
-            <p className="text-warm-sand text-lg mt-4 leading-relaxed">
-              Five priority projects scoped, priced, and put in order, delivered as one report you
-              can budget against for years. $500 flat.
-            </p>
-          </div>
-          <div className="mobile:text-right">
-            <CTA to="/services#planner" variant="light">See the planner</CTA>
-          </div>
-        </div>
-      </Section>
-
+      {/* No intro copy here — the tables above have already made the case. */}
       <ContactSection
         eyebrow="Or just talk first"
         title="Start with a free intro call."
-        intro="Questions about a project, the planner, or what AI could do for your own work — reach out and I'll get back to you personally."
+        intro=""
       />
     </>
   );

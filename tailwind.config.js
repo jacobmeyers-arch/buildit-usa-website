@@ -73,8 +73,9 @@ export default {
         'card': '20px',
       },
       borderRadius: {
-        'frame': '14px',
-        'card': '12px',
+        // Sharpened 2026-07-31 (was 14px / 12px) — precision reads modern.
+        'frame': '6px',
+        'card': '4px',
       },
       maxWidth: {
         'container': '1300px',

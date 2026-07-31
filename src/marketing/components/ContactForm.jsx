@@ -7,12 +7,13 @@
 import { useState } from 'react';
 import { CONTACT } from '../config.js';
 
+/* Mirrors the PRICING rows in config.js, plus a catch-all. */
 const INTERESTS = [
   'Free 1-hour intro',
-  '1:1 follow-up',
+  'One-on-one follow-up',
   '4-hour deep dive',
   'Whole-Home Planner',
-  'Property — land, farm & repair',
+  'Property work',
   'General question',
 ];
 
@@ -107,7 +108,7 @@ export default function ContactForm({ defaultInterest = INTERESTS[0] }) {
           required
           rows={5}
           className="input-workshop resize-y"
-          placeholder="Tell me a bit about your business or what you'd like help with."
+          placeholder="What would you like help with?"
         />
       </label>
 

@@ -53,6 +53,15 @@
     /* Text helpers (WCAG-safe on dark) */
     --text-faint: #BFB8AD;
     --text-on-dark-muted: #C4B5A0;
+
+    /* Geometry (sharpened 2026-07-31) — precision reads modern; soft reads dated.
+       Every radius pulled in hard. Palette and type are unchanged. */
+    --radius-frame: 6px;
+    --radius-card: 4px;
+    --radius-btn: 3px;
+
+    /* Motion */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   body {
@@ -104,7 +113,7 @@
      For cards, panels, sidebar boxes sitting on the workshop bg. */
   .card-workshop {
     background: var(--iron-warm);
-    border-radius: 12px;
+    border-radius: var(--radius-card);
     box-shadow: inset 0 0 0 1px var(--iron-mid);
   }
 
@@ -116,11 +125,11 @@
     background: var(--iron);
     color: var(--parchment);
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-btn);
     font-family: 'Architects Daughter', cursive;
     font-size: 0.95rem;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s var(--ease-out);
     box-shadow: 0 2px 6px rgb(42 35 32 / 0.25),
                 inset 0 1px 0 rgb(255 255 255 / 0.04);
   }
@@ -138,11 +147,11 @@
     background: var(--parchment);
     color: var(--iron);
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-btn);
     font-family: 'Architects Daughter', cursive;
     font-size: 0.95rem;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s var(--ease-out);
     box-shadow: 0 2px 6px rgb(0 0 0 / 0.15);
   }
   .btn-iron-light:hover {
@@ -158,12 +167,12 @@
     padding: 12px 28px;
     background: transparent;
     color: var(--text-on-dark-muted);
-    border: 1.5px solid var(--iron-mid);
-    border-radius: 8px;
+    border: 1px solid var(--iron-mid);
+    border-radius: var(--radius-btn);
     font-family: 'Architects Daughter', cursive;
     font-size: 0.95rem;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s var(--ease-out);
   }
   .btn-ghost-parchment:hover {
     border-color: var(--warm-sand);
@@ -177,8 +186,8 @@
     width: 100%;
     background: var(--iron-warm);
     color: var(--parchment);
-    border: 1.5px solid var(--iron-mid);
-    border-radius: 8px;
+    border: 1px solid var(--iron-mid);
+    border-radius: var(--radius-btn);
     font-family: 'Libre Baskerville', serif;
     font-size: 0.82rem;
     transition: border-color 0.2s, box-shadow 0.2s;
@@ -249,5 +258,89 @@
       rgb(30 25 20 / 0.2) 72%,
       rgb(30 25 20 / 0.72) 100%
     );
+  }
+
+  /* ═══ MOTION LAYER (added 2026-07-31) ═══
+     The site reads modern through behavior, not color. Palette and type are
+     untouched — no glow, no neon, no glassmorphism, no color gradients.
+     Everything here is disabled under prefers-reduced-motion (bottom of file). */
+
+  /* ─── Scroll Reveal ───
+     Elements start slightly low and transparent, settle when scrolled into
+     view. The `is-in` class is applied by the Reveal component's observer.
+     Stagger comes from an inline --d (delay) custom property. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+    transition-delay: var(--d, 0ms);
+    will-change: opacity, transform;
+  }
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ─── Hero Line Grid ───
+     Faint drafting-grid texture behind the hero. Drawn as an SVG data URI
+     (same technique as .bg-workshop noise and .wood-divider) rather than a
+     CSS gradient, so it stays inside the "texture, not gradients" rule.
+     Drifts slowly — reads technical, never neon. */
+  .hero-grid {
+    position: relative;
+    isolation: isolate;
+  }
+  .hero-grid::before {
+    content: '';
+    position: absolute;
+    inset: -20% -10% auto -10%;
+    height: 140%;
+    z-index: -1;
+    pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cpath d='M72 0H0v72' fill='none' stroke='%238B7D6B' stroke-width='0.5'/%3E%3C/svg%3E") repeat;
+    opacity: 0.07;
+    animation: grid-drift 60s linear infinite;
+    /* Fades out toward the edges so it never reads as a hard tile pattern. */
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 78%);
+  }
+  @keyframes grid-drift {
+    from { background-position: 0 0; }
+    to   { background-position: 72px 72px; }
+  }
+
+  /* ─── Hairline Rule ───
+     Replaces a wood-divider where the section break should be quiet.
+     Fades in from both edges — precision, not decoration. */
+  .rule-hair {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--iron-mid) 18%, var(--iron-mid) 82%, transparent);
+  }
+
+  /* ─── Table Row Hover ───
+     Plan-vs-actual tables are the proof. Make them feel live. */
+  .row-live {
+    transition: background-color 0.18s var(--ease-out);
+  }
+  .row-live:hover {
+    background-color: rgb(93 85 80 / 0.16);
+  }
+}
+
+/* ─── Reduced Motion ───
+   Anything animated above resolves instantly to its settled state. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .hero-grid::before {
+    animation: none;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -13,7 +13,7 @@ import { CONTACT } from '../config.js';
 export default function ContactSection({
   eyebrow = 'Get in touch',
   title = 'Start with a free intro call.',
-  intro = "A working session, not a sales pitch — bring a real problem from your work and we'll point AI at it together. You'll know within the hour whether this is worth your time.",
+  intro = "A working session, not a sales pitch. Bring a real problem and we'll point AI at it together.",
   defaultInterest,
   children,
 }) {
@@ -23,7 +23,7 @@ export default function ContactSection({
         <div>
           <Eyebrow>{eyebrow}</Eyebrow>
           <h2 className="text-3xl mobile:text-4xl text-parchment mt-2 leading-tight">{title}</h2>
-          <p className="text-warm-sand text-lg mt-5 leading-relaxed">{intro}</p>
+          {intro && <p className="text-warm-sand text-lg mt-5 leading-relaxed">{intro}</p>}
           {children}
           <div className="mt-8 space-y-2">
             <a

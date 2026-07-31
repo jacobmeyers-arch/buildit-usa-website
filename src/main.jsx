@@ -4,13 +4,11 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './index.css';
 import ErrorBoundary from './components/ErrorBoundary';
 
-// Marketing site (public) — consolidated to 4 pages 2026-07-05; the old
-// AI-for-Your-Work, Whole-Home Planner, and Property routes redirect into
-// sections of /services.
+// Marketing site (public) — cut to 2 pages 2026-07-31. /services and /about
+// were absorbed into the home page; every retired route redirects there so
+// existing links, QR codes, and search results keep working.
 import SiteLayout from './marketing/SiteLayout.jsx';
 import Landing from './marketing/pages/Landing.jsx';
-import About from './marketing/pages/About.jsx';
-import Services from './marketing/pages/Services.jsx';
 import Projects from './marketing/pages/Projects.jsx';
 
 createRoot(document.getElementById('root')).render(
@@ -21,14 +19,16 @@ createRoot(document.getElementById('root')).render(
           {/* Public marketing site */}
           <Route element={<SiteLayout />}>
             <Route path="/" element={<Landing />} />
-            <Route path="/about" element={<About />} />
             <Route path="/projects" element={<Projects />} />
-            <Route path="/services" element={<Services />} />
-            {/* Old paths → Services sections (keeps existing links/QR codes working) */}
-            <Route path="/training" element={<Navigate to="/services" replace />} />
-            <Route path="/ai-for-your-work" element={<Navigate to="/services" replace />} />
-            <Route path="/whole-home-planner" element={<Navigate to="/services#planner" replace />} />
-            <Route path="/property" element={<Navigate to="/services#property" replace />} />
+
+            {/* Retired pages → home. The #pricing anchor replaces what used to
+                be the /services sections; QR codes depend on these staying. */}
+            <Route path="/services" element={<Navigate to="/#pricing" replace />} />
+            <Route path="/about" element={<Navigate to="/" replace />} />
+            <Route path="/training" element={<Navigate to="/#pricing" replace />} />
+            <Route path="/ai-for-your-work" element={<Navigate to="/#pricing" replace />} />
+            <Route path="/whole-home-planner" element={<Navigate to="/#pricing" replace />} />
+            <Route path="/property" element={<Navigate to="/#pricing" replace />} />
           </Route>
 
           {/* Estimation tool parked — not deployed for now (see .vercelignore).

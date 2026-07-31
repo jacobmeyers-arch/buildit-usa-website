@@ -2,12 +2,14 @@
  * config.js — Build It USA marketing site configuration
  *
  * Central place for public contact details, Stripe Payment Link URLs,
- * and the training tier data shared across pages.
+ * and the pricing table shared across the site.
  * Created: 2026-05-31
+ * Rewritten: 2026-07-31 — TRAINING_TIERS (prose cards) replaced by PRICING
+ *   (one table). Every offering is now one row: name, price, one line, one action.
  *
  * PAYMENT LINKS: paste the URLs from your Stripe dashboard
  *   (Dashboard → Payment Links → + New → one per offering).
- *   While a link is blank, that tier's button falls back to the contact form.
+ *   While a link is blank, that row's button falls back to the contact form.
  */
 
 export const CONTACT = {
@@ -25,53 +27,44 @@ export const PAYMENT_LINKS = {
 };
 
 /**
- * Training offerings. `payment` keys map into PAYMENT_LINKS above;
- * `free` tiers route to the contact form instead of Stripe.
+ * The whole catalog, as table rows. `payment` keys map into PAYMENT_LINKS;
+ * rows without one route to the contact form.
+ *   note  — the single line of explanation that row is allowed
+ *   cta   — button label
  */
-export const TRAINING_TIERS = [
+export const PRICING = [
   {
-    key: 'intro',
-    name: '1-Hour Intro',
+    name: '1-hour intro',
     price: 'Free',
-    tagline: 'Start using AI today.',
-    summary:
-      'A working session, not a sales pitch. We build your custom AI instructions live and you walk out using it the same day.',
-    bullets: [
-      'Custom instructions built with you, on the spot',
-      'The reverse-prompting method that makes AI actually useful',
-      'No cost, no obligation — open door afterward',
-    ],
-    cta: 'Book a free intro',
-    free: true,
+    note: 'A working session. You leave using it.',
+    cta: 'Book',
   },
   {
-    key: 'oneOnOne',
-    name: '1:1 Follow-Up',
+    // "1:1" was unreadable in Architects Daughter — the colon vanishes.
+    name: 'One-on-one follow-up',
     price: '$100',
-    tagline: 'Targeted help on a real problem.',
-    summary:
-      'Power-user setup and workflows aimed at one specific problem in your business or work.',
-    bullets: [
-      'Set up the context files and workflow for your trade or role',
-      'Solve a real, current bottleneck together',
-      'Leave with a repeatable system, not a one-off answer',
-    ],
+    note: 'One real bottleneck, solved together.',
     cta: 'Book & pay',
     payment: 'oneOnOne',
   },
   {
-    key: 'deepDive',
-    name: '4-Hour Deep Dive',
+    name: '4-hour deep dive',
     price: '$300',
-    tagline: 'Build the compounding backend.',
-    summary:
-      'The full power-user buildout: a system that gets sharper every time you use it instead of resetting to zero.',
-    bullets: [
-      'Context files, memory, and end-of-session protocols',
-      'A setup that compounds across every job',
-      'Walk out independent — you run it, not me',
-    ],
+    note: 'The full buildout. A system that sharpens with use.',
     cta: 'Book & pay',
     payment: 'deepDive',
+  },
+  {
+    name: 'Whole-Home Planner',
+    price: '$500',
+    note: 'Five projects scoped, priced, sequenced. One report.',
+    cta: 'Book & pay',
+    payment: 'wholeHouse',
+  },
+  {
+    name: 'Property work',
+    price: 'Quoted',
+    note: 'Build, repair, drainage, equipment. Priced onsite.',
+    cta: 'Ask',
   },
 ];
