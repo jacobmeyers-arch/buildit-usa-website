@@ -8,6 +8,15 @@
  * Jacob's skilled rate is $70). Photos demonstrate scale.
  */
 import { Section, Eyebrow, Stat, Reveal } from './primitives.jsx';
+import DeliveryTiers from './DeliveryTiers.jsx';
+
+/* Republished 2026-07-31 from the v3 estimate's data block. The page had been
+   showing "~$5,200–7,800", a pre-v3 figure; the v3 Solo GC band is below. */
+const TIERS = [
+  ['Self-managed / Solo GC', 'You hire and coordinate every trade', '$8,039 – 11,449'],
+  ['General Contractor', 'One contractor, insured crews', '$10,611 – 15,113'],
+  ['Design-Build Firm', 'Design, permits, supervision, warranty', '$12,862 – 22,898'],
+];
 
 const PHOTOS = [1, 2, 3, 4, 5, 6, 7].map(
   (n) => `/projects/pigbarn/pigbarn-${String(n).padStart(2, '0')}.jpg`
@@ -18,7 +27,7 @@ const COMPARE = [
   ['Labor', '4–6 working days', '77 hrs — 15 brush · 4 tractor · 8 demo · 50 haul'],
   ['Biggest driver', 'Flagged the ~80-yd hand-carry', '50 of 77 hrs — exactly that'],
   ['Disposal', '1–2 × 30-yd dumpster', '~$800, one container'],
-  ['Bottom line', '~$5,200 – 7,800 at contractor rates', '~$4,700 self-performed'],
+  ['Bottom line', '$8,039 – 11,449 at Solo GC', '~$4,700 self-performed'],
 ];
 
 export default function PigBarnCase() {
@@ -96,6 +105,18 @@ export default function PigBarnCase() {
           </tbody>
         </table>
       </Reveal>
+
+      <DeliveryTiers
+        rows={TIERS}
+        actual="~$4,700"
+        note={
+          <>
+            The estimate priced hand demolition to a contractor standard; I used a tractor. The
+            rest of the gap is margin I don't pay myself, plus the permit and hazardous-material
+            handling a paid contractor owes on a building like this and an owner does not.
+          </>
+        }
+      />
 
       <Reveal>
         <p className="text-parchment text-lg mt-10 max-w-3xl leading-relaxed">
