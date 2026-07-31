@@ -20,12 +20,14 @@ export default function Footer() {
           <p className="text-sm text-warm-sand mt-2 max-w-xs">
             Practical AI for businesses and the people who run them.
           </p>
-          <Link
-            to="/projects"
-            className="text-brass-light font-pencil-hand mt-4 inline-block hover:underline"
-          >
-            Projects
-          </Link>
+          <div className="flex gap-5 mt-4">
+            <Link to="/pricing" className="text-brass-light font-pencil-hand hover:underline">
+              Pricing
+            </Link>
+            <Link to="/projects" className="text-brass-light font-pencil-hand hover:underline">
+              Projects
+            </Link>
+          </div>
         </div>
 
         {/* Contact */}

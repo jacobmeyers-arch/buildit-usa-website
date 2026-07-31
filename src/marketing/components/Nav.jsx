@@ -11,12 +11,24 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
-const LINKS = [{ to: '/projects', label: 'Projects' }];
+/* "Home" is back (2026-07-31). Leaving the logo to imply it meant the home page
+   had NO active nav item — nothing on screen told you where you were. With two
+   pages, one of these is always lit. */
+const LINKS = [
+  { to: '/', label: 'Home', end: true },
+  { to: '/pricing', label: 'Pricing' },
+  { to: '/projects', label: 'Projects' },
+];
 
+/* Active state is colour AND a brass rule under the label — colour alone was
+   too quiet to read as "you are here", and fails for colour-blind visitors. */
 function linkClass({ isActive }) {
   return [
-    'font-pencil-hand text-lg tracking-wide transition-colors',
-    isActive ? 'text-brass-light' : 'text-parchment hover:text-brass-light',
+    'relative inline-block font-pencil-hand text-lg tracking-wide transition-colors',
+    "after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-[2px] after:transition-opacity after:content-['']",
+    isActive
+      ? 'text-brass-light after:bg-brass-light after:opacity-100'
+      : 'text-parchment hover:text-brass-light after:bg-brass-light after:opacity-0 hover:after:opacity-40',
   ].join(' ');
 }
 
@@ -38,7 +50,7 @@ export default function Nav() {
         <ul className="hidden mobile:flex items-center gap-8">
           {LINKS.map((l) => (
             <li key={l.to}>
-              <NavLink to={l.to} className={linkClass}>
+              <NavLink to={l.to} end={l.end} className={linkClass}>
                 {l.label}
               </NavLink>
             </li>
@@ -70,7 +82,7 @@ export default function Nav() {
         <ul className="mobile:hidden border-t border-iron-mid bg-iron px-5 py-4 flex flex-col gap-4">
           {LINKS.map((l) => (
             <li key={l.to}>
-              <NavLink to={l.to} className={linkClass} onClick={() => setOpen(false)}>
+              <NavLink to={l.to} end={l.end} className={linkClass} onClick={() => setOpen(false)}>
                 {l.label}
               </NavLink>
             </li>

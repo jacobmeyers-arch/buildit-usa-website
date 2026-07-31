@@ -13,35 +13,7 @@ import {
 import HeroDemo from '../components/HeroDemo.jsx';
 import ContactSection from '../components/ContactSection.jsx';
 import usePageMeta from '../usePageMeta.js';
-import { PRICING, PAYMENT_LINKS } from '../config.js';
-
-function PriceRow({ row, delay }) {
-  const link = row.payment ? PAYMENT_LINKS[row.payment] : '';
-  const href = link || '#contact';
-
-  return (
-    <Reveal
-      delay={delay}
-      className="row-live border-t border-iron-mid px-3 py-5 flex flex-wrap items-center gap-x-6 gap-y-3"
-    >
-      <div className="min-w-[14rem] flex-1">
-        <div className="font-pencil-hand text-lg text-parchment">{row.name}</div>
-        <div className="text-warm-sand text-sm mt-1 leading-snug">{row.note}</div>
-      </div>
-      <div className="font-hand text-4xl text-brass-light leading-none w-24 mobile:text-right">
-        {row.price}
-      </div>
-      <a
-        href={href}
-        target={link ? '_blank' : undefined}
-        rel={link ? 'noreferrer' : undefined}
-        className="btn-iron-light !py-2 !px-5 text-base w-full mobile:w-auto text-center"
-      >
-        {row.cta}
-      </a>
-    </Reveal>
-  );
-}
+import { PRICING } from '../config.js';
 
 export default function Landing() {
   usePageMeta(
@@ -93,18 +65,24 @@ export default function Landing() {
 
       <Rule />
 
-      {/* Pricing — the whole catalog, one table. This replaced the old
-          "three ways in" cards, which restated these same five rows. */}
+      {/* Pricing pointer — prices visible without leaving home, full table on
+          /pricing. Keeps the #pricing id so any old /#pricing link still lands. */}
       <Section id="pricing">
-        <SectionHeading eyebrow="Pricing" title="Everything, and what it costs." />
-        <div className="card-workshop mt-10 px-4 mobile:px-6 py-2">
+        <SectionHeading
+          eyebrow="Pricing"
+          title="From a free hour to a $500 whole-property plan."
+        />
+        <div className="grid grid-cols-2 mobile:grid-cols-5 gap-3 mt-8">
           {PRICING.map((row, i) => (
-            <PriceRow key={row.name} row={row} delay={i * 70} />
+            <Reveal key={row.name} delay={i * 60} className="card-workshop p-4 text-center">
+              <div className="font-hand text-3xl text-brass-light leading-none">{row.price}</div>
+              <p className="text-warm-sand text-sm mt-2 leading-snug">{row.name}</p>
+            </Reveal>
           ))}
         </div>
-        <p className="text-warm-sand/80 text-sm mt-5">
-          Follow-ups after any session are free. Open door.
-        </p>
+        <Reveal delay={320} className="mt-8">
+          <CTA to="/pricing" variant="light">See what's included</CTA>
+        </Reveal>
       </Section>
 
       <Rule />

@@ -4,11 +4,12 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './index.css';
 import ErrorBoundary from './components/ErrorBoundary';
 
-// Marketing site (public) — cut to 2 pages 2026-07-31. /services and /about
-// were absorbed into the home page; every retired route redirects there so
-// existing links, QR codes, and search results keep working.
+// Marketing site (public) — cut to 2 pages 2026-07-31, then /pricing restored
+// as a standalone payment page the same day. /about stays folded into home;
+// every retired route redirects so existing links and QR codes keep working.
 import SiteLayout from './marketing/SiteLayout.jsx';
 import Landing from './marketing/pages/Landing.jsx';
+import Pricing from './marketing/pages/Pricing.jsx';
 import Projects from './marketing/pages/Projects.jsx';
 
 createRoot(document.getElementById('root')).render(
@@ -19,16 +20,17 @@ createRoot(document.getElementById('root')).render(
           {/* Public marketing site */}
           <Route element={<SiteLayout />}>
             <Route path="/" element={<Landing />} />
+            <Route path="/pricing" element={<Pricing />} />
             <Route path="/projects" element={<Projects />} />
 
-            {/* Retired pages → home. The #pricing anchor replaces what used to
-                be the /services sections; QR codes depend on these staying. */}
-            <Route path="/services" element={<Navigate to="/#pricing" replace />} />
+            {/* Retired pages. Everything that used to sell something lands on
+                /pricing; QR codes and old links depend on these staying. */}
+            <Route path="/services" element={<Navigate to="/pricing" replace />} />
+            <Route path="/training" element={<Navigate to="/pricing" replace />} />
+            <Route path="/ai-for-your-work" element={<Navigate to="/pricing" replace />} />
+            <Route path="/whole-home-planner" element={<Navigate to="/pricing" replace />} />
+            <Route path="/property" element={<Navigate to="/pricing" replace />} />
             <Route path="/about" element={<Navigate to="/" replace />} />
-            <Route path="/training" element={<Navigate to="/#pricing" replace />} />
-            <Route path="/ai-for-your-work" element={<Navigate to="/#pricing" replace />} />
-            <Route path="/whole-home-planner" element={<Navigate to="/#pricing" replace />} />
-            <Route path="/property" element={<Navigate to="/#pricing" replace />} />
           </Route>
 
           {/* Estimation tool parked — not deployed for now (see .vercelignore).

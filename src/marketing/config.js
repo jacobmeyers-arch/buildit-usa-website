@@ -29,14 +29,18 @@ export const PAYMENT_LINKS = {
 /**
  * The whole catalog, as table rows. `payment` keys map into PAYMENT_LINKS;
  * rows without one route to the contact form.
- *   note  — the single line of explanation that row is allowed
- *   cta   — button label
+ *   note   — the single line of explanation the row gets
+ *   detail — "what you get", for the /pricing page only. Kept as short comma-
+ *            separated items so the page stays a table, not a wall of cards.
+ *            Nobody clicks a $500 button off a one-liner.
+ *   cta    — button label
  */
 export const PRICING = [
   {
     name: '1-hour intro',
     price: 'Free',
     note: 'A working session. You leave using it.',
+    detail: 'Custom instructions built with you on the spot; the reverse-prompting method; open door afterward',
     cta: 'Book',
   },
   {
@@ -44,6 +48,7 @@ export const PRICING = [
     name: 'One-on-one follow-up',
     price: '$100',
     note: 'One real bottleneck, solved together.',
+    detail: 'Context files and workflow for your trade; one current bottleneck solved; a repeatable system, not a one-off answer',
     cta: 'Book & pay',
     payment: 'oneOnOne',
   },
@@ -51,6 +56,7 @@ export const PRICING = [
     name: '4-hour deep dive',
     price: '$300',
     note: 'The full buildout. A system that sharpens with use.',
+    detail: 'Context files, memory, end-of-session protocols; a setup that compounds across every job; you walk out running it',
     cta: 'Book & pay',
     payment: 'deepDive',
   },
@@ -58,6 +64,7 @@ export const PRICING = [
     name: 'Whole-Home Planner',
     price: '$500',
     note: 'Five projects scoped, priced, sequenced. One report.',
+    detail: 'Five priority projects, each a real scope of work; a cost range with the big drivers called out; prioritized and sequenced; one report you budget against',
     cta: 'Book & pay',
     payment: 'wholeHouse',
   },
@@ -65,6 +72,7 @@ export const PRICING = [
     name: 'Property work',
     price: 'Quoted',
     note: 'Build, repair, drainage, equipment. Priced onsite.',
+    detail: 'Build & repair — decks, outbuildings, barns, fencing; land & drainage; equipment and seasonal labor',
     cta: 'Ask',
   },
 ];
