@@ -20,7 +20,7 @@ When this file conflicts with SOURCE_OF_TRUTH.md on business logic, SOURCE_OF_TR
 
 ## What This Repo Is Now
 
-**A 4-page marketing site** for Jacob's AI training + done-for-you services, live at buildit-usa.com. It funnels every page toward one conversion: the free AI intro call (shared ContactSection on every page).
+**A 2-page marketing site** for Jacob's AI training + done-for-you services, live at buildit-usa.com. It funnels every page toward one conversion: the free AI intro call (shared ContactSection on every page).
 
 The old two-sided estimator platform is **PARKED** — its code stays warm in the repo but is not routed and not deployed (see Parked Estimator below).
 
@@ -41,24 +41,32 @@ The old two-sided estimator platform is **PARKED** — its code stays warm in th
 | Payments | **Stripe Payment Links** (no checkout code in the live path) — URLs live in `src/marketing/config.js` |
 | Parked estimator deps | @anthropic-ai/sdk, Supabase, @react-pdf/renderer, stripe — in package.json but unused by the live site |
 
-## Site Map (consolidated 7→4 pages, 2026-07-05)
+## Site Map (7→4 pages 2026-07-05, 4→2 pages 2026-07-31)
 
 | Route | Page |
 |---|---|
-| `/` | Landing — hero, PigBarnCase proof, intro-call CTA |
-| `/services` | All offerings: training tiers, Whole-Home Planner ($500), property services |
+| `/` | Landing — hero + HeroDemo, proof strip, **pricing table**, about, contact |
 | `/projects` | Proof page — five-project plan + two executed plan-vs-actual case studies (pig barn, garage) |
-| `/about` | About Jacob |
-| `/training`, `/ai-for-your-work`, `/whole-home-planner`, `/property` | Redirects into `/services` sections — keep them; existing links and QR codes depend on them |
+| `/services`, `/training`, `/ai-for-your-work`, `/whole-home-planner`, `/property` | Redirect → `/#pricing`. **Keep them** — QR codes and existing links depend on them |
+| `/about` | Redirect → `/` |
 
 - Marketing code lives in `src/marketing/` (pages, components, `SiteLayout.jsx`, `config.js`).
 - **HeroDemo slot** on the landing hero (`src/marketing/components/HeroDemo.jsx`) is the designated estimator drop-in point — launching the demo is a component swap, not a redesign.
-- `src/marketing/config.js` is the single source for contact info, Stripe Payment Link URLs, and training tier data.
+- `src/marketing/config.js` is the single source for contact info, Stripe Payment Link URLs, and the `PRICING` table (which replaced the old `TRAINING_TIERS` prose cards).
+
+## Copy Budget (set 2026-07-31)
+
+The site was cut from 2,763 rendered words to **773** — measure with
+`document.body.innerText`, not source strings. **Prose is the exception, not the
+default:** offerings and plan-vs-actual data belong in tables; a paragraph has to
+earn its place by saying something no table can. Before adding copy, check whether
+an existing table already carries it.
 
 ## Branch State
 
 - `main` — the live site. What's on main is what's deployed.
 - `v3-pricing-and-demo` — **local only, staged, not pushed.** Holds the photo-identify demo MVP (`HeroDemoLive` + `api/identify.js`, prompt validated 13/13 in the 20260612 photo eval) + v3 pricing/design-build framing. Branched off pre-consolidation main → **needs rebase onto current main before it can deploy.** Deploy is gated on Jacob's BIU-001 review pass (workspace `20260612_pending-rulings.md`).
+  - ⚠️ The 2026-07-31 two-page cut rewrote every file this branch touches. A rebase is now a near-total conflict; treat it as **re-implement, not rebase**. Its only unique asset is the `HeroDemoLive` component + `api/identify.js` — port those into the current `HeroDemo` slot and drop the rest. Unresolved: Jacob has not yet ruled on whether to land or abandon it.
 
 ## Parked Estimator (do not build on it without explicit instruction)
 
@@ -69,14 +77,35 @@ The old two-sided estimator platform is **PARKED** — its code stays warm in th
 
 ## Design System (locked)
 
-**Full handoff doc: `docs/design/buildit-design-handoff.md` — read before building any UI.**
+**Handoff doc: `docs/design/buildit-design-handoff.md`.** ⚠️ **Largely STALE** — it
+specs the parked camera-first estimator (beaver mascot, contractor dashboards,
+project timeline). Only its **token, typography, and aesthetic** sections still
+govern. Do not build the components it describes.
 
 - ALL screens dark themed — `--iron` (#2A2320) backgrounds, `--parchment` (#F0E8DA) text
 - Colonial carpentry + Tesla minimalism; no tile grids — fluid asymmetric layouts
 - Typography: Architects Daughter (headings/nav/buttons), Libre Baskerville (body), Caveat bold (ALL dollar amounts + stats). **Never** Inter, Roboto, Arial, system-ui, monospace.
+  - Architects Daughter swallows colons — `1:1` renders as `11`. Spell it out.
 - Primary action color: iron/charcoal (not blue, not red). Tap targets ≥ 44x44px.
 - **User-facing language rule: no UI text references AI, Claude, or machine learning.** Customer-facing framing: "Estimating software built by Jacob Meyers."
 - No MasterBeaver image in HTML footers.
+
+### Motion Layer (added 2026-07-31, approved as motion-only)
+
+The site reads modern through **behavior and geometry, not color**. The palette
+and the three-tier type system are untouched, and the anti-patterns above still
+hold — no glow, no neon, no glassmorphism, no color gradients. A cool accent
+(`--steel-blue`) was considered and **deliberately not adopted**; adding one is a
+palette change and needs Jacob's approval.
+
+- `Reveal` and `CountUp` live in `src/marketing/components/primitives.jsx`
+- **`CountUp` must never display a wrong figure.** It initializes to the real
+  value, drops to zero only once the observer confirms the element is below the
+  fold, and has a 4s failsafe. Reduced motion, a stalled observer, or a crawler
+  that never scrolls all still read the true number. Do not "simplify" this to
+  `useState(0)`.
+- Geometry: `--radius-frame/card/btn` = 6/4/3px. Hairline `Rule` between sections.
+- Everything animated is disabled under `prefers-reduced-motion`.
 
 ## Environment Variables
 
