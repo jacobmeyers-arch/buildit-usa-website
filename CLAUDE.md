@@ -61,6 +61,22 @@ The old two-sided estimator platform is **PARKED** — its code stays warm in th
   - **One page is the contract.** Both sheets are measured against ~979px of printable height (8.5×11 less margins); the garage is the long one. Adding a row means re-measuring.
   - The street address and phone number are stripped and the generator asserts neither survives.
 
+## No Horizontal Scroll on a Phone (regression fixed 2026-09-27)
+
+Every page carrying `.hero-grid` scrolled sideways on iOS by ~10% of the
+viewport. Cause: the hero's decorative grid `::before` used
+`inset: -20% -10% auto -10%`, bleeding past both edges. It is a pseudo-element,
+so a DOM sweep for wide elements never finds it — check `::before`/`::after`
+insets and transforms first when a page scrolls sideways with no visible cause.
+
+- **Never fix this with `overflow-x: hidden` on `body`/`html`.** It hides the
+  cause and an overflow ancestor **breaks the sticky nav** (`position: sticky`).
+- `scripts/check-overflow.mjs` audits every page at 375 / 390 / 430px against a
+  running dev server and names the offending elements. Run it after any layout
+  change; it is the only check that catches this class.
+- The generated reports also set `-webkit-text-size-adjust: 100%` — iOS Safari
+  inflates text in ways headless Chromium does not, which is its own overflow source.
+
 ## The Run-Cost Figure on /pricing
 
 `config.js` `RUN_COST` publishes what one report costs to produce (**$1–2** of

@@ -293,7 +293,11 @@
   .hero-grid::before {
     content: '';
     position: absolute;
-    inset: -20% -10% auto -10%;
+    /* Horizontal bleed was -10% each side (2026-09-27): on a phone that made
+       every hero page scroll sideways by ~10% of the viewport. The radial mask
+       already fades the pattern out well inside these edges, so pinning them to
+       0 costs nothing visually. Vertical bleed is kept — it cannot scroll. */
+    inset: -20% 0 auto 0;
     height: 140%;
     z-index: -1;
     pointer-events: none;

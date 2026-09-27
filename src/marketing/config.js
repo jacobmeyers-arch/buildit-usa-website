@@ -163,4 +163,15 @@ export const RUN_COST = {
   perReport: '$1–2',
   basis: 'of compute, at metered rates',
   note: 'On a Claude subscription there is no per-report charge at all — it is already paid for. The figure above is what the computing behind one report is actually worth.',
+  /**
+   * The ROI anchor. Jacob's first choice was "what a paid estimate or takeoff
+   * costs" — that figure isn't established, so this uses the project value
+   * instead (his call, 2026-09-27: "use the project value anchor for now").
+   * SWAP IT when a defensible takeoff price exists.
+   *
+   * $24,315 is the garage report's own "Typical price" — the v3 midpoint,
+   * straight from its estimate-data block. A visitor can click the report
+   * below and see the same number, which is the whole point of using it.
+   */
+  anchor: 'The garage report below prices a $24,315 job. It cost about a dollar of compute to write.',
 };

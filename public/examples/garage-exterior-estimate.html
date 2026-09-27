@@ -14,8 +14,12 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root { --black:#1A1A1A; --dark:#333; --mid:#777; --light:#F2F2F2; --border:#CCC; }
+    /* iOS Safari inflates text in portrait unless told not to, which is a
+       classic cause of a document like this scrolling sideways on a phone. */
+    html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
     body { font-family:'Libre Baskerville',Georgia,serif; font-size:11.5px; color:var(--dark);
-           background:#C0C0C0; line-height:1.4; -webkit-font-smoothing:antialiased; }
+           background:#C0C0C0; line-height:1.4; -webkit-font-smoothing:antialiased;
+           overflow-wrap:break-word; }
     .page { max-width:8.5in; margin:20px auto; background:#fff; padding:0.32in 0.48in;
             box-shadow:0 4px 24px rgba(0,0,0,.15); }
     h1 { font-family:'Architects Daughter',cursive; font-size:24px; color:var(--black);
@@ -57,7 +61,12 @@
     .foot-brand { font-family:'Architects Daughter',cursive; font-size:14px; color:var(--black); }
     @media print { body { background:#fff; } .page { box-shadow:none; margin:0; } @page { margin:.4in; } }
     @media (max-width:640px) { .cols { display:block; } .col + .col { margin-top:13px; }
-      .page { padding:.3in .28in; } .hero-range { font-size:29px; } }
+      .page { padding:.3in .22in; } .hero-range { font-size:27px; }
+      /* Only the LONG unbreakable cells get relaxed. The short ones ($11,420,
+         "108 hrs") were never wide enough to push the sheet sideways, and
+         letting them wrap split "20 hrs" across two lines. */
+      .col td:first-child { white-space:normal; }
+      td { font-size:10.5px; } }
   </style>
 </head>
 <body>

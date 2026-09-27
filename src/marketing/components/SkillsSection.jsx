@@ -107,10 +107,10 @@ export default function SkillsSection({ compact = false }) {
             </div>
             <p className="text-warm-sand text-sm mt-2">{RUN_COST.basis}</p>
           </div>
-          <p className="text-warm-sand leading-relaxed">
-            <span className="text-parchment">That is what one of these reports costs to produce.</span>{' '}
-            {RUN_COST.note}
-          </p>
+          <div>
+            <p className="text-parchment leading-relaxed">{RUN_COST.anchor}</p>
+            <p className="text-warm-sand leading-relaxed mt-2">{RUN_COST.note}</p>
+          </div>
         </div>
       </Reveal>
 
