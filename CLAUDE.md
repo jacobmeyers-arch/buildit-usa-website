@@ -55,7 +55,7 @@ The old two-sided estimator platform is **PARKED** — its code stays warm in th
 - Marketing code lives in `src/marketing/` (pages, components, `SiteLayout.jsx`, `config.js`).
 - **HeroDemo slot** on the landing hero (`src/marketing/components/HeroDemo.jsx`) is the designated estimator drop-in point — launching the demo is a component swap, not a redesign.
 - `src/marketing/config.js` is the single source for contact info, the `PRICING` table, and the `SKILLS` / `EXAMPLES` copy.
-- `public/examples/` — two real v3 estimate reports served as static HTML, linked from `/pricing`. **Generated, not hand-written:** they are redacted copies of the 250 Hop City Rd v3 estimates (workspace client folder). The street address and phone number are stripped; the generator asserts neither survives. Re-publish by re-running `scripts/publish_examples.py`, never by hand-editing the copies.
+- `public/examples/` — two real v3 estimate reports served as static HTML, linked from `/pricing`. **They are deliberately the two EXECUTED projects** (pig barn, garage) — the same jobs `/projects` takes from estimate to finished work, so a visitor can read the estimate and the plan-vs-actual for one job. Don't publish an unbuilt project here; it proves less. **Generated, not hand-written:** they are redacted copies of the 250 Hop City Rd v3 estimates (workspace client folder). The street address and phone number are stripped; the generator asserts neither survives. Re-publish by re-running `scripts/publish_examples.py`, never by hand-editing the copies.
 
 ## Copy Budget (set 2026-07-31)
 

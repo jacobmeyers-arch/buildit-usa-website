@@ -18,6 +18,7 @@
  * copy. Jacob overrode it 2026-09-27 — the tool is the product, so it gets named.
  * The rule still holds everywhere it wasn't overridden.
  */
+import { Link } from 'react-router-dom';
 import { Section, Eyebrow, Reveal, CTA } from './primitives.jsx';
 import { SKILLS, EXAMPLES } from '../config.js';
 
@@ -99,8 +100,12 @@ export default function SkillsSection({ compact = false }) {
             Two reports it wrote
           </h3>
           <p className="text-warm-sand mt-3 leading-relaxed">
-            Unedited, from my own property. Open them and read the line items, the flagged
-            unknowns, and the sequence of operations.
+            Unedited, from my own property. These are the two jobs I then built — read the
+            estimate here, and what it actually cost me on the{' '}
+            <Link to="/projects" className="text-brass-light hover:underline">
+              projects page
+            </Link>
+            .
           </p>
         </Reveal>
         <div className="grid gap-3 mobile:grid-cols-2 mt-6">

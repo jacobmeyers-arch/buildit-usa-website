@@ -8,6 +8,11 @@
  *   only off the home page. The garage is the stronger front door: a build, not
  *   a teardown, and the calibration with the 1%-materials result behind it.
  *
+ * Image: 2026-09-27 — the FINISHED garage, not the before shot (Jacob's call).
+ *   Same frame the GarageCase hero uses. The before shot led with the problem;
+ *   the finished building leads with the result, which is what the three steps
+ *   below are actually claiming.
+ *
  * Today: a static annotated demo — real garage photo in, scope + price out.
  * Future: the live photo-upload estimator drops into this same component
  * boundary when that build ships. Keep the outer container's footprint stable
@@ -25,8 +30,8 @@ export default function HeroDemo() {
       {/* pinned-to-the-workbench accent */}
       <span className="brass-nail absolute top-3 left-1/2 -translate-x-1/2" aria-hidden="true" />
       <img
-        src="/projects/garage/garage-01.webp"
-        alt="1940s garage before the rebuild — scoped and priced from photos"
+        src="/projects/garage/garage-09.webp"
+        alt="The garage after the rebuild — new siding, doors built on site, two coats of black"
         className="rounded-card w-full aspect-[4/3] object-cover"
       />
       <ol className="mt-5 space-y-2.5">

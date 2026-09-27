@@ -18,9 +18,15 @@ SRC = Path("/mnt/chromeos/MyFiles/ClaudeCode/AI Projects/Build It USA/Clients/"
 DEST = Path.home() / "buildit-usa" / "public" / "examples"
 
 # (source subfolder, published filename)
+#
+# These two are deliberately the two EXECUTED projects — the same jobs the
+# /projects case studies take from estimate to finished work. A visitor can read
+# the estimate and the plan-vs-actual for one job. (Swapped 2026-09-27: the
+# downstairs bathroom was published first but was never built, so it proved
+# nothing the built jobs don't prove better.)
 REPORTS = [
+    ("07_Pig-Barn-Demo", "pig-barn-estimate.html"),
     ("06_Garage-Siding-Doors-Trim", "garage-exterior-estimate.html"),
-    ("08_Downstairs-Bathroom", "bathroom-estimate.html"),
 ]
 
 # Exact-string redactions. Ordered most-specific first so the phone number is

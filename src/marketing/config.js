@@ -115,16 +115,24 @@ export const SKILLS = [
   ],
 ];
 
-/** Real reports these skills produced, published as-is (address and phone removed). */
+/**
+ * Real reports these skills produced, published as-is (address and phone removed).
+ *
+ * Revised 2026-09-27: the bathroom report was swapped for the pig barn so these
+ * two ARE the two executed case studies on /projects. Every visitor can now read
+ * the estimate and then the plan-vs-actual for the same job, both ways round.
+ * Order matches /projects — pig barn first (first project), garage second.
+ * Ranges and confidence below come from each report's own data block.
+ */
 export const EXAMPLES = [
+  {
+    href: '/examples/pig-barn-estimate.html',
+    name: 'Pig barn teardown',
+    meta: 'Simple · 65% confidence · 6–8 working days',
+  },
   {
     href: '/examples/garage-exterior-estimate.html',
     name: 'Garage exterior',
     meta: 'Simple · 60% confidence · 14–17 working days',
-  },
-  {
-    href: '/examples/bathroom-estimate.html',
-    name: 'Two bathrooms, gutted',
-    meta: 'Complex · 55% confidence · 16–22 working days',
   },
 ];
