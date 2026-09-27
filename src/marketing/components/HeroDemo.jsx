@@ -3,16 +3,20 @@
  * Created: 2026-06-11
  * Tightened: 2026-07-31 — three steps, three words each. The duplicate
  *   "see the proof" link was dropped; the proof strip directly below carries it.
+ * Swapped: 2026-09-27 — the garage rebuild and paint replaces the pig-barn
+ *   demolition here (Jacob's direction). The pig barn stays on /projects; it is
+ *   only off the home page. The garage is the stronger front door: a build, not
+ *   a teardown, and the calibration with the 1%-materials result behind it.
  *
- * Today: a static annotated demo — real pig-barn photo in, scope + price out.
+ * Today: a static annotated demo — real garage photo in, scope + price out.
  * Future: the live photo-upload estimator drops into this same component
  * boundary when that build ships. Keep the outer container's footprint stable
  * so the swap is a component change, not a homepage redesign.
  */
 const FLOW = [
   ['Photos in', 'one walk-around, phone camera'],
-  ['Ten minutes', 'full scope, priced'],
-  ['Then I built it', 'the plan held'],
+  ['Scope and price out', 'line by line, hours and materials'],
+  ['Then I built it', 'materials landed 1% off'],
 ];
 
 export default function HeroDemo() {
@@ -21,8 +25,8 @@ export default function HeroDemo() {
       {/* pinned-to-the-workbench accent */}
       <span className="brass-nail absolute top-3 left-1/2 -translate-x-1/2" aria-hidden="true" />
       <img
-        src="/projects/pigbarn/pigbarn-01.jpg"
-        alt="Old pig barn before demolition — scoped and priced from photos"
+        src="/projects/garage/garage-01.webp"
+        alt="1940s garage before the rebuild — scoped and priced from photos"
         className="rounded-card w-full aspect-[4/3] object-cover"
       />
       <ol className="mt-5 space-y-2.5">

@@ -29,6 +29,7 @@ The old two-sided estimator platform is **PARKED** — its code stays warm in th
 - **Vercel Hobby plan = 12 serverless function limit.** `.vercelignore` ships ONLY `api/contact.js` + `api/lib/email.js`; every other `api/` file is estimator code, excluded from deploy. Editing `.vercelignore` changes what ships — treat it as a deploy gate. History: 97 days of silent deploy failures before this fix (2026-05-31).
 - **Deploy path:** push to `main` on GitHub → Vercel auto-deploys. `vercel.json` holds security headers + SPA rewrites.
 - **DNS:** GoDaddy. **MX records = Google Workspace — NEVER touch.** Full infra facts: workspace memory `project_buildit_deploy_infra.md`.
+- **No phone number is published anywhere on this site** (2026-09-27, Jacob). `CONTACT` has no `phone`/`phoneHref` key, there are no `tel:` links, and the JSON-LD carries no `telephone`. Email and the contact form are the only channels. Do not reintroduce one without his say-so.
 
 ## Tech Stack (actual, current)
 
@@ -38,7 +39,7 @@ The old two-sided estimator platform is **PARKED** — its code stays warm in th
 | Routing | **react-router-dom** (marketing site) — the "state-based, no router" rule belonged to the parked estimator app, which keeps its own state machine in `src/App.jsx` |
 | Hosting | Vercel (static + 1 serverless function) |
 | Contact form | `api/contact.js` → Resend |
-| Payments | **Stripe Payment Links** (no checkout code in the live path) — URLs live in `src/marketing/config.js` |
+| Payments | **None in the live path** (2026-09-27). Flat prices retired — every offering is scoped and quoted, so every CTA lands on the contact form. Retired Stripe Payment Link URLs are parked in `config.js` |
 | Parked estimator deps | @anthropic-ai/sdk, Supabase, @react-pdf/renderer, stripe — in package.json but unused by the live site |
 
 ## Site Map (7→4 pages 2026-07-05, 4→2 2026-07-31, `/pricing` restored same day)
@@ -53,7 +54,8 @@ The old two-sided estimator platform is **PARKED** — its code stays warm in th
 
 - Marketing code lives in `src/marketing/` (pages, components, `SiteLayout.jsx`, `config.js`).
 - **HeroDemo slot** on the landing hero (`src/marketing/components/HeroDemo.jsx`) is the designated estimator drop-in point — launching the demo is a component swap, not a redesign.
-- `src/marketing/config.js` is the single source for contact info, Stripe Payment Link URLs, and the `PRICING` table (which replaced the old `TRAINING_TIERS` prose cards).
+- `src/marketing/config.js` is the single source for contact info, the `PRICING` table, and the `SKILLS` / `EXAMPLES` copy.
+- `public/examples/` — two real v3 estimate reports served as static HTML, linked from `/pricing`. **Generated, not hand-written:** they are redacted copies of the 250 Hop City Rd v3 estimates (workspace client folder). The street address and phone number are stripped; the generator asserts neither survives. Re-publish by re-running `scripts/publish_examples.py`, never by hand-editing the copies.
 
 ## Copy Budget (set 2026-07-31)
 
@@ -64,8 +66,8 @@ table can. Before adding copy, check whether an existing table already carries i
 
 | Page | Words | Status |
 |---|---|---|
-| `/` | ~240 | **Budget applies.** Keep it here. |
-| `/pricing` | ~270 | **Exempt** (Jacob) — its job is to close a sale |
+| `/` | **297** (measured 2026-09-27) | **Over the ~240 target by ~57.** The overage is the SkillsSection, added the same day as the site's value proposition. Kept compact deliberately — names only, no descriptions, with the depth pushed to `/pricing`. ⚠️ **Jacob to rule:** re-baseline the target to ~300, or trim elsewhere. |
+| `/pricing` | **689** (measured 2026-09-27) | **Exempt** (Jacob) — its job is to close a sale |
 | `/projects` | ~1,140 | **Exempt** (Jacob) — its job is to explain the estimator |
 
 ## Published Numbers Are Sourced, Never Typed
@@ -105,7 +107,7 @@ govern. Do not build the components it describes.
 - Typography: Architects Daughter (headings/nav/buttons), Libre Baskerville (body), Caveat bold (ALL dollar amounts + stats). **Never** Inter, Roboto, Arial, system-ui, monospace.
   - Architects Daughter swallows colons — `1:1` renders as `11`. Spell it out.
 - Primary action color: iron/charcoal (not blue, not red). Tap targets ≥ 44x44px.
-- **User-facing language rule: no UI text references AI, Claude, or machine learning.** Customer-facing framing: "Estimating software built by Jacob Meyers."
+- **User-facing language rule — OVERRIDDEN 2026-09-27 (Jacob).** The old rule barred AI/Claude from UI text; the estimating skills are now the product being sold, so the site names them. The override is scoped to *the skills as a product*: everywhere else, the "Estimating software built by Jacob Meyers" framing still stands, and the published example reports keep it.
 - No MasterBeaver image in HTML footers.
 
 ### Motion Layer (added 2026-07-31, approved as motion-only)

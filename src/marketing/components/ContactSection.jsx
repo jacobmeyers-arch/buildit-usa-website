@@ -5,6 +5,9 @@
  * Every marketing page ends here: same layout, same form, copy tuned per page
  * via props. The nav's "Book a free intro" button anchors to id="contact", so
  * this section must appear exactly once on every routed page.
+ *
+ * Revised: 2026-09-27 — phone number removed from the site (Jacob's direction).
+ *   The form and the email address are the only ways in now.
  */
 import { Section, Eyebrow } from './primitives.jsx';
 import ContactForm from './ContactForm.jsx';
@@ -25,15 +28,12 @@ export default function ContactSection({
           <h2 className="text-3xl mobile:text-4xl text-parchment mt-2 leading-tight">{title}</h2>
           {intro && <p className="text-warm-sand text-lg mt-5 leading-relaxed">{intro}</p>}
           {children}
-          <div className="mt-8 space-y-2">
+          <div className="mt-8">
             <a
               href={`mailto:${CONTACT.email}`}
               className="block text-parchment hover:text-brass-light transition-colors break-all"
             >
               {CONTACT.email}
-            </a>
-            <a href={CONTACT.phoneHref} className="block text-parchment hover:text-brass-light transition-colors">
-              {CONTACT.phone}
             </a>
           </div>
         </div>

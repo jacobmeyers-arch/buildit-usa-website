@@ -1,38 +1,40 @@
 /**
  * config.js — Build It USA marketing site configuration
  *
- * Central place for public contact details, Stripe Payment Link URLs,
- * and the pricing table shared across the site.
+ * Central place for public contact details, the offerings table, and the
+ * estimating-skill description shared across the site.
  * Created: 2026-05-31
  * Rewritten: 2026-07-31 — TRAINING_TIERS (prose cards) replaced by PRICING
  *   (one table). Every offering is now one row: name, price, one line, one action.
+ * Revised: 2026-09-27 — three changes, all Jacob's direction:
+ *   1. PHONE REMOVED from the site. CONTACT is email-only; there is no `phone`
+ *      or `phoneHref` key any more. Do not reintroduce one without his say-so.
+ *   2. NO FLAT RATES. Every offering is quoted. `price` reads "Ask" across the
+ *      board (the free intro stays "Free" — it is not a rate being quoted).
+ *      Up-front Stripe purchase is retired with it; see RETIRED below.
+ *   3. SKILLS added — the estimating tools are now the published value of the
+ *      site, not just the thing behind the service.
  *
- * PAYMENT LINKS: paste the URLs from your Stripe dashboard
- *   (Dashboard → Payment Links → + New → one per offering).
- *   While a link is blank, that row's button falls back to the contact form.
+ * RETIRED 2026-09-27 — Stripe Payment Links. Nothing is sold at a fixed price
+ * any more, so every row routes to the contact form and these URLs are dormant.
+ * The links themselves still exist in the Stripe dashboard; kept here so they
+ * are recoverable without git archaeology if flat pricing ever comes back.
+ *   oneOnOne:   https://buy.stripe.com/28EbJ04cObeC1XpfJu6EU00   ($100)
+ *   deepDive:   https://buy.stripe.com/aFa5kC5gSbeCgSj0OA6EU01   ($300)
+ *   wholeHouse: https://buy.stripe.com/5kQaEWfVwbeC9pR54Q6EU02   ($500)
  */
 
 export const CONTACT = {
   name: 'Jacob Meyers',
   email: 'jacob.meyers@buildit-usa.com',
-  phone: '518.928.9130',
-  phoneHref: 'tel:+15189289130',
-};
-
-// Paste your Stripe Payment Link URLs here (leave blank to fall back to contact form).
-export const PAYMENT_LINKS = {
-  oneOnOne: 'https://buy.stripe.com/28EbJ04cObeC1XpfJu6EU00',  // $100 flat — 1:1 Follow-Up
-  deepDive: 'https://buy.stripe.com/aFa5kC5gSbeCgSj0OA6EU01',  // $300 — 4-Hour Deep Dive
-  wholeHouse: 'https://buy.stripe.com/5kQaEWfVwbeC9pR54Q6EU02', // $500 — Whole-Home Planner
 };
 
 /**
- * The whole catalog, as table rows. `payment` keys map into PAYMENT_LINKS;
- * rows without one route to the contact form.
+ * The whole catalog, as table rows. Nothing carries a flat price: every job is
+ * scoped and quoted, so `price` is "Ask" and every button lands on the form.
  *   note   — the single line of explanation the row gets
  *   detail — "what you get", for the /pricing page only. Kept as short comma-
  *            separated items so the page stays a table, not a wall of cards.
- *            Nobody clicks a $500 button off a one-liner.
  *   cta    — button label
  */
 export const PRICING = [
@@ -40,39 +42,89 @@ export const PRICING = [
     name: '1-hour intro',
     price: 'Free',
     note: 'A working session. You leave using it.',
-    detail: 'Custom instructions built with you on the spot; the reverse-prompting method; open door afterward',
+    detail:
+      'Your Claude set up with you on the spot; one estimating skill installed and run on a real project of yours; the reverse-prompting method; open door afterward',
     cta: 'Book',
   },
   {
     // "1:1" was unreadable in Architects Daughter — the colon vanishes.
     name: 'One-on-one follow-up',
-    price: '$100',
+    price: 'Ask',
     note: 'One real bottleneck, solved together.',
-    detail: 'Context files and workflow for your trade; one current bottleneck solved; a repeatable system, not a one-off answer',
-    cta: 'Book & pay',
-    payment: 'oneOnOne',
+    detail:
+      'Context files and workflow for your trade; one current bottleneck solved; a repeatable system, not a one-off answer',
+    cta: 'Get a quote',
   },
   {
-    name: '4-hour deep dive',
-    price: '$300',
-    note: 'The full buildout. A system that sharpens with use.',
-    detail: 'Context files, memory, end-of-session protocols; a setup that compounds across every job; you walk out running it',
-    cta: 'Book & pay',
-    payment: 'deepDive',
+    name: 'Full buildout',
+    price: 'Ask',
+    note: 'The whole process, installed. Yours to sharpen.',
+    detail:
+      'Every Build It USA skill installed in your Claude; context files, memory, end-of-session protocols; how to tune a skill as you learn the job, and how to write your own; a setup that compounds across every project',
+    cta: 'Get a quote',
   },
   {
     name: 'Whole-Home Planner',
-    price: '$500',
+    price: 'Ask',
     note: 'Five projects scoped, priced, sequenced. One report.',
-    detail: 'Five priority projects, each a real scope of work; a cost range with the big drivers called out; prioritized and sequenced; one report you budget against',
-    cta: 'Book & pay',
-    payment: 'wholeHouse',
+    detail:
+      'Five priority projects, each a real scope of work; a cost range with the big drivers called out; prioritized and sequenced; one report you budget against',
+    cta: 'Get a quote',
   },
   {
     name: 'Property work',
-    price: 'Quoted',
+    price: 'Ask',
     note: 'Build, repair, drainage, equipment. Priced onsite.',
-    detail: 'Build & repair — decks, outbuildings, barns, fencing; land & drainage; equipment and seasonal labor',
-    cta: 'Ask',
+    detail:
+      'Build & repair — decks, outbuildings, barns, fencing; land & drainage; equipment and seasonal labor',
+    cta: 'Get a quote',
+  },
+];
+
+/**
+ * SKILLS — what the estimating tools actually do. Added 2026-09-27.
+ *
+ * These are the live Claude skills behind every estimate on this site (workspace
+ * `Build It USA/Tools/`). The site now says so plainly: the 2026-07-31 rule
+ * against naming AI in customer-facing copy was overridden by Jacob on
+ * 2026-09-27 for exactly this reason — the tool is the product now.
+ *
+ * Each row is [name, what it does]. Keep it to what the tool provably does;
+ * every claim here traces to the tool instructions or a published report.
+ */
+export const SKILLS = [
+  [
+    'A ballpark you can budget against',
+    'Photos and a walkthrough in. Out comes a real scope of work priced line by line — then priced again at each delivery tier, so hiring it out and doing it yourself sit side by side.',
+  ],
+  [
+    'The breakdown',
+    'Every line carries its own hours, crew size, materials and subtotal. Nothing is a lump sum you have to take on faith.',
+  ],
+  [
+    'The questions it needs answered',
+    'It asks one at a time and waits. Anything still unresolved prints as an action item to lock the price — a flagged unknown, never a silent guess.',
+  ],
+  [
+    'Sequence and schedule',
+    'Operations in the order they have to happen, with crew size and a working-day duration for the whole job.',
+  ],
+  [
+    'A check on its own math',
+    'Every figure renders from one machine-readable block inside the report, and a linter recomputes the whole document from it. A total that drifts by more than a dollar fails the report instead of shipping.',
+  ],
+];
+
+/** Real reports these skills produced, published as-is (address and phone removed). */
+export const EXAMPLES = [
+  {
+    href: '/examples/garage-exterior-estimate.html',
+    name: 'Garage exterior',
+    meta: 'Simple · 60% confidence · 14–17 working days',
+  },
+  {
+    href: '/examples/bathroom-estimate.html',
+    name: 'Two bathrooms, gutted',
+    meta: 'Complex · 55% confidence · 16–22 working days',
   },
 ];

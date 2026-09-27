@@ -3,6 +3,11 @@
  * Created: 2026-05-31
  *
  * Includes a hidden honeypot field for basic spam protection.
+ *
+ * Revised: 2026-09-27 — phone removed from the site (Jacob's direction), so the
+ *   "in a hurry, call" line went with it. INTERESTS re-synced to the renamed
+ *   PRICING rows; it has to mirror config.js or the emailed enquiry names an
+ *   offering that no longer exists.
  */
 import { useState } from 'react';
 import { CONTACT } from '../config.js';
@@ -11,7 +16,7 @@ import { CONTACT } from '../config.js';
 const INTERESTS = [
   'Free 1-hour intro',
   'One-on-one follow-up',
-  '4-hour deep dive',
+  'Full buildout',
   'Whole-Home Planner',
   'Property work',
   'General question',
@@ -62,8 +67,11 @@ export default function ContactForm({ defaultInterest = INTERESTS[0] }) {
       <div className="card-workshop p-8 text-center">
         <h3 className="text-2xl text-parchment">Message sent — thank you.</h3>
         <p className="text-warm-sand mt-3">
-          I'll get back to you personally, usually within a day. In a hurry? Call{' '}
-          <a href={CONTACT.phoneHref} className="text-brass-light hover:underline">{CONTACT.phone}</a>.
+          I'll get back to you personally, usually within a day. In a hurry, email{' '}
+          <a href={`mailto:${CONTACT.email}`} className="text-brass-light hover:underline break-all">
+            {CONTACT.email}
+          </a>
+          .
         </p>
       </div>
     );

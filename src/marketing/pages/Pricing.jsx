@@ -7,23 +7,25 @@
  * when they're ready to pay — the home page keeps a compact pointer to it.
  *
  * Exempt from the site copy budget by Jacob's direction: this page's job is to
- * close, and a $500 button needs more than a one-liner behind it. Still a table,
- * not cards — the "what you get" column carries the substance.
+ * close. Still a table, not cards — the "what you get" column carries the substance.
+ *
+ * Revised: 2026-09-27 (Jacob's direction) — NO FLAT RATES. Every offering is
+ * scoped and quoted, so the up-front Stripe purchase is gone: there is no
+ * payHref any more and every button lands on the contact form. The retired
+ * Payment Link URLs are parked in config.js if flat pricing ever comes back.
+ * SkillsSection (full) added below the table — the skills are what is actually
+ * being bought, so the page has to show what they produce.
  */
 import { Section, Eyebrow, Reveal, Rule } from '../components/primitives.jsx';
+import SkillsSection from '../components/SkillsSection.jsx';
 import ContactSection from '../components/ContactSection.jsx';
 import usePageMeta from '../usePageMeta.js';
-import { PRICING, PAYMENT_LINKS } from '../config.js';
-
-function payHref(row) {
-  const link = row.payment ? PAYMENT_LINKS[row.payment] : '';
-  return { href: link || '#contact', external: Boolean(link) };
-}
+import { PRICING } from '../config.js';
 
 export default function Pricing() {
   usePageMeta(
     'Pricing — Build It USA',
-    'Every offering and what it costs: a free 1-hour intro, $100 follow-up, $300 deep dive, the $500 Whole-Home Planner, and quoted property work.'
+    'Start with a free hour. Everything after that is scoped and quoted to your job — no flat rates. See what the estimating skills produce before you book.'
   );
 
   return (
@@ -33,10 +35,11 @@ export default function Pricing() {
         <Reveal className="max-w-3xl">
           <Eyebrow>Pricing</Eyebrow>
           <h1 className="text-4xl mobile:text-5xl leading-tight text-parchment mt-3">
-            Everything, and what it costs.
+            Everything, and how it gets priced.
           </h1>
           <p className="text-warm-sand text-lg mt-5 leading-relaxed">
-            Flat prices, paid up front. No estimates on the training, no hourly surprises.
+            The first hour is free. After that, no flat rates and no rate card — I scope your
+            job and quote it, the same way I'd want it done for me.
           </p>
         </Reveal>
       </section>
@@ -44,10 +47,8 @@ export default function Pricing() {
       <Section className="!pt-4">
         {/* Mobile: stacked cards — a 4-column table doesn't survive a phone. */}
         <div className="space-y-3 mobile:hidden">
-          {PRICING.map((row, i) => {
-            const { href, external } = payHref(row);
-            return (
-              <Reveal key={row.name} delay={i * 60} className="card-workshop p-5">
+          {PRICING.map((row, i) => (
+            <Reveal key={row.name} delay={i * 60} className="card-workshop p-5">
                 <div className="flex items-baseline justify-between gap-3">
                   <div className="font-pencil-hand text-lg text-parchment">{row.name}</div>
                   <div className="font-hand text-3xl text-brass-light leading-none whitespace-nowrap">
@@ -56,16 +57,13 @@ export default function Pricing() {
                 </div>
                 <p className="text-warm-sand text-sm mt-2 leading-snug">{row.detail}</p>
                 <a
-                  href={href}
-                  target={external ? '_blank' : undefined}
-                  rel={external ? 'noreferrer' : undefined}
+                  href="#contact"
                   className="btn-iron-light !py-2 !px-5 text-base block text-center mt-4"
                 >
-                  {row.cta}
-                </a>
-              </Reveal>
-            );
-          })}
+                {row.cta}
+              </a>
+            </Reveal>
+          ))}
         </div>
 
         {/* Desktop: the table */}
@@ -80,10 +78,8 @@ export default function Pricing() {
               </tr>
             </thead>
             <tbody className="divide-y divide-iron-mid align-top">
-              {PRICING.map((row) => {
-                const { href, external } = payHref(row);
-                return (
-                  <tr key={row.name} className="text-warm-sand row-live">
+              {PRICING.map((row) => (
+                <tr key={row.name} className="text-warm-sand row-live">
                     <td className="py-4 pr-4 text-parchment font-pencil-hand text-lg whitespace-nowrap">
                       {row.name}
                     </td>
@@ -95,26 +91,27 @@ export default function Pricing() {
                     </td>
                     <td className="py-4 pl-3 text-right">
                       <a
-                        href={href}
-                        target={external ? '_blank' : undefined}
-                        rel={external ? 'noreferrer' : undefined}
+                        href="#contact"
                         className="btn-iron-light !py-2 !px-5 text-base whitespace-nowrap"
                       >
                         {row.cta}
                       </a>
-                    </td>
-                  </tr>
-                );
-              })}
+                </td>
+              </tr>
+              ))}
             </tbody>
           </table>
         </Reveal>
 
         <p className="text-warm-sand/80 text-sm mt-5">
-          Follow-ups after any session are free. Open door. Paid sessions are booked through
-          Stripe — you'll get a receipt and I'll email you within a day to schedule.
+          Follow-ups after any session are free. Open door. Tell me what you're trying to get
+          done and I'll come back with a scope and a number — usually within a day.
         </p>
       </Section>
+
+      <Rule />
+
+      <SkillsSection />
 
       <Rule />
 

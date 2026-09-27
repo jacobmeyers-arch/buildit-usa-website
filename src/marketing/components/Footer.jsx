@@ -5,6 +5,8 @@
  *   repo convention against the mascot in footers, and had been live). The nav
  *   column went with it: with /services and /about absorbed into the home page,
  *   a one-link column was noise.
+ * Revised: 2026-09-27 — phone number removed from the site (Jacob's direction).
+ *   Email is the only published channel. CONTACT no longer carries a phone key.
  */
 import { Link } from 'react-router-dom';
 import { CONTACT } from '../config.js';
@@ -41,12 +43,6 @@ export default function Footer() {
             className="text-parchment hover:text-brass-light transition-colors break-all"
           >
             {CONTACT.email}
-          </a>
-          <a
-            href={CONTACT.phoneHref}
-            className="text-parchment hover:text-brass-light transition-colors"
-          >
-            {CONTACT.phone}
           </a>
         </div>
       </div>

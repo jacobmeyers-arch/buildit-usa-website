@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Build It USA — Residential Remodel Estimate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --black: #1A1A1A; --dark: #333333; --mid: #777777; --light: #F2F2F2; --white: #FFFFFF; --alt-row: #F5F5F5; --border: #CCCCCC; }
+    body { font-family: 'Libre Baskerville', Georgia, serif; font-size: 14.5px; color: var(--dark); background: #C0C0C0; line-height: 1.55; letter-spacing: 0.01em; text-align: justify; -webkit-font-smoothing: antialiased; }
+    .document { max-width: 8.5in; margin: 24px auto; background: var(--white); box-shadow: 0 4px 24px rgba(0,0,0,0.15); padding: 0.5in 0.55in 0.4in 0.55in; }
+    .document + .document { margin-top: 40px; }
+    .divider { height: 1px; background: var(--mid); margin: 18px 0; }
+    .divider-strong { height: 2px; background: var(--black); margin: 22px 0; }
+    .doc-header { text-align: center; padding: 10px 0; }
+    .doc-header-title { font-family: 'Architects Daughter', cursive; font-size: 32px; color: var(--black); letter-spacing: 2px; }
+    .doc-header-subtitle { font-family: 'Libre Baskerville', serif; font-size: 14px; font-style: italic; color: var(--mid); margin-top: 3px; }
+    .roadmap { display: flex; justify-content: center; align-items: flex-start; padding: 14px 0 8px 0; }
+    .roadmap-item { text-align: center; flex: 1; }
+    .roadmap-name { font-family: 'Architects Daughter', cursive; font-size: 17px; color: var(--black); }
+    .roadmap-desc { font-family: 'Libre Baskerville', serif; font-size: 13px; color: var(--mid); line-height: 1.4; margin-top: 3px; }
+    .roadmap-arrow { color: var(--mid); font-size: 22px; line-height: 1; padding-top: 2px; flex-shrink: 0; }
+    .section-title { font-family: 'Architects Daughter', cursive; font-size: 22px; color: var(--black); margin-bottom: 8px; page-break-after: avoid; }
+    .subsection-title { font-family: 'Architects Daughter', cursive; font-size: 17px; color: var(--black); margin-bottom: 5px; page-break-after: avoid; }
+    table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; line-height: 1.4; border: 2px solid var(--black); page-break-inside: auto; }
+    thead { display: table-header-group; }
+    tr { page-break-inside: avoid; }
+    thead th { background: var(--white); color: var(--black); font-family: 'Architects Daughter', cursive; font-size: 14px; font-weight: normal; letter-spacing: 0.03em; padding: 8px 6px; text-align: center; border-bottom: 2px solid var(--black); }
+    tbody td { padding: 5px 6px; border-bottom: 1px solid var(--border); color: var(--dark); font-family: 'Libre Baskerville', serif; font-size: 13px; vertical-align: middle; text-align: center; }
+    tbody tr:nth-child(even) { background: var(--alt-row); }
+    tbody tr.total-row { background: var(--black); }
+    tbody tr.total-row td { color: var(--white); font-weight: 700; border-bottom: 2px solid var(--black); padding: 8px 6px; }
+    tbody tr:last-child td { border-bottom: 2px solid var(--black); }
+    tbody tr.highlight-row { background: var(--light); border-top: 2px solid var(--dark); border-bottom: 2px solid var(--dark); }
+    tbody tr.highlight-row td { font-weight: 700; color: var(--black); }
+    .summary-table th { width: 130px; font-family: 'Architects Daughter', cursive; background: var(--white); color: var(--black); text-align: center; font-size: 14px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 6px 8px; }
+    .summary-table td { font-family: 'Libre Baskerville', serif; text-align: center; border-bottom: 1px solid var(--border); padding: 6px 8px; }
+    .summary-table tr:last-child th, .summary-table tr:last-child td { border-bottom: 2px solid var(--black); }
+    .dollar { font-family: 'Caveat', cursive; font-weight: 700; font-size: 15px; color: var(--black); letter-spacing: 0.03em; white-space: nowrap; }
+    .dollar-total { font-family: 'Caveat', cursive; font-weight: 700; font-size: 18px; color: var(--white); letter-spacing: 0.02em; white-space: nowrap; }
+    .dollar-hero { font-family: 'Caveat', cursive; font-weight: 700; font-size: 32px; color: var(--black); text-align: center; margin: 12px 0; }
+    .conf-score { font-family: 'Caveat', cursive; font-weight: 700; font-size: 16px; color: var(--black); letter-spacing: 0.03em; }
+    .conf-low { color: var(--mid); }
+    .callout { background: var(--light); border-left: 4px solid var(--dark); padding: 12px 16px; margin: 12px 0; page-break-inside: avoid; }
+    .callout-warn { background: var(--light); border-left: 4px solid var(--black); padding: 12px 16px; margin: 12px 0; page-break-inside: avoid; }
+    .callout-title { font-family: 'Architects Daughter', cursive; font-size: 16px; color: var(--black); margin-bottom: 5px; }
+    .callout p { font-size: 13px; line-height: 1.5; color: var(--dark); margin-bottom: 0.5em; }
+    .callout p:last-child { margin-bottom: 0; }
+    .callout-warn p { font-size: 13px; line-height: 1.5; color: var(--dark); margin-bottom: 0.5em; }
+    .callout-warn p:last-child { margin-bottom: 0; }
+    ul.bullets { list-style: none; padding: 0; margin: 6px 0; }
+    ul.bullets > li { font-size: 14px; line-height: 1.5; color: var(--dark); padding: 3px 0 3px 22px; position: relative; margin-bottom: 4px; }
+    ul.bullets > li::before { content: '\25CF'; position: absolute; left: 4px; top: 5px; color: var(--black); font-size: 10px; }
+    ul.bullets > li > ul { list-style: none; padding: 0; margin: 3px 0 2px 0; }
+    ul.bullets > li > ul > li { font-size: 14px; line-height: 1.5; color: var(--dark); padding: 2px 0 2px 22px; position: relative; margin-bottom: 2px; }
+    ul.bullets > li > ul > li::before { content: '\25CB'; position: absolute; left: 4px; top: 5px; color: var(--mid); font-size: 10px; }
+    .body-text { font-size: 14px; line-height: 1.55; color: var(--dark); margin: 8px 0; }
+    .caption { font-size: 12px; font-style: italic; color: var(--mid); line-height: 1.4; }
+    .step { margin: 8px 0; page-break-inside: avoid; }
+    .step-title { font-family: 'Architects Daughter', cursive; font-size: 15px; color: var(--black); }
+    .step-num { font-family: 'Caveat', cursive; font-weight: 700; font-size: 17px; color: var(--black); margin-right: 4px; }
+    .step-desc { font-size: 14px; font-style: italic; color: var(--dark); line-height: 1.5; margin-top: 2px; padding-left: 22px; }
+    .next-steps { font-size: 14px; line-height: 1.7; color: var(--dark); text-align: left; }
+    .cnum { font-family: 'Caveat', cursive; font-weight: 700; font-size: 15px; letter-spacing: 0.03em; }
+    .nowrap { white-space: nowrap; }
+    .conf-hero { text-align: center; margin: 14px 0; }
+    .conf-hero-score { font-family: 'Caveat', cursive; font-weight: 700; font-size: 36px; color: var(--black); }
+    .conf-hero-label { font-family: 'Architects Daughter', cursive; font-size: 15px; color: var(--mid); }
+    .legend { border-left: 2px dashed var(--mid); padding: 8px 0 8px 14px; margin: 10px 0 10px 8px; }
+    .legend-item { font-size: 13px; line-height: 1.6; color: var(--dark); }
+    .doc-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; margin-top: 24px; border-top: 2px solid var(--black); page-break-inside: avoid; }
+    .footer-contact { text-align: center; flex: 1; }
+    .footer-brand { font-family: 'Architects Daughter', cursive; font-size: 18px; color: var(--black); letter-spacing: 2px; }
+    .footer-name { font-family: 'Architects Daughter', cursive; font-size: 15px; color: var(--dark); margin-bottom: 2px; }
+    .footer-details { font-size: 12px; color: var(--dark); line-height: 1.6; }
+    .footer-sep { color: var(--mid); margin: 0 6px; }
+    .footer-sub { font-size: 10px; color: var(--mid); margin-top: 2px; }
+    .footer-qr { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+    .footer-qr svg { width: 70px; height: 70px; }
+    .footer-qr-label { font-family: 'Caveat', cursive; font-size: 11px; font-weight: 600; color: var(--mid); margin-top: 2px; }
+    @media print {
+      @page { size: letter; margin: 0.5in; }
+      body { background: none; font-size: 11pt; }
+      .document { margin: 0; box-shadow: none; padding: 0; max-width: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .document + .document { page-break-before: always; margin-top: 0; }
+      table { font-size: 10pt; } thead th { font-size: 10.5pt; }
+      .dollar { font-size: 11pt; } .dollar-total { font-size: 13pt; }
+      tr { page-break-inside: avoid; }
+      .section-title, .subsection-title { page-break-after: avoid; }
+      p { orphans: 2; widows: 2; }
+    }
+    @media screen { body { padding: 20px 0; } }
+  </style>
+</head>
+<body>
+
+<!-- DATA BLOCK — exactly one per file. Built first; every figure below renders from it. -->
+<script type="application/json" id="estimate-data">
+{
+  "model_version": "v3-2026-06",
+  "project": "Downstairs Bathroom — Gut & Reconfigure (2 full → 1 full + 1 half)",
+  "tier": "Complex",
+  "multiplier": 2.0,
+  "confidence_pct": 55,
+  "verification_basis": "Documented owner walkthrough 2026-04-01 (Session-02): 9 photos + background assessment filed in client folder (20260401_Session-02/outputs/08_Downstairs-Bathroom/). Verifies visible conditions, dimensions, and scope intent. In-wall unknowns (joist routing, panel capacity, subfloor moisture, heat type) remain unverified — confidence held at 55%, below the 60% no-site-visit cap.",
+  "jurisdiction": "Town of Ballston building department",
+  "lines": [
+    {"section": "demolition", "desc": "Demo — gut both rooms to studs + subfloor, fixtures out, partition out; containment up; lead-safe site practice (isolation + PPE) on scraped surfaces", "man_hours": 32, "crew": 2, "rate": 34, "material": 0, "subtotal": 1088},
+    {"section": "framing", "desc": "Framing — relocate partition wall per plan; blocking for vanities and accessories", "man_hours": 10, "crew": 1, "rate": 50, "material": 115, "subtotal": 615},
+    {"section": "plumbing", "desc": "Plumbing rough — all-new DWV + supply through framed 2x8 joist bays; set 30x60 alcove tub; pressure test (sub; tub unit in material)", "man_hours": 48, "crew": 2, "rate": 115, "material": 1050, "subtotal": 6570},
+    {"section": "electrical", "desc": "Electrical — new circuits from panel, GFCIs, switches, vanity + ceiling lights, exhaust fan unit; rough inspection (sub)", "man_hours": 20, "crew": 1, "rate": 100, "material": 700, "subtotal": 2700},
+    {"section": "insulation", "desc": "Insulation + vapor barrier at exterior wall bays exposed by demo", "man_hours": 5, "crew": 1, "rate": 35, "material": 100, "subtotal": 275},
+    {"section": "drywall", "desc": "Drywall — moisture-resistant board, hang, tape, finish, prime (sub)", "man_hours": 28, "crew": 2, "rate": 66, "material": 300, "subtotal": 2148},
+    {"section": "tile", "desc": "Tile — floor ~62 SF + tub surround ~50 SF, backer + waterproofing membrane, grout + seal (sub); builder-grade stock tile in material", "man_hours": 40, "crew": 1, "rate": 78, "material": 1175, "subtotal": 4295},
+    {"section": "fixtures", "desc": "Vanities — 30in + 42in stock vanities with tops, set, scribe, secure (builder grade / stock)", "man_hours": 10, "crew": 1, "rate": 50, "material": 1500, "subtotal": 2000},
+    {"section": "plumbing", "desc": "Plumbing trim — set 2 toilets, 2 faucets + drains, tub/shower valve trim, final connections (sub; toilets + faucets + valve in material)", "man_hours": 8, "crew": 1, "rate": 110, "material": 1150, "subtotal": 2030},
+    {"section": "finish-carpentry", "desc": "Trim, doors, paint — base, casing, door(s), walls + ceiling + trim paint, caulk; lead-safe prep practice on any sanding", "man_hours": 20, "crew": 1, "rate": 48, "material": 300, "subtotal": 1260},
+    {"section": "allowances", "desc": "Allowance — subfloor spot repair at tub + threshold (hold-point inspection during demo)", "man_hours": 6, "crew": 1, "rate": 34, "material": 350, "subtotal": 554},
+    {"section": "allowances", "desc": "Allowance — heat: remove/reinstate baseboard run in both rooms (type verified in walls at field visit)", "man_hours": 0, "crew": 0, "rate": 0, "material": 750, "subtotal": 750},
+    {"section": "general-conditions", "desc": "Cleanup, haul-out load, final punch + systems test", "man_hours": 7, "crew": 1, "rate": 34, "material": 0, "subtotal": 238},
+    {"section": "permits", "desc": "Building permit — Town of Ballston building department (wall relocation + plumbing reroute)", "man_hours": 0, "crew": 0, "rate": 0, "material": 650, "subtotal": 650}
+  ],
+  "soft_costs": [
+    {"desc": "Contingency — renovation (12% of direct costs; carries the mold, fan-venting, and wiring discovery flags)", "amount": 3021},
+    {"desc": "Site protection — occupied home: floor protection, dust walls, daily containment upkeep", "amount": 500},
+    {"desc": "Disposal — dumpster, 2 pulls (gut debris + tipping fees)", "amount": 700}
+  ],
+  "hidden_conditions": [
+    {"flag": "Subfloor moisture/rot at tub and threshold — highest-risk area on the 2x8 framed system", "disposition": "allowance", "amount": 554},
+    {"flag": "Heat in gutted walls — hydronic baseboard assumed; remove/reinstate rides the plumber critical path", "disposition": "allowance", "amount": 750},
+    {"flag": "Mold/moisture behind 1970s-80s green fiberglass tub surround", "disposition": "contingency", "amount": 1200},
+    {"flag": "Exhaust fan discoloration — possible failed venting / ceiling cavity moisture", "disposition": "contingency", "amount": 600},
+    {"flag": "Older wiring in walls (brass sconce vintage) — undersized conductors possible", "disposition": "contingency", "amount": 800}
+  ],
+  "direct_total": 25173,
+  "midpoint": 58788,
+  "range_low": 45561,
+  "range_high": 72015
+}
+</script>
+
+<!-- ================================================================ -->
+<!-- HOMEOWNER ESTIMATE                                                -->
+<!-- ================================================================ -->
+<section class="document">
+  <div class="doc-header">
+    <div class="doc-header-title">Build It USA</div>
+    <div class="doc-header-subtitle">Residential Remodel Estimate</div>
+  </div>
+  <div class="divider-strong"></div>
+
+  <div class="roadmap">
+    <div class="roadmap-item"><div class="roadmap-name">Project Details</div><div class="roadmap-desc">Property &amp; site</div></div>
+    <div class="roadmap-arrow">&rarr;</div>
+    <div class="roadmap-item"><div class="roadmap-name">Scope</div><div class="roadmap-desc">Included &amp; excluded</div></div>
+    <div class="roadmap-arrow">&rarr;</div>
+    <div class="roadmap-item"><div class="roadmap-name">Confidence</div><div class="roadmap-desc">What's known &amp; unknown</div></div>
+    <div class="roadmap-arrow">&rarr;</div>
+    <div class="roadmap-item"><div class="roadmap-name">Investment</div><div class="roadmap-desc">Range &amp; how it narrows</div></div>
+    <div class="roadmap-arrow">&rarr;</div>
+    <div class="roadmap-item"><div class="roadmap-name">Next Steps</div><div class="roadmap-desc">How to proceed</div></div>
+  </div>
+  <div class="divider"></div>
+
+  <!-- PROJECT DETAILS -->
+  <div class="section-title">Project Details</div>
+  <table class="summary-table">
+    <tbody>
+      <tr><th>Project</th><td>Downstairs Bathroom &mdash; Gut &amp; Reconfigure (2 full &rarr; 1 full + 1 half)</td></tr>
+      <tr><th>Address</th><td style="font-weight: 700;">Capital District, New York</td></tr>
+      <tr><th>Property</th><td>Single-family home; 1970s&ndash;80s era bathroom wing, two adjacent downstairs baths</td></tr>
+      <tr><th>Date</th><td>June 12, 2026</td></tr>
+      <tr><th>Prepared by</th><td>Build It USA &mdash; Jacob Meyers</td></tr>
+      <tr><th>Contact</th><td style="font-weight: 700;">jacob.meyers@buildit-usa.com</td></tr>
+      <tr><th>Est. Duration</th><td>16&ndash;22 working days</td></tr>
+    </tbody>
+  </table>
+  <div class="divider"></div>
+
+  <!-- SCOPE OF WORK -->
+  <div class="section-title">Scope of Work</div>
+  <p class="body-text" style="margin-bottom: 10px;">Both downstairs bathrooms are gutted to the studs and subfloor and rebuilt as one full bath and one half bath, with all-new plumbing and electrical throughout.</p>
+  <ul class="bullets">
+    <li>Demolition of both rooms to studs and subfloor, including the partition wall
+      <ul>
+        <li>Dust containment and floor protection through the occupied home</li>
+        <li>Hold-point inspection of the subfloor before rebuild — repair budget already included</li>
+      </ul>
+    </li>
+    <li>Reconfigured layout — new partition per plan, blocking for vanities and accessories</li>
+    <li>All-new plumbing — supply and drain/waste/vent lines, 30&times;60 alcove tub, two toilets, two vanity hookups, pressure tested</li>
+    <li>Heat kept in both rooms — baseboard removal and reinstatement budgeted; type confirmed when walls open</li>
+    <li>All-new electrical — dedicated circuits, GFCI protection, vanity and ceiling lights, new exhaust fan</li>
+    <li>Insulation and vapor barrier at exterior walls, moisture-resistant drywall, full finish and prime</li>
+    <li>Tile floor in both rooms (~62 SF) plus tub surround (~50 SF) with waterproofing membrane</li>
+    <li>Vanities (30&#8243; + 42&#8243;), tub, two toilets, faucets, and shower trim — builder-grade stock allowances</li>
+    <li>Trim, doors, and full paint</li>
+    <li>Building permit through the Town of Ballston building department — included in the price</li>
+    <li>All fasteners, adhesives, leveling compound, trim materials</li>
+    <li>Final cleanup and debris disposal</li>
+  </ul>
+  <div class="subsection-title" style="margin-top: 14px;">Not in This Scope</div>
+  <ul class="bullets">
+    <li>Finish upgrades beyond builder-grade stock allowances — moving to true mid-range tile, fixtures, and vanities adds roughly $3,900&ndash;$5,850 if selected</li>
+    <li>Specialty features — heated floor, shower niche/bench, frameless glass — not included</li>
+    <li>Adjacent laundry room — untouched beyond coordinating connections at the shared wall</li>
+    <li>Concrete or slab work — none included; the floor system is framed (2&times;8 joists) and plumbing routes through the joist bays</li>
+  </ul>
+  <div class="divider"></div>
+
+  <!-- CONFIDENCE -->
+  <div class="section-title">Estimate Confidence</div>
+  <div class="conf-hero">
+    <div class="conf-hero-label">Current Confidence</div>
+    <div class="conf-hero-score">55%</div>
+  </div>
+  <p class="body-text">This score reflects how much verified information we have. It controls the width of your price range — higher confidence means a narrower, more precise estimate. It does not determine whether the final cost is higher or lower. Only scope changes (adding or removing work) move the range itself.</p>
+  <p class="caption" style="margin-bottom: 8px;">Two scores feed it: scope completeness 85% (every cost category is priced or excluded with its impact stated) and pricing confidence 55% (selections and in-wall verifications still pending). Overall confidence is the lower of the two. The April 1 owner walkthrough — nine photos and a written background assessment on file — verified the visible conditions; what remains unverified is inside walls and floors.</p>
+  <table>
+    <thead><tr><th style="text-align: left;">What We're Assessing</th><th style="width: 80px;">Confidence</th><th style="text-align: left;">What We Know</th></tr></thead>
+    <tbody>
+      <tr><td style="text-align: left;">Demolition scope</td><td><span class="conf-score">75%</span></td><td style="text-align: left;">Both rooms strip to studs and subfloor — confirmed in the walkthrough.</td></tr>
+      <tr><td style="text-align: left;">Wall reconfiguration</td><td><span class="conf-score">70%</span></td><td style="text-align: left;">Partition appears non-bearing (attic above, no floor loads); confirmed in the field before work.</td></tr>
+      <tr><td style="text-align: left;">Plumbing</td><td><span class="conf-score">50%</span></td><td style="text-align: left;">Everything replaced new through the framed floor joists; exact routing confirmed on site.</td></tr>
+      <tr><td style="text-align: left;">Heat</td><td><span class="conf-score conf-low">40%</span></td><td style="text-align: left;">Both rooms keep heat; baseboard rework is budgeted — type confirmed when walls open.</td></tr>
+      <tr><td style="text-align: left;">Electrical</td><td><span class="conf-score">55%</span></td><td style="text-align: left;">New circuits from the existing panel; panel capacity to be verified.</td></tr>
+      <tr><td style="text-align: left;">Subfloor</td><td><span class="conf-score conf-low">40%</span></td><td style="text-align: left;">Spot repair budgeted; condition under the tub is known only at demo.</td></tr>
+      <tr><td style="text-align: left;">Tile</td><td><span class="conf-score">45%</span></td><td style="text-align: left;">Builder-grade stock budgeted (~112 SF total); your selection sets the final number.</td></tr>
+      <tr><td style="text-align: left;">Vanities &amp; fixtures</td><td><span class="conf-score">50%</span></td><td style="text-align: left;">30&#8243; + 42&#8243; stock vanities, standard tub, two toilets budgeted; selections pending.</td></tr>
+      <tr><td style="text-align: left;">Drywall, trim &amp; paint</td><td><span class="conf-score">65%</span></td><td style="text-align: left;">Full hang, tape, finish, and paint in both rooms — well-defined; door count to confirm.</td></tr>
+      <tr class="total-row"><td style="text-align: left;" colspan="2">Overall: 55%</td><td style="text-align: left;">Estimate range: &plusmn;22.5% of project midpoint</td></tr>
+    </tbody>
+  </table>
+  <div class="callout">
+    <div class="callout-title">How Your Range Narrows</div>
+    <ul class="bullets" style="margin: 6px 0;">
+      <li>More information from you (tile and fixture selections, door count, heat type once walls open) tightens the range — your target is ~70% confidence</li>
+      <li>A contractor site visit resolves remaining unknowns — their target is 85-90% to lock a price</li>
+      <li>At 60% confidence you already know whether this project is feasible for your budget</li>
+    </ul>
+  </div>
+  <div class="divider"></div>
+
+  <!-- INVESTMENT -->
+  <div class="section-title">Estimated Investment</div>
+  <div class="dollar-hero">$45,561 &ndash; $72,015</div>
+  <p class="caption" style="text-align: center; margin-top: -8px; margin-bottom: 12px;">at 55% confidence &mdash; &plusmn;$13,227 of $58,788 midpoint</p>
+
+  <!-- SERVICE BASIS -->
+  <div class="callout">
+    <div class="callout-title">Service Basis</div>
+    <p><strong>This price is for complete design-build delivery:</strong> design decisions, permits, project management, insured crews and subs, material procurement, protection and cleanup, and warranty — one builder accountable for the whole job.</p>
+    <p>It is not a materials-and-labor quote. When comparing bids, make sure each number covers this same complete service — a handyman or materials-plus-labor price that leaves you managing permits, coordination, and callbacks is pricing a different job.</p>
+  </div>
+
+  <div class="subsection-title">What This Costs by Delivery Model</div>
+  <p class="caption" style="margin-bottom: 6px;">Quotes vary by who runs the job. All three computed from the same project build-up — your estimate is the highlighted row.</p>
+  <table>
+    <thead><tr><th style="text-align: left;">Delivery Model</th><th style="width: 200px;">Estimated Range</th></tr></thead>
+    <tbody>
+      <tr><td style="text-align: left;">Self-Managed / Solo GC</td><td class="nowrap"><span class="dollar">$28,475 &ndash; $45,010</span></td></tr>
+      <tr><td style="text-align: left;">General Contractor</td><td class="nowrap"><span class="dollar">$37,588 &ndash; $59,413</span></td></tr>
+      <tr class="highlight-row"><td style="text-align: left;">Design-Build Firm &mdash; your estimate</td><td class="nowrap"><span class="dollar">$45,561 &ndash; $72,015</span></td></tr>
+    </tbody>
+  </table>
+  <p class="caption" style="margin-top: -2px; margin-bottom: 10px;"><em>Your estimate details are based on the Complex model (2.0x), delivered by a general contractor — a full two-room bathroom gut with all-new rough-ins carries Complex-tier coordination regardless of the firm's name on the truck.</em></p>
+
+  <table>
+    <thead><tr><th style="text-align: left;">Stage</th><th>Confidence</th><th>Range</th><th>Spread</th></tr></thead>
+    <tbody>
+      <tr class="highlight-row"><td style="text-align: left;">You are here</td><td><span class="conf-score">55%</span></td><td class="nowrap"><span class="dollar">$45,561 &ndash; $72,015</span></td><td class="nowrap"><span class="dollar">$26,454</span></td></tr>
+      <tr><td style="text-align: left;">After you refine scope details</td><td><span class="conf-score">70%</span></td><td class="nowrap"><span class="dollar">$49,970 &ndash; $67,606</span></td><td class="nowrap"><span class="dollar">$17,636</span></td></tr>
+      <tr><td style="text-align: left;">After contractor site visit</td><td><span class="conf-score">85%</span></td><td class="nowrap"><span class="dollar">$54,379 &ndash; $63,197</span></td><td class="nowrap"><span class="dollar">$8,818</span></td></tr>
+      <tr><td style="text-align: left;">Contractor locks price</td><td><span class="conf-score">90%+</span></td><td class="nowrap"><span class="dollar">$55,849 &ndash; $61,727</span></td><td class="nowrap"><span class="dollar">$5,878</span></td></tr>
+    </tbody>
+  </table>
+  <p class="caption" style="margin-top: 6px;">Confidence controls the width of this window around the $58,788 midpoint — it narrows as items are verified. Only scope changes move the midpoint itself.</p>
+  <div class="divider"></div>
+
+  <!-- NOTES -->
+  <div class="section-title">Important Notes</div>
+  <div class="callout">
+    <p>This estimate is based on the documented owner walkthrough (photos and written assessment on file), the floor plan, and existing-conditions review. Final pricing depends on site conditions, material availability, and scope.</p>
+    <p>If we discover anything unexpected — we stop, explain what we found and your options, and wait for your written approval before proceeding. No surprise charges.</p>
+  </div>
+  <div class="callout-warn">
+    <div class="callout-title">Important</div>
+    <p><strong>Important:</strong> This estimate covers only the items listed. It is not a bid, contract, or guarantee of project cost. Confidence reflects how much project information has been provided, not the accuracy of the final number. Actual contractor quotes may differ significantly based on scope, material selections, firm overhead, and site conditions. Do not make financial commitments (loans, deposits, contracts) based solely on this estimate.</p>
+  </div>
+  <div class="divider"></div>
+
+  <!-- NEXT STEPS -->
+  <div class="section-title">Next Steps</div>
+  <div class="next-steps">
+    <span class="step-num">1.</span> Review this estimate — is the range feasible for your budget?<br>
+    <span class="step-num">2.</span> Provide more detail (tile + fixture selections, door count, heat type) to tighten the range<br>
+    <span class="step-num">3.</span> When ready, email <strong>jacob.meyers@buildit-usa.com</strong> to schedule a contractor visit<br>
+    <span class="step-num">4.</span> Contractor verifies, locks the price, and we schedule the work
+  </div>
+  <p class="caption" style="margin-top: 8px;">This estimate is valid for 30 days. You can iterate on details or bring in a contractor at any point — even 60% confidence tells you if this project fits your budget.</p>
+
+  <!-- FOOTER -->
+  <div class="doc-footer">
+    <div class="footer-contact">
+      <div class="footer-brand">Build It USA</div>
+      <div class="footer-name">Jacob Meyers</div>
+      <div class="footer-details">jacob.meyers@buildit-usa.com</div>
+      <div class="footer-sub">Fully Insured &middot; New York State</div>
+      <div class="footer-sub">Estimating software built by Jacob Meyers &middot; Pricing model v3 &mdash; 2026-06</div>
+    </div>
+    <div class="footer-qr">
+      <svg width="33mm" height="33mm" version="1.1" viewBox="0 0 33 33" xmlns="http://www.w3.org/2000/svg"><path d="M4,4H5V5H4zM5,4H6V5H5zM6,4H7V5H6zM7,4H8V5H7zM8,4H9V5H8zM9,4H10V5H9zM10,4H11V5H10zM13,4H14V5H13zM14,4H15V5H14zM18,4H19V5H18zM20,4H21V5H20zM22,4H23V5H22zM23,4H24V5H23zM24,4H25V5H24zM25,4H26V5H25zM26,4H27V5H26zM27,4H28V5H27zM28,4H29V5H28zM4,5H5V6H4zM10,5H11V6H10zM13,5H14V6H13zM14,5H15V6H14zM15,5H16V6H15zM17,5H18V6H17zM19,5H20V6H19zM20,5H21V6H20zM22,5H23V6H22zM28,5H29V6H28zM4,6H5V7H4zM6,6H7V7H6zM7,6H8V7H7zM8,6H9V7H8zM10,6H11V7H10zM12,6H13V7H12zM14,6H15V7H14zM15,6H16V7H15zM16,6H17V7H16zM18,6H19V7H18zM19,6H20V7H19zM20,6H21V7H20zM22,6H23V7H22zM24,6H25V7H24zM25,6H26V7H25zM26,6H27V7H26zM28,6H29V7H28zM4,7H5V8H4zM6,7H7V8H6zM7,7H8V8H7zM8,7H9V8H8zM10,7H11V8H10zM12,7H13V8H12zM14,7H15V8H14zM15,7H16V8H15zM16,7H17V8H16zM17,7H18V8H17zM18,7H19V8H18zM19,7H20V8H19zM20,7H21V8H20zM22,7H23V8H22zM24,7H25V8H24zM25,7H26V8H25zM26,7H27V8H26zM28,7H29V8H28zM4,8H5V9H4zM6,8H7V9H6zM7,8H8V9H7zM8,8H9V9H8zM10,8H11V9H10zM12,8H13V9H12zM13,8H14V9H13zM16,8H17V9H16zM20,8H21V9H20zM22,8H23V9H22zM24,8H25V9H24zM25,8H26V9H25zM26,8H27V9H26zM28,8H29V9H28zM4,9H5V10H4zM10,9H11V10H10zM12,9H13V10H12zM13,9H14V10H13zM15,9H16V10H15zM16,9H17V10H16zM19,9H20V10H19zM20,9H21V10H20zM22,9H23V10H22zM28,9H29V10H28zM4,10H5V11H4zM5,10H6V11H5zM6,10H7V11H6zM7,10H8V11H7zM8,10H9V11H8zM9,10H10V11H9zM10,10H11V11H10zM12,10H13V11H12zM14,10H15V11H14zM16,10H17V11H16zM18,10H19V11H18zM20,10H21V11H20zM22,10H23V11H22zM23,10H24V11H23zM24,10H25V11H24zM25,10H26V11H25zM26,10H27V11H26zM27,10H28V11H27zM28,10H29V11H28zM12,11H13V12H12zM14,11H15V12H14zM15,11H16V12H15zM16,11H17V12H16zM18,11H19V12H18zM19,11H20V12H19zM20,11H21V12H20zM4,12H5V13H4zM6,12H7V13H6zM7,12H8V13H7zM8,12H9V13H8zM9,12H10V13H9zM10,12H11V13H10zM14,12H15V13H14zM17,12H18V13H17zM22,12H23V13H22zM23,12H24V13H23zM24,12H25V13H24zM25,12H26V13H25zM26,12H27V13H26zM5,13H6V14H5zM7,13H8V14H7zM8,13H9V14H8zM9,13H10V14H9zM11,13H12V14H11zM12,13H13V14H12zM14,13H15V14H14zM15,13H16V14H15zM17,13H18V14H17zM21,13H22V14H21zM23,13H24V14H23zM27,13H28V14H27zM5,14H6V15H5zM6,14H7V15H6zM9,14H10V15H9zM10,14H11V15H10zM15,14H16V15H15zM16,14H17V15H16zM17,14H18V15H17zM18,14H19V15H18zM19,14H20V15H19zM21,14H22V15H21zM22,14H23V15H22zM24,14H25V15H24zM25,14H26V15H25zM27,14H28V15H27zM28,14H29V15H28zM4,15H5V16H4zM5,15H6V16H5zM8,15H9V16H8zM11,15H12V16H11zM19,15H20V16H19zM20,15H21V16H20zM21,15H22V16H21zM22,15H23V16H22zM28,15H29V16H28zM4,16H5V17H4zM5,16H6V17H5zM7,16H8V17H7zM8,16H9V17H8zM9,16H10V17H9zM10,16H11V17H10zM11,16H12V17H11zM12,16H13V17H12zM13,16H14V17H13zM14,16H15V17H14zM15,16H16V17H15zM16,16H17V17H16zM17,16H18V17H17zM18,16H19V17H18zM19,16H20V17H19zM20,16H21V17H20zM21,16H22V17H21zM22,16H23V17H22zM24,16H25V17H24zM26,16H27V17H26zM27,16H28V17H27zM28,16H29V17H28zM4,17H5V18H4zM7,17H8V18H7zM9,17H10V18H9zM11,17H12V18H11zM12,17H13V18H12zM13,17H14V18H13zM14,17H15V18H14zM20,17H21V18H20zM23,17H24V18H23zM25,17H26V18H25zM27,17H28V18H27zM4,18H5V19H4zM6,18H7V19H6zM8,18H9V19H8zM9,18H10V19H9zM10,18H11V19H10zM11,18H12V19H11zM14,18H15V19H14zM15,18H16V19H15zM16,18H17V19H16zM17,18H18V19H17zM19,18H20V19H19zM20,18H21V19H20zM23,18H24V19H23zM24,18H25V19H24zM25,18H26V19H25zM27,18H28V19H27zM28,18H29V19H28zM4,19H5V20H4zM6,19H7V20H6zM11,19H12V20H11zM14,19H15V20H14zM15,19H16V20H15zM18,19H20V20H18zM21,19H22V20H21zM22,19H23V20H22zM23,19H24V20H23zM24,19H25V20H24zM28,19H29V20H28zM4,20H5V21H4zM6,20H7V21H6zM7,20H8V21H7zM8,20H9V21H8zM10,20H11V21H10zM12,20H13V21H12zM14,20H15V21H14zM15,20H16V21H15zM17,20H18V21H17zM18,20H19V21H18zM20,20H21V21H20zM21,20H22V21H21zM22,20H23V21H22zM23,20H24V21H23zM24,20H25V21H24zM26,20H27V21H26zM12,21H13V22H12zM13,21H14V22H13zM16,21H17V22H16zM17,21H18V22H17zM19,21H20V22H19zM20,21H21V22H20zM24,21H25V22H24zM25,21H26V22H25zM4,22H5V23H4zM5,22H6V23H5zM6,22H7V23H6zM7,22H8V23H7zM8,22H9V23H8zM9,22H10V23H9zM10,22H11V23H10zM14,22H15V23H14zM17,22H18V23H17zM18,22H19V23H18zM20,22H21V23H20zM22,22H23V23H22zM24,22H25V23H24zM26,22H27V23H26zM27,22H28V23H27zM28,22H29V23H28zM4,23H5V24H4zM10,23H11V24H10zM12,23H13V24H12zM16,23H17V24H16zM18,23H19V24H18zM20,23H21V24H20zM24,23H25V24H24zM25,23H26V24H25zM27,23H28V24H27zM4,24H5V25H4zM6,24H7V25H6zM7,24H8V25H7zM8,24H9V25H8zM10,24H11V25H10zM12,24H13V25H12zM16,24H17V25H16zM17,24H18V25H17zM18,24H19V25H18zM19,24H20V25H19zM20,24H21V25H20zM21,24H22V25H21zM22,24H23V25H22zM23,24H24V25H23zM24,24H25V25H24zM26,24H27V25H26zM27,24H28V25H27zM28,24H29V25H28zM4,25H5V26H4zM6,25H7V26H6zM7,25H8V26H7zM8,25H9V26H8zM10,25H11V26H10zM12,25H13V26H12zM13,25H14V26H13zM17,25H18V26H17zM19,25H20V26H19zM21,25H22V26H21zM22,25H23V26H22zM24,25H26V26H24zM26,25H27V26H26zM27,25H28V26H27zM28,25H29V26H28zM4,26H5V27H4zM6,26H7V27H6zM7,26H8V27H7zM8,26H9V27H8zM10,26H11V27H10zM12,26H13V27H12zM13,26H14V27H13zM15,26H16V27H15zM16,26H17V27H16zM18,26H19V27H18zM25,26H26V27H25zM26,26H27V27H26zM28,26H29V27H28zM4,27H5V28H4zM10,27H11V28H10zM13,27H14V28H13zM15,27H16V28H15zM18,27H19V28H18zM19,27H20V28H19zM20,27H21V28H20zM21,27H22V28H21zM23,27H24V28H23zM24,27H25V28H24zM25,27H26V28H25zM28,27H29V28H28zM4,28H5V29H4zM5,28H6V29H5zM6,28H7V29H6zM7,28H8V29H7zM8,28H9V29H8zM9,28H10V29H9zM10,28H11V29H10zM12,28H13V29H12zM13,28H14V29H13zM15,28H16V29H15zM16,28H17V29H16zM22,28H23V29H22zM23,28H24V29H23zM24,28H25V29H24zM25,28H26V29H25zM26,28H27V29H26zM27,28H28V29H27zM28,28H29V29H28z" fill="#1A1A1A"/></svg>
+      <div class="footer-qr-label">buildit-usa.com</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- CONTRACTOR ESTIMATE                                               -->
+<!-- ================================================================ -->
+<section class="document">
+  <div class="doc-header">
+    <div class="doc-header-title">Build It USA</div>
+    <div class="doc-header-subtitle">Technical Detail &mdash; Planning &amp; Pricing Document</div>
+  </div>
+  <div class="divider-strong"></div>
+
+  <div class="roadmap">
+    <div class="roadmap-item"><div class="roadmap-name">Confidence</div><div class="roadmap-desc">Scores &amp; range width</div></div>
+    <div class="roadmap-arrow">&rarr;</div>
+    <div class="roadmap-item"><div class="roadmap-name">Action Items</div><div class="roadmap-desc">Close gaps &rarr; lock price</div></div>
+    <div class="roadmap-arrow">&rarr;</div>
+    <div class="roadmap-item"><div class="roadmap-name">Line Items</div><div class="roadmap-desc">Man-hours, rates &amp; materials</div></div>
+    <div class="roadmap-arrow">&rarr;</div>
+    <div class="roadmap-item"><div class="roadmap-name">Soft Costs</div><div class="roadmap-desc">One mechanism</div></div>
+    <div class="roadmap-arrow">&rarr;</div>
+    <div class="roadmap-item"><div class="roadmap-name">Sequence</div><div class="roadmap-desc">Build order</div></div>
+    <div class="roadmap-arrow">&rarr;</div>
+    <div class="roadmap-item"><div class="roadmap-name">Flags &amp; Totals</div><div class="roadmap-desc">Risks &amp; cost summary</div></div>
+  </div>
+  <div class="divider"></div>
+
+  <!-- PROJECT / CLIENT INFO -->
+  <table class="summary-table">
+    <tbody>
+      <tr><th>Project</th><td>Downstairs Bathroom &mdash; Gut &amp; Reconfigure (2 full &rarr; 1 full + 1 half)</td></tr>
+      <tr><th>Address</th><td style="font-weight: 700;">Capital District, New York</td></tr>
+      <tr><th>Client Phone</th><td style="font-weight: 700;">On file</td></tr>
+      <tr><th>Date</th><td>June 12, 2026</td></tr>
+      <tr><th>Re-Issue</th><td>v3 re-issue of the April 1, 2026 estimate &mdash; supersedes it for the Whole Home Report</td></tr>
+    </tbody>
+  </table>
+  <div class="divider"></div>
+
+  <!-- CONFIDENCE -->
+  <div class="section-title">Confidence Assessment</div>
+  <div class="conf-hero">
+    <div class="conf-hero-label">Estimate Confidence</div>
+    <div class="conf-hero-score">55%</div>
+    <div style="font-family: 'Libre Baskerville'; font-size: 12px; color: var(--mid); font-style: italic; margin-top: 4px;">Range = midpoint &plusmn; (100% &minus; 55%) &times; 0.5 &rarr; &plusmn;22.5% &rarr; <strong style="color: var(--black);">$45,561 &ndash; $72,015</strong></div>
+  </div>
+  <p class="caption" style="text-align: center; margin-bottom: 8px;">Scope completeness 85% &middot; pricing confidence 55% &middot; overall = min of the two. Verification basis on record: documented owner walkthrough 2026-04-01 (Session-02, 9 photos + background assessment in the client folder). It verifies visible conditions and scope intent; in-wall unknowns (joist routing, panel capacity, subfloor moisture, heat type) stay unverified, so confidence holds at 55% &mdash; under the 60% no-site-visit cap.</p>
+  <table>
+    <thead><tr><th style="text-align: left;">Item</th><th style="width: 70px;">Score</th><th style="text-align: left;">Assumption</th><th style="text-align: left;">Follow-Up</th></tr></thead>
+    <tbody>
+      <tr><td style="text-align: left;">Demo scope</td><td><span class="conf-score">75%</span></td><td style="text-align: left;">Full gut both rooms to studs + subfloor. Confirmed in documented walkthrough.</td><td style="text-align: left;"><em>&mdash;</em></td></tr>
+      <tr><td style="text-align: left;">Framing / wall move</td><td><span class="conf-score">70%</span></td><td style="text-align: left;">Non-bearing partition. Attic above, no floor loads on this wall.</td><td style="text-align: left;"><em>Verify in field</em></td></tr>
+      <tr><td style="text-align: left;">Plumbing rough-in</td><td><span class="conf-score">50%</span></td><td style="text-align: left;">All new supply + DWV through framed 2&times;8 joist bays (no slab work in this scope).</td><td style="text-align: left;"><em>Verify joist direction, stack location, vent routing</em></td></tr>
+      <tr><td style="text-align: left;">Heat source</td><td><span class="conf-score conf-low">40%</span></td><td style="text-align: left;">Hydronic baseboard assumed both rooms; remove/reinstate allowance carried (line 12).</td><td style="text-align: left;"><em>Confirm type + route when walls open; plumber drain-down on critical path</em></td></tr>
+      <tr><td style="text-align: left;">Electrical</td><td><span class="conf-score">55%</span></td><td style="text-align: left;">New circuits from existing panel. Adequate capacity assumed.</td><td style="text-align: left;"><em>Verify panel capacity, wire condition</em></td></tr>
+      <tr><td style="text-align: left;">Subfloor condition</td><td><span class="conf-score conf-low">40%</span></td><td style="text-align: left;">Spot-repair allowance carried (line 11). LVP threshold showing edge wear.</td><td style="text-align: left;"><em>Probe for moisture at demo hold point</em></td></tr>
+      <tr><td style="text-align: left;">Tile (floor + surround)</td><td><span class="conf-score">45%</span></td><td style="text-align: left;">Builder grade / stock, $5&ndash;$8/SF material. No selections made. ~112 SF total.</td><td style="text-align: left;"><em>Homeowner selects tile</em></td></tr>
+      <tr><td style="text-align: left;">Vanities &amp; fixtures</td><td><span class="conf-score">50%</span></td><td style="text-align: left;">30&#8243; + 42&#8243; per plans. Builder grade / stock assumed (intentional spec for this owner).</td><td style="text-align: left;"><em>Homeowner selects product</em></td></tr>
+      <tr><td style="text-align: left;">Tub</td><td><span class="conf-score">65%</span></td><td style="text-align: left;">Standard 30&times;60 alcove. Well-defined from plans.</td><td style="text-align: left;"><em>Confirm brand/model</em></td></tr>
+      <tr><td style="text-align: left;">Toilets &times;2</td><td><span class="conf-score">65%</span></td><td style="text-align: left;">Standard builder-grade stock.</td><td style="text-align: left;"><em>Confirm brand/model</em></td></tr>
+      <tr><td style="text-align: left;">Drywall</td><td><span class="conf-score">70%</span></td><td style="text-align: left;">Full hang + tape + finish both rooms.</td><td style="text-align: left;"><em>&mdash;</em></td></tr>
+      <tr><td style="text-align: left;">Trim / doors / paint</td><td><span class="conf-score">60%</span></td><td style="text-align: left;">Standard trim. Door count unclear (1 or 2 entries).</td><td style="text-align: left;"><em>Confirm door count and style</em></td></tr>
+      <tr><td style="text-align: left;">Exhaust fan</td><td><span class="conf-score">65%</span></td><td style="text-align: left;">Replace existing. Vent path assumed usable.</td><td style="text-align: left;"><em>Verify duct routing</em></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout-warn" style="margin-top: 12px;">
+    <div class="callout-title">Confidence &rarr; Range Width</div>
+    <ul class="bullets" style="margin: 6px 0;">
+      <li>Confidence controls range <strong>width</strong>, not direction</li>
+      <li>Only <strong>scope changes</strong> shift the range</li>
+      <li>Homeowner target: ~70%. Contractor target: 85-90%.</li>
+    </ul>
+    <table style="border: 2px solid var(--black); margin-top: 8px;">
+      <thead><tr><th style="text-align: left;">Stage</th><th>Confidence</th><th>&plusmn;% of Midpoint</th><th>Range</th><th>Spread</th></tr></thead>
+      <tbody>
+        <tr class="highlight-row"><td style="text-align: left;">Current</td><td><span class="conf-score">55%</span></td><td>&plusmn;22.5%</td><td class="nowrap"><span class="dollar">$45,561 &ndash; $72,015</span></td><td class="nowrap"><span class="dollar">$26,454</span></td></tr>
+        <tr><td style="text-align: left;">Homeowner refines</td><td><span class="conf-score">70%</span></td><td>&plusmn;15%</td><td class="nowrap"><span class="dollar">$49,970 &ndash; $67,606</span></td><td class="nowrap"><span class="dollar">$17,636</span></td></tr>
+        <tr><td style="text-align: left;">Contractor verified</td><td><span class="conf-score">85%</span></td><td>&plusmn;7.5%</td><td class="nowrap"><span class="dollar">$54,379 &ndash; $63,197</span></td><td class="nowrap"><span class="dollar">$8,818</span></td></tr>
+        <tr><td style="text-align: left;">Price lock</td><td><span class="conf-score">90%+</span></td><td>&plusmn;5%</td><td class="nowrap"><span class="dollar">$55,849 &ndash; $61,727</span></td><td class="nowrap"><span class="dollar">$5,878</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><strong>80%+</strong> &mdash; Well-verified. Tight pricing.</div>
+    <div class="legend-item"><strong>40&ndash;80%</strong> &mdash; Reasonable assumptions. Moderate range.</div>
+    <div class="legend-item"><strong>&lt;40%</strong> &mdash; Significant unknowns. Highest-ROI follow-ups.</div>
+  </div>
+  <div class="divider"></div>
+
+  <!-- ACTION ITEMS -->
+  <div class="section-title">Field Coordinator &mdash; Action Items to Lock Price</div>
+  <p class="caption" style="margin-bottom: 8px;">Each resolved item increases confidence &rarr; narrows the range.</p>
+  <table>
+    <thead><tr><th style="width: 24px;">#</th><th style="width: 100px;">Area</th><th style="width: 55px;">Current</th><th style="text-align: left;">Action Required</th><th style="width: 55px;">Target</th><th style="width: 115px;">Scope Risk</th></tr></thead>
+    <tbody>
+      <tr><td><span class="cnum">1</span></td><td>Subfloor</td><td><span class="conf-score conf-low">40%</span></td><td style="text-align: left;">Inspect at demo hold point. Probe for moisture under tub and at threshold.</td><td><span class="conf-score">90%</span></td><td class="nowrap"><span class="dollar">&plusmn;$1,500</span></td></tr>
+      <tr><td><span class="cnum">2</span></td><td>Heat</td><td><span class="conf-score conf-low">40%</span></td><td style="text-align: left;">Open walls / verify baseboard type and reroute path; confirm drain-down need.</td><td><span class="conf-score">85%</span></td><td class="nowrap"><span class="dollar">&plusmn;$1,200</span></td></tr>
+      <tr><td><span class="cnum">3</span></td><td>Tile</td><td><span class="conf-score">45%</span></td><td style="text-align: left;">Homeowner selects floor (~62 SF) + surround (~50 SF) tile.</td><td><span class="conf-score">85%</span></td><td class="nowrap"><span class="dollar">&plusmn;$2,500</span></td></tr>
+      <tr><td><span class="cnum">4</span></td><td>Plumbing</td><td><span class="conf-score">50%</span></td><td style="text-align: left;">Verify joist direction, drain/stack location, vent options.</td><td><span class="conf-score">85%</span></td><td class="nowrap"><span class="dollar">&plusmn;$1,500</span></td></tr>
+      <tr><td><span class="cnum">5</span></td><td>Fixtures</td><td><span class="conf-score">50%</span></td><td style="text-align: left;">Homeowner selects vanities, faucets, shower valve, accessories.</td><td><span class="conf-score">80%</span></td><td class="nowrap"><span class="dollar">&plusmn;$2,000</span></td></tr>
+      <tr><td><span class="cnum">6</span></td><td>Electrical</td><td><span class="conf-score">55%</span></td><td style="text-align: left;">Verify panel capacity and existing wiring condition.</td><td><span class="conf-score">85%</span></td><td class="nowrap"><span class="dollar">&plusmn;$800</span></td></tr>
+    </tbody>
+  </table>
+  <div class="divider"></div>
+
+  <!-- LINE ITEMS -->
+  <div class="section-title">Line Items &mdash; Direct Costs</div>
+  <p class="caption" style="margin-bottom: 6px;">Labor in man-hours (crew size informational; rate is $/man-hour). Materials are derived from the labor approach and priced per line. Permit fee and allowances are lines &mdash; inside the total.</p>
+  <table>
+    <thead><tr><th style="width: 22px;">#</th><th style="width: 90px;">Section</th><th style="text-align: left;">Operation / Item</th><th style="width: 62px;">Man-Hrs</th><th style="width: 38px;">Crew</th><th style="width: 62px;">Rate</th><th style="width: 80px;">Material</th><th style="width: 95px;">Subtotal</th><th style="width: 50px;">Conf.</th></tr></thead>
+    <tbody>
+      <tr><td><span class="cnum">1</span></td><td>demolition</td><td style="text-align: left;">Demo &mdash; gut both rooms to studs + subfloor, fixtures out, partition out; containment up; lead-safe site practice (isolation + PPE) on scraped surfaces</td><td><span class="cnum">32</span></td><td><span class="cnum">2</span></td><td class="nowrap"><span class="dollar">$34</span></td><td class="nowrap"><span class="dollar">$0</span></td><td class="nowrap"><span class="dollar">$1,088</span></td><td><span class="conf-score">75%</span></td></tr>
+      <tr><td><span class="cnum">2</span></td><td>framing</td><td style="text-align: left;">Framing &mdash; relocate partition wall per plan; blocking for vanities and accessories</td><td><span class="cnum">10</span></td><td><span class="cnum">1</span></td><td class="nowrap"><span class="dollar">$50</span></td><td class="nowrap"><span class="dollar">$115</span></td><td class="nowrap"><span class="dollar">$615</span></td><td><span class="conf-score">70%</span></td></tr>
+      <tr><td><span class="cnum">3</span></td><td>plumbing</td><td style="text-align: left;">Plumbing rough &mdash; all-new DWV + supply through framed 2&times;8 joist bays; set 30&times;60 alcove tub; pressure test (sub; tub unit in material)</td><td><span class="cnum">48</span></td><td><span class="cnum">2</span></td><td class="nowrap"><span class="dollar">$115</span></td><td class="nowrap"><span class="dollar">$1,050</span></td><td class="nowrap"><span class="dollar">$6,570</span></td><td><span class="conf-score">50%</span></td></tr>
+      <tr><td><span class="cnum">4</span></td><td>electrical</td><td style="text-align: left;">Electrical &mdash; new circuits from panel, GFCIs, switches, vanity + ceiling lights, exhaust fan unit; rough inspection (sub)</td><td><span class="cnum">20</span></td><td><span class="cnum">1</span></td><td class="nowrap"><span class="dollar">$100</span></td><td class="nowrap"><span class="dollar">$700</span></td><td class="nowrap"><span class="dollar">$2,700</span></td><td><span class="conf-score">55%</span></td></tr>
+      <tr><td><span class="cnum">5</span></td><td>insulation</td><td style="text-align: left;">Insulation + vapor barrier at exterior wall bays exposed by demo</td><td><span class="cnum">5</span></td><td><span class="cnum">1</span></td><td class="nowrap"><span class="dollar">$35</span></td><td class="nowrap"><span class="dollar">$100</span></td><td class="nowrap"><span class="dollar">$275</span></td><td><span class="conf-score">65%</span></td></tr>
+      <tr><td><span class="cnum">6</span></td><td>drywall</td><td style="text-align: left;">Drywall &mdash; moisture-resistant board, hang, tape, finish, prime (sub)</td><td><span class="cnum">28</span></td><td><span class="cnum">2</span></td><td class="nowrap"><span class="dollar">$66</span></td><td class="nowrap"><span class="dollar">$300</span></td><td class="nowrap"><span class="dollar">$2,148</span></td><td><span class="conf-score">70%</span></td></tr>
+      <tr><td><span class="cnum">7</span></td><td>tile</td><td style="text-align: left;">Tile &mdash; floor ~62 SF + tub surround ~50 SF, backer + waterproofing membrane, grout + seal (sub); builder-grade stock tile in material</td><td><span class="cnum">40</span></td><td><span class="cnum">1</span></td><td class="nowrap"><span class="dollar">$78</span></td><td class="nowrap"><span class="dollar">$1,175</span></td><td class="nowrap"><span class="dollar">$4,295</span></td><td><span class="conf-score">45%</span></td></tr>
+      <tr><td><span class="cnum">8</span></td><td>fixtures</td><td style="text-align: left;">Vanities &mdash; 30&#8243; + 42&#8243; stock vanities with tops, set, scribe, secure (builder grade / stock)</td><td><span class="cnum">10</span></td><td><span class="cnum">1</span></td><td class="nowrap"><span class="dollar">$50</span></td><td class="nowrap"><span class="dollar">$1,500</span></td><td class="nowrap"><span class="dollar">$2,000</span></td><td><span class="conf-score">50%</span></td></tr>
+      <tr><td><span class="cnum">9</span></td><td>plumbing</td><td style="text-align: left;">Plumbing trim &mdash; set 2 toilets, 2 faucets + drains, tub/shower valve trim, final connections (sub; toilets + faucets + valve in material)</td><td><span class="cnum">8</span></td><td><span class="cnum">1</span></td><td class="nowrap"><span class="dollar">$110</span></td><td class="nowrap"><span class="dollar">$1,150</span></td><td class="nowrap"><span class="dollar">$2,030</span></td><td><span class="conf-score">60%</span></td></tr>
+      <tr><td><span class="cnum">10</span></td><td>finish-carpentry</td><td style="text-align: left;">Trim, doors, paint &mdash; base, casing, door(s), walls + ceiling + trim paint, caulk; lead-safe prep practice on any sanding</td><td><span class="cnum">20</span></td><td><span class="cnum">1</span></td><td class="nowrap"><span class="dollar">$48</span></td><td class="nowrap"><span class="dollar">$300</span></td><td class="nowrap"><span class="dollar">$1,260</span></td><td><span class="conf-score">60%</span></td></tr>
+      <tr><td><span class="cnum">11</span></td><td>allowances</td><td style="text-align: left;">Allowance &mdash; subfloor spot repair at tub + threshold (hold-point inspection during demo)</td><td><span class="cnum">6</span></td><td><span class="cnum">1</span></td><td class="nowrap"><span class="dollar">$34</span></td><td class="nowrap"><span class="dollar">$350</span></td><td class="nowrap"><span class="dollar">$554</span></td><td><span class="conf-score conf-low">40%</span></td></tr>
+      <tr><td><span class="cnum">12</span></td><td>allowances</td><td style="text-align: left;">Allowance &mdash; heat: remove/reinstate baseboard run in both rooms (type verified in walls at field visit)</td><td><span class="cnum">0</span></td><td><span class="cnum">&mdash;</span></td><td class="nowrap"><span class="dollar">&mdash;</span></td><td class="nowrap"><span class="dollar">$750</span></td><td class="nowrap"><span class="dollar">$750</span></td><td><span class="conf-score conf-low">40%</span></td></tr>
+      <tr><td><span class="cnum">13</span></td><td>general-conditions</td><td style="text-align: left;">Cleanup, haul-out load, final punch + systems test</td><td><span class="cnum">7</span></td><td><span class="cnum">1</span></td><td class="nowrap"><span class="dollar">$34</span></td><td class="nowrap"><span class="dollar">$0</span></td><td class="nowrap"><span class="dollar">$238</span></td><td><span class="conf-score">70%</span></td></tr>
+      <tr><td><span class="cnum">14</span></td><td>permits</td><td style="text-align: left;">Building permit &mdash; Town of Ballston building department (wall relocation + plumbing reroute)</td><td><span class="cnum">0</span></td><td><span class="cnum">&mdash;</span></td><td class="nowrap"><span class="dollar">&mdash;</span></td><td class="nowrap"><span class="dollar">$650</span></td><td class="nowrap"><span class="dollar">$650</span></td><td><span class="conf-score">90%</span></td></tr>
+      <tr class="total-row"><td></td><td colspan="2" style="text-align: left;" class="nowrap">Direct Subtotal</td><td class="nowrap"><span class="dollar-total">234</span></td><td></td><td></td><td></td><td class="nowrap" style="text-align: right;"><span class="dollar-total">$25,173</span></td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="divider"></div>
+
+  <!-- SOFT COSTS — Mechanism A -->
+  <div class="section-title">Soft Costs</div>
+  <table>
+    <thead><tr><th style="text-align: left;">Soft Cost (contingency, PM/supervision, warranty, protection, disposal)</th><th style="width: 110px;">Amount</th></tr></thead>
+    <tbody>
+      <tr><td style="text-align: left;">Contingency &mdash; renovation (12% of direct costs; carries the mold, fan-venting, and wiring discovery flags)</td><td class="nowrap"><span class="dollar">$3,021</span></td></tr>
+      <tr><td style="text-align: left;">Site protection &mdash; occupied home: floor protection, dust walls, daily containment upkeep</td><td class="nowrap"><span class="dollar">$500</span></td></tr>
+      <tr><td style="text-align: left;">Disposal &mdash; dumpster, 2 pulls (gut debris + tipping fees)</td><td class="nowrap"><span class="dollar">$700</span></td></tr>
+      <tr class="total-row"><td style="text-align: left;">Total Soft Costs</td><td class="nowrap" style="text-align: right;"><span class="dollar-total">$4,221</span></td></tr>
+    </tbody>
+  </table>
+  <p class="caption">PM/supervision and warranty reserve are carried by the Complex tier multiplier &mdash; not broken out above, so nothing is double-counted (multiplier sized at the bottom of the 2.0&ndash;2.5 band accordingly).</p>
+  <div class="divider"></div>
+
+  <!-- SEQUENCE -->
+  <div class="section-title">Sequence of Operations</div>
+  <div class="step"><span class="step-num">1.</span><span class="step-title">Permit &amp; Mobilize</span><div class="step-desc">Permit in hand from the Town of Ballston building department <em>(line 14)</em>. Containment and floor protection up <em>(labor in line 1; protection materials in soft costs)</em>.</div></div>
+  <div class="step"><span class="step-num">2.</span><span class="step-title">Demo</span><div class="step-desc">Strip both rooms to studs + subfloor. Remove partition wall. Lead-safe site practice &mdash; isolation + PPE on scraped surfaces. Load out debris. <em>(line 1)</em></div></div>
+  <div class="step"><span class="step-num">3.</span><span class="step-title">Subfloor Hold Point</span><div class="step-desc">Inspect, probe for moisture under tub and at threshold. Spot repair per allowance. <em>(line 11)</em></div></div>
+  <div class="step"><span class="step-num">4.</span><span class="step-title">Framing</span><div class="step-desc">New partition wall per plan. Blocking for vanities, accessories. <em>(line 2)</em></div></div>
+  <div class="step"><span class="step-num">5.</span><span class="step-title">Heat Reroute</span><div class="step-desc">Drain down if hydronic; remove baseboard runs for rebuild, reinstate at trim-out. Plumber critical path. <em>(line 12)</em></div></div>
+  <div class="step"><span class="step-num">6.</span><span class="step-title">Plumbing Rough</span><div class="step-desc">All new supply + DWV through framed 2&times;8 joist bays. Set tub. Stub all fixtures. Pressure test. <em>(line 3)</em></div></div>
+  <div class="step"><span class="step-num">7.</span><span class="step-title">Electrical Rough</span><div class="step-desc">New circuits from panel. GFCIs, switches, lights, fan. Rough inspection. <em>(line 4)</em></div></div>
+  <div class="step"><span class="step-num">8.</span><span class="step-title">Insulation</span><div class="step-desc">Exterior walls where exposed. Vapor barrier per code. <em>(line 5)</em></div></div>
+  <div class="step"><span class="step-num">9.</span><span class="step-title">Drywall</span><div class="step-desc">Moisture-resistant in wet areas. Hang, tape, finish, prime. <em>(line 6)</em></div></div>
+  <div class="step"><span class="step-num">10.</span><span class="step-title">Tile</span><div class="step-desc">Backer + waterproofing in surround. Floor tile both rooms. Surround tile. Grout + seal. <em>(line 7)</em></div></div>
+  <div class="step"><span class="step-num">11.</span><span class="step-title">Fixtures &amp; Trim-Out</span><div class="step-desc">Set vanities <em>(line 8)</em>; set toilets, faucets, shower trim, final connections <em>(line 9)</em>.</div></div>
+  <div class="step"><span class="step-num">12.</span><span class="step-title">Trim &amp; Paint</span><div class="step-desc">Base, casing, doors. Paint walls/ceiling/trim. Caulk transitions. Lead-safe prep practice on any sanding. <em>(line 10)</em></div></div>
+  <div class="step"><span class="step-num">13.</span><span class="step-title">Final Punch</span><div class="step-desc">Test everything. Touch-up. Clean. Walkthrough. <em>(line 13)</em></div></div>
+  <div class="divider"></div>
+
+  <!-- FLAGS -->
+  <div class="section-title">Project Flags</div>
+  <div class="subsection-title">Permits</div>
+  <p class="body-text">Wall relocation + full plumbing reroute triggers a building permit. Jurisdiction per the client record: <strong>Town of Ballston building department</strong>. Permit fee is carried as line 14 &mdash; inside the estimate total, not a footnote.</p>
+  <div class="subsection-title" style="margin-top: 12px;">Hidden Conditions</div>
+  <table>
+    <thead><tr><th style="text-align: left;">Condition</th><th style="width: 105px;">Disposition</th><th style="width: 110px;">Dollars</th></tr></thead>
+    <tbody>
+      <tr><td style="text-align: left;">Subfloor moisture/rot at tub and threshold &mdash; highest-risk area on the 2&times;8 framed system</td><td>allowance</td><td class="nowrap"><span class="dollar">$554 (line 11)</span></td></tr>
+      <tr><td style="text-align: left;">Heat in gutted walls &mdash; hydronic baseboard assumed; remove/reinstate on plumber critical path</td><td>allowance</td><td class="nowrap"><span class="dollar">$750 (line 12)</span></td></tr>
+      <tr><td style="text-align: left;">Mold/moisture behind 1970s&ndash;80s green fiberglass tub surround</td><td>contingency</td><td class="nowrap"><span class="dollar">$1,200 est. exposure</span></td></tr>
+      <tr><td style="text-align: left;">Exhaust fan discoloration &mdash; possible failed venting / ceiling cavity moisture</td><td>contingency</td><td class="nowrap"><span class="dollar">$600 est. exposure</span></td></tr>
+      <tr><td style="text-align: left;">Older wiring in walls (brass sconce vintage) &mdash; undersized conductors possible</td><td>contingency</td><td class="nowrap"><span class="dollar">$800 est. exposure</span></td></tr>
+    </tbody>
+  </table>
+  <p class="caption">Contingency-dispositioned exposures ($2,600 est. total) are covered by the $3,021 contingency line. Finish upgrades beyond builder-grade stock are a written exclusion: true mid-range tile/fixtures/vanities add ~$3,900&ndash;$5,850 if selected.</p>
+  <div class="subsection-title" style="margin-top: 12px;">Access &amp; Logistics</div>
+  <ul class="bullets">
+    <li>Occupied home &mdash; containment required. Family bath offline during work.</li>
+    <li>Adjacent laundry (room 106) shares wall &mdash; coordinate connections.</li>
+    <li>Narrow doorway &mdash; confirm tub delivery clearance.</li>
+  </ul>
+  <div class="subsection-title" style="margin-top: 12px;">Subcontractors</div>
+  <p class="body-text">Plumbing, electrical, drywall, tile subbed out at Capital District rates. Plumber is critical path: heat reroute + rough + trim across three mobilizations.</p>
+  <div class="divider"></div>
+
+  <!-- TOTALS -->
+  <div class="section-title">Estimate Summary</div>
+  <p class="caption" style="margin-bottom: 6px;">Service basis: complete design-build delivery of the scope — design, permits, PM/supervision, insured crews and subs, procurement, protection/cleanup, contingency, warranty — one accountable builder. Not a materials-plus-labor quote; compare bids on the same basis.</p>
+  <table>
+    <thead><tr><th style="text-align: left;" colspan="2">Component</th><th style="width: 130px;">Amount</th></tr></thead>
+    <tbody>
+      <tr><td style="text-align: left;" colspan="2">Direct costs (line items, incl. permit &amp; allowances)</td><td class="nowrap"><span class="dollar">$25,173</span></td></tr>
+      <tr><td style="text-align: left;" colspan="2">Soft costs (Mechanism A: contingency + protection + disposal)</td><td class="nowrap"><span class="dollar">$4,221</span></td></tr>
+      <tr style="border-top: 2px solid var(--dark);"><td style="text-align: left; font-weight: 700;" colspan="2">Build-Up Total</td><td class="nowrap"><span class="dollar" style="font-weight: 700;">$29,394</span></td></tr>
+      <tr><td style="text-align: left;" colspan="2">Tier multiplier &mdash; Complex (2.0x, GC-delivered; carries PM/supervision + warranty)</td><td class="nowrap"><span class="dollar">&times; 2.0</span></td></tr>
+      <tr class="highlight-row"><td style="text-align: left;" colspan="2">Midpoint (build-up &times; multiplier)</td><td class="nowrap"><span class="dollar">$58,788</span></td></tr>
+      <tr><td style="text-align: left; color: var(--mid);" colspan="2"><em>Platform fee (3% of direct costs &mdash; paid from margin, never added to price)</em></td><td class="nowrap" style="color: var(--mid);"><em><span class="dollar">$755</span></em></td></tr>
+      <tr><td style="text-align: left; color: var(--mid);" colspan="2"><em>Gross margin (midpoint &minus; build-up &minus; platform fee; funds ~25&ndash;30 hrs GC coordination at $200/hr, warranty reserve, overhead, profit)</em></td><td class="nowrap" style="color: var(--mid);"><em><span class="dollar">$28,639</span></em></td></tr>
+    </tbody>
+  </table>
+  <p class="caption">$/SF sanity check: $58,788 &divide; ~62 SF floor area &asymp; $948/SF vs the $400&ndash;800/SF Capital District full-bath band. Above the top of the band and accepted: the band models a single bathroom &mdash; this is five fixtures across two rooms with a full re-rough and reconfigure, so density drives $/SF up. Bottom-of-band pricing was the failure mode of the superseded April 1 estimate.</p>
+  <div class="subsection-title" style="margin-top: 12px;">Confidence-Adjusted Presentation</div>
+  <table>
+    <thead><tr><th style="text-align: left;">Confidence Level</th><th>&plusmn;%</th><th>Presented Range</th><th>Spread</th></tr></thead>
+    <tbody>
+      <tr class="highlight-row"><td style="text-align: left;">Current (55%)</td><td>&plusmn;22.5%</td><td class="nowrap"><span class="dollar">$45,561 &ndash; $72,015</span></td><td class="nowrap"><span class="dollar">$26,454</span></td></tr>
+      <tr><td style="text-align: left;">Homeowner refined (70%)</td><td>&plusmn;15%</td><td class="nowrap"><span class="dollar">$49,970 &ndash; $67,606</span></td><td class="nowrap"><span class="dollar">$17,636</span></td></tr>
+      <tr><td style="text-align: left;">Contractor verified (85%)</td><td>&plusmn;7.5%</td><td class="nowrap"><span class="dollar">$54,379 &ndash; $63,197</span></td><td class="nowrap"><span class="dollar">$8,818</span></td></tr>
+      <tr><td style="text-align: left;">Price locked (90%+)</td><td>&plusmn;5%</td><td class="nowrap"><span class="dollar">$55,849 &ndash; $61,727</span></td><td class="nowrap"><span class="dollar">$5,878</span></td></tr>
+    </tbody>
+  </table>
+  <p class="caption" style="margin-top: 8px;">Range = midpoint &plusmn; (100% &minus; overall confidence%) &times; 0.5, derived per row &mdash; never hardcoded. Overall confidence = min(scope completeness, pricing confidence), capped at 60% without a recorded verification basis. Scope changes shift the midpoint; confidence narrows the spread.</p>
+  <div class="callout-warn">
+    <div class="callout-title">Important</div>
+    <p><strong>Important:</strong> This estimate covers only the items listed. It is not a bid, contract, or guarantee of project cost. Confidence reflects how much project information has been provided, not the accuracy of the final number. Actual contractor quotes may differ significantly based on scope, material selections, firm overhead, and site conditions. Do not make financial commitments (loans, deposits, contracts) based solely on this estimate.</p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="doc-footer">
+    <div class="footer-contact">
+      <div class="footer-brand">Build It USA</div>
+      <div class="footer-name">Jacob Meyers</div>
+      <div class="footer-details">jacob.meyers@buildit-usa.com</div>
+      <div class="footer-sub">Fully Insured &middot; New York State</div>
+      <div class="footer-sub">Estimating software built by Jacob Meyers &middot; Pricing model v3 &mdash; 2026-06</div>
+    </div>
+    <div class="footer-qr">
+      <svg width="33mm" height="33mm" version="1.1" viewBox="0 0 33 33" xmlns="http://www.w3.org/2000/svg"><path d="M4,4H5V5H4zM5,4H6V5H5zM6,4H7V5H6zM7,4H8V5H7zM8,4H9V5H8zM9,4H10V5H9zM10,4H11V5H10zM13,4H14V5H13zM14,4H15V5H14zM18,4H19V5H18zM20,4H21V5H20zM22,4H23V5H22zM23,4H24V5H23zM24,4H25V5H24zM25,4H26V5H25zM26,4H27V5H26zM27,4H28V5H27zM28,4H29V5H28zM4,5H5V6H4zM10,5H11V6H10zM13,5H14V6H13zM14,5H15V6H14zM15,5H16V6H15zM17,5H18V6H17zM19,5H20V6H19zM20,5H21V6H20zM22,5H23V6H22zM28,5H29V6H28zM4,6H5V7H4zM6,6H7V7H6zM7,6H8V7H7zM8,6H9V7H8zM10,6H11V7H10zM12,6H13V7H12zM14,6H15V7H14zM15,6H16V7H15zM16,6H17V7H16zM18,6H19V7H18zM19,6H20V7H19zM20,6H21V7H20zM22,6H23V7H22zM24,6H25V7H24zM25,6H26V7H25zM26,6H27V7H26zM28,6H29V7H28zM4,7H5V8H4zM6,7H7V8H6zM7,7H8V8H7zM8,7H9V8H8zM10,7H11V8H10zM12,7H13V8H12zM14,7H15V8H14zM15,7H16V8H15zM16,7H17V8H16zM17,7H18V8H17zM18,7H19V8H18zM19,7H20V8H19zM20,7H21V8H20zM22,7H23V8H22zM24,7H25V8H24zM25,7H26V8H25zM26,7H27V8H26zM28,7H29V8H28zM4,8H5V9H4zM6,8H7V9H6zM7,8H8V9H7zM8,8H9V9H8zM10,8H11V9H10zM12,8H13V9H12zM13,8H14V9H13zM16,8H17V9H16zM20,8H21V9H20zM22,8H23V9H22zM24,8H25V9H24zM25,8H26V9H25zM26,8H27V9H26zM28,8H29V9H28zM4,9H5V10H4zM10,9H11V10H10zM12,9H13V10H12zM13,9H14V10H13zM15,9H16V10H15zM16,9H17V10H16zM19,9H20V10H19zM20,9H21V10H20zM22,9H23V10H22zM28,9H29V10H28zM4,10H5V11H4zM5,10H6V11H5zM6,10H7V11H6zM7,10H8V11H7zM8,10H9V11H8zM9,10H10V11H9zM10,10H11V11H10zM12,10H13V11H12zM14,10H15V11H14zM16,10H17V11H16zM18,10H19V11H18zM20,10H21V11H20zM22,10H23V11H22zM23,10H24V11H23zM24,10H25V11H24zM25,10H26V11H25zM26,10H27V11H26zM27,10H28V11H27zM28,10H29V11H28zM12,11H13V12H12zM14,11H15V12H14zM15,11H16V12H15zM16,11H17V12H16zM18,11H19V12H18zM19,11H20V12H19zM20,11H21V12H20zM4,12H5V13H4zM6,12H7V13H6zM7,12H8V13H7zM8,12H9V13H8zM9,12H10V13H9zM10,12H11V13H10zM14,12H15V13H14zM17,12H18V13H17zM22,12H23V13H22zM23,12H24V13H23zM24,12H25V13H24zM25,12H26V13H25zM26,12H27V13H26zM5,13H6V14H5zM7,13H8V14H7zM8,13H9V14H8zM9,13H10V14H9zM11,13H12V14H11zM12,13H13V14H12zM14,13H15V14H14zM15,13H16V14H15zM17,13H18V14H17zM21,13H22V14H21zM23,13H24V14H23zM27,13H28V14H27zM5,14H6V15H5zM6,14H7V15H6zM9,14H10V15H9zM10,14H11V15H10zM15,14H16V15H15zM16,14H17V15H16zM17,14H18V15H17zM18,14H19V15H18zM19,14H20V15H19zM21,14H22V15H21zM22,14H23V15H22zM24,14H25V15H24zM25,14H26V15H25zM27,14H28V15H27zM28,14H29V15H28zM4,15H5V16H4zM5,15H6V16H5zM8,15H9V16H8zM11,15H12V16H11zM19,15H20V16H19zM20,15H21V16H20zM21,15H22V16H21zM22,15H23V16H22zM28,15H29V16H28zM4,16H5V17H4zM5,16H6V17H5zM7,16H8V17H7zM8,16H9V17H8zM9,16H10V17H9zM10,16H11V17H10zM11,16H12V17H11zM12,16H13V17H12zM13,16H14V17H13zM14,16H15V17H14zM15,16H16V17H15zM16,16H17V17H16zM17,16H18V17H17zM18,16H19V17H18zM19,16H20V17H19zM20,16H21V17H20zM21,16H22V17H21zM22,16H23V17H22zM24,16H25V17H24zM26,16H27V17H26zM27,16H28V17H27zM28,16H29V17H28zM4,17H5V18H4zM7,17H8V18H7zM9,17H10V18H9zM11,17H12V18H11zM12,17H13V18H12zM13,17H14V18H13zM14,17H15V18H14zM20,17H21V18H20zM23,17H24V18H23zM25,17H26V18H25zM27,17H28V18H27zM4,18H5V19H4zM6,18H7V19H6zM8,18H9V19H8zM9,18H10V19H9zM10,18H11V19H10zM11,18H12V19H11zM14,18H15V19H14zM15,18H16V19H15zM16,18H17V19H16zM17,18H18V19H17zM19,18H20V19H19zM20,18H21V19H20zM23,18H24V19H23zM24,18H25V19H24zM25,18H26V19H25zM27,18H28V19H27zM28,18H29V19H28zM4,19H5V20H4zM6,19H7V20H6zM11,19H12V20H11zM14,19H15V20H14zM15,19H16V20H15zM18,19H20V20H18zM21,19H22V20H21zM22,19H23V20H22zM23,19H24V20H23zM24,19H25V20H24zM28,19H29V20H28zM4,20H5V21H4zM6,20H7V21H6zM7,20H8V21H7zM8,20H9V21H8zM10,20H11V21H10zM12,20H13V21H12zM14,20H15V21H14zM15,20H16V21H15zM17,20H18V21H17zM18,20H19V21H18zM20,20H21V21H20zM21,20H22V21H21zM22,20H23V21H22zM23,20H24V21H23zM24,20H25V21H24zM26,20H27V21H26zM12,21H13V22H12zM13,21H14V22H13zM16,21H17V22H16zM17,21H18V22H17zM19,21H20V22H19zM20,21H21V22H20zM24,21H25V22H24zM25,21H26V22H25zM4,22H5V23H4zM5,22H6V23H5zM6,22H7V23H6zM7,22H8V23H7zM8,22H9V23H8zM9,22H10V23H9zM10,22H11V23H10zM14,22H15V23H14zM17,22H18V23H17zM18,22H19V23H18zM20,22H21V23H20zM22,22H23V23H22zM24,22H25V23H24zM26,22H27V23H26zM27,22H28V23H27zM28,22H29V23H28zM4,23H5V24H4zM10,23H11V24H10zM12,23H13V24H12zM16,23H17V24H16zM18,23H19V24H18zM20,23H21V24H20zM24,23H25V24H24zM25,23H26V24H25zM27,23H28V24H27zM4,24H5V25H4zM6,24H7V25H6zM7,24H8V25H7zM8,24H9V25H8zM10,24H11V25H10zM12,24H13V25H12zM16,24H17V25H16zM17,24H18V25H17zM18,24H19V25H18zM19,24H20V25H19zM20,24H21V25H20zM21,24H22V25H21zM22,24H23V25H22zM23,24H24V25H23zM24,24H25V25H24zM26,24H27V25H26zM27,24H28V25H27zM28,24H29V25H28zM4,25H5V26H4zM6,25H7V26H6zM7,25H8V26H7zM8,25H9V26H8zM10,25H11V26H10zM12,25H13V26H12zM13,25H14V26H13zM17,25H18V26H17zM19,25H20V26H19zM21,25H22V26H21zM22,25H23V26H22zM24,25H26V26H24zM26,25H27V26H26zM27,25H28V26H27zM28,25H29V26H28zM4,26H5V27H4zM6,26H7V27H6zM7,26H8V27H7zM8,26H9V27H8zM10,26H11V27H10zM12,26H13V27H12zM13,26H14V27H13zM15,26H16V27H15zM16,26H17V27H16zM18,26H19V27H18zM25,26H26V27H25zM26,26H27V27H26zM28,26H29V27H28zM4,27H5V28H4zM10,27H11V28H10zM13,27H14V28H13zM15,27H16V28H15zM18,27H19V28H18zM19,27H20V28H19zM20,27H21V28H20zM21,27H22V28H21zM23,27H24V28H23zM24,27H25V28H24zM25,27H26V28H25zM28,27H29V28H28zM4,28H5V29H4zM5,28H6V29H5zM6,28H7V29H6zM7,28H8V29H7zM8,28H9V29H8zM9,28H10V29H9zM10,28H11V29H10zM12,28H13V29H12zM13,28H14V29H13zM15,28H16V29H15zM16,28H17V29H16zM22,28H23V29H22zM23,28H24V29H23zM24,28H25V29H24zM25,28H26V29H25zM26,28H27V29H26zM27,28H28V29H27zM28,28H29V29H28z" fill="#1A1A1A"/></svg>
+      <div class="footer-qr-label">buildit-usa.com</div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

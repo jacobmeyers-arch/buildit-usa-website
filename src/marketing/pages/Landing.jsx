@@ -5,12 +5,20 @@
  *   Site cut to 25% of its former word count: prose replaced by a pricing table
  *   and a proof strip. One page, one funnel, one CTA. Motion added (Reveal,
  *   CountUp) — palette and type unchanged.
+ * Revised: 2026-09-27 (Jacob's direction) — three changes:
+ *   1. The proof strip is now all garage. The pig-barn "<10 min" stat came off
+ *      with the pig barn; the teardown still lives on /projects, just not here.
+ *   2. SkillsSection (compact) added — the skills you leave with are the site's
+ *      value proposition now, so they sit above the price pointer.
+ *   3. No flat prices to point at any more, so the price strip stopped being
+ *      five dollar figures and became five names with one line under them.
  */
 import { Link } from 'react-router-dom';
 import {
   Section, SectionHeading, CTA, Eyebrow, Reveal, Stat, Rule,
 } from '../components/primitives.jsx';
 import HeroDemo from '../components/HeroDemo.jsx';
+import SkillsSection from '../components/SkillsSection.jsx';
 import ContactSection from '../components/ContactSection.jsx';
 import usePageMeta from '../usePageMeta.js';
 import { PRICING } from '../config.js';
@@ -18,7 +26,7 @@ import { PRICING } from '../config.js';
 export default function Landing() {
   usePageMeta(
     'Build It USA — Practical AI, Built From the Field',
-    'Hands-on AI training and done-for-you services from Jacob Meyers. Free intro session, $500 Whole-Home Planner, property work. Capital District, NY.'
+    'Leave with the estimating skills running in your own Claude: a ballpark cost, a line-by-line breakdown, the questions it still needs answered, and a schedule. Free intro session. Capital District, NY.'
   );
 
   return (
@@ -48,35 +56,47 @@ export default function Landing() {
       {/* Proof strip — the numbers do the talking */}
       <Section className="!pt-0">
         <Reveal><Eyebrow>Proof</Eyebrow></Reveal>
+        {/* All three are the garage calibration (workspace 250 Hop City Rd,
+            20260729_Garage-Calibration). Sourced, not typed — see repo CLAUDE.md. */}
         <div className="grid gap-4 mobile:grid-cols-3 mt-5">
           <Stat value={1} suffix="%" label="materials estimate vs. my receipts" />
-          <Stat value={10} prefix="< " suffix=" min" label="photos to a priced scope" delay={90} />
-          <Stat value={74} suffix=" hrs" label="tracked to the hour, published" delay={180} />
+          <Stat value={74} suffix=" hrs" label="tracked to the hour, published" delay={90} />
+          <Stat value={423} prefix="$" label="dumpster — the estimate called $475" delay={180} />
         </div>
         <Reveal delay={240}>
           <Link
             to="/projects"
             className="text-brass-light font-pencil-hand text-lg mt-6 inline-block hover:underline"
           >
-            See both builds →
+            See both builds, line by line →
           </Link>
         </Reveal>
       </Section>
 
       <Rule />
 
-      {/* Pricing pointer — prices visible without leaving home, full table on
-          /pricing. Keeps the #pricing id so any old /#pricing link still lands. */}
+      {/* The value proposition — you leave with the tools, not a dependency.
+          Compact here; the full table and two real reports are on /pricing. */}
+      <SkillsSection compact />
+
+      <Rule />
+
+      {/* Pricing pointer. Nothing carries a flat price any more (2026-09-27), so
+          this stopped being five dollar figures — a wall of "Ask" says nothing.
+          It's the catalog by name; the quote line does the pricing work.
+          Keeps the #pricing id so any old /#pricing link still lands. */}
       <Section id="pricing">
         <SectionHeading
           eyebrow="Pricing"
-          title="From a free hour to a $500 whole-property plan."
+          title="Start free. Everything after that is quoted to the job."
         />
         <div className="grid grid-cols-2 mobile:grid-cols-5 gap-3 mt-8">
           {PRICING.map((row, i) => (
             <Reveal key={row.name} delay={i * 60} className="card-workshop p-4 text-center">
-              <div className="font-hand text-3xl text-brass-light leading-none">{row.price}</div>
-              <p className="text-warm-sand text-sm mt-2 leading-snug">{row.name}</p>
+              <p className="text-parchment font-pencil-hand leading-snug">{row.name}</p>
+              <div className="font-hand text-2xl text-brass-light leading-none mt-2">
+                {row.price}
+              </div>
             </Reveal>
           ))}
         </div>
