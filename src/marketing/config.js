@@ -128,11 +128,39 @@ export const EXAMPLES = [
   {
     href: '/examples/pig-barn-estimate.html',
     name: 'Pig barn teardown',
-    meta: 'Simple · 65% confidence · 6–8 working days',
+    meta: 'One page · $8,039–11,449 · 6–8 working days',
   },
   {
     href: '/examples/garage-exterior-estimate.html',
     name: 'Garage exterior',
-    meta: 'Simple · 60% confidence · 14–17 working days',
+    meta: 'One page · $19,452–29,178 · 14–17 working days',
   },
 ];
+
+/**
+ * RUN_COST — what it costs to actually run one of these. Added 2026-09-27
+ * (Jacob: show the ROI).
+ *
+ * HOW THE FIGURE WAS DERIVED — re-derive it, don't nudge it:
+ *   Input  ≈ 50K tokens — the estimating instructions + output template
+ *            (98KB of markdown, ~27K tokens) that load on every run, plus a
+ *            photo set and the walkthrough conversation.
+ *   Output ≈ 30K tokens — the report itself (~69KB of HTML, ~21K tokens) plus
+ *            the reasoning tokens, which bill as output.
+ *   At Claude Opus 5 metered rates ($5/M input, $25/M output) that is
+ *            $0.25 + $0.75 ≈ $1.00. Published as "$1–2" because rounding UP is
+ *            the honest direction on a cost claim — understating the cost
+ *            overstates the return.
+ *
+ * ⚠️ Two things keep this honest and must not be dropped:
+ *   1. Customers run these on a Claude subscription, where there is NO
+ *      per-report charge. Quoting a per-report price without saying so implies
+ *      a bill they will never receive.
+ *   2. Model pricing changes. Re-check it against Anthropic's current rates
+ *      before treating this number as current. Verified 2026-09-27.
+ */
+export const RUN_COST = {
+  perReport: '$1–2',
+  basis: 'of compute, at metered rates',
+  note: 'On a Claude subscription there is no per-report charge at all — it is already paid for. The figure above is what the computing behind one report is actually worth.',
+};

@@ -1,18 +1,23 @@
 /**
  * SkillsSection.jsx — The skills you leave with. The site's value proposition.
  * Created: 2026-09-27 (Jacob's direction)
- *
- * The estimating tools stopped being a back-room detail and became the thing
- * being sold: you get the skills, installed in your own Claude, and you can
- * price a project you are only thinking about before you call anybody.
+ * Revised: 2026-09-27 — same day, second pass from Jacob's review:
+ *   - Framing is now "an experienced contractor in your pocket" — his words,
+ *     and the clearest statement of what the thing actually is.
+ *   - Added the run cost (config RUN_COST), because the value proposition is
+ *     incomplete without what it costs to run.
+ *   - The linked reports are the BASIC one-pagers now, not the 20-page v3
+ *     estimates. A curious visitor should be able to read the whole thing.
+ *   - On /pricing this section moved ABOVE the offerings table: see what you
+ *     get first, then how I help you get it.
  *
  * Two renderings, one component (`compact`) so the copy lives in exactly one
- * place — config.js `SKILLS` / `EXAMPLES`:
+ * place — config.js `SKILLS` / `EXAMPLES` / `RUN_COST`:
  *   compact  — home page. Names only, no descriptions. The home page is on a
  *              ~240-word innerText budget (repo CLAUDE.md) and five full
  *              descriptions would blow it; the depth belongs on /pricing, which
  *              is budget-exempt.
- *   full     — /pricing. The table, the handoff, and links to two real reports.
+ *   full     — /pricing. The table, the cost, two real reports, the handoff.
  *
  * NOTE ON NAMING AI: the 2026-07-31 rule barred AI/Claude from customer-facing
  * copy. Jacob overrode it 2026-09-27 — the tool is the product, so it gets named.
@@ -20,7 +25,7 @@
  */
 import { Link } from 'react-router-dom';
 import { Section, Eyebrow, Reveal, CTA } from './primitives.jsx';
-import { SKILLS, EXAMPLES } from '../config.js';
+import { SKILLS, EXAMPLES, RUN_COST } from '../config.js';
 
 /* What the handoff actually is — the answer to "so I get a file?". */
 const HANDOFF = [
@@ -29,17 +34,18 @@ const HANDOFF = [
   ['You keep sharpening it', 'Feed it what a job actually cost and it gets closer. Same way I built mine — and you can write your own from there.'],
 ];
 
+const HEADLINE = 'An experienced contractor in your pocket.';
+
 export default function SkillsSection({ compact = false }) {
   if (compact) {
     return (
       <Section id="skills">
         <Reveal className="max-w-3xl">
           <Eyebrow>What you leave with</Eyebrow>
-          <h2 className="text-3xl mobile:text-4xl text-parchment mt-2 leading-tight">
-            The estimating skills, running in your own Claude.
-          </h2>
+          <h2 className="text-3xl mobile:text-4xl text-parchment mt-2 leading-tight">{HEADLINE}</h2>
           <p className="text-warm-sand text-lg mt-4 leading-relaxed">
-            Price a project you are only thinking about — before you call anyone.
+            My estimating skills, running in your own Claude. Price a project you are only
+            thinking about — before you call anyone.
           </p>
         </Reveal>
 
@@ -67,13 +73,11 @@ export default function SkillsSection({ compact = false }) {
     <Section id="skills">
       <Reveal className="max-w-3xl">
         <Eyebrow>What you leave with</Eyebrow>
-        <h2 className="text-3xl mobile:text-4xl text-parchment mt-2 leading-tight">
-          The estimating skills, running in your own Claude.
-        </h2>
+        <h2 className="text-3xl mobile:text-4xl text-parchment mt-2 leading-tight">{HEADLINE}</h2>
         <p className="text-warm-sand text-lg mt-4 leading-relaxed">
-          These are the same skills that priced every project on this site. You get them, in
-          your own account — so you can put a number on a project you are only thinking about
-          before you call anybody, including me.
+          These are the same skills that priced every project on this site, and you get them —
+          in your own account. Point them at a project you are only thinking about and you get
+          a real number back, before you call anybody, including me.
         </p>
       </Reveal>
 
@@ -93,6 +97,23 @@ export default function SkillsSection({ compact = false }) {
         </table>
       </Reveal>
 
+      {/* What it costs to run. Derivation and the two honesty caveats are in
+          config.js RUN_COST — read them before changing this figure. */}
+      <Reveal delay={120} className="card-workshop p-6 mobile:p-8 mt-4">
+        <div className="grid gap-5 mobile:grid-cols-[auto_1fr] mobile:gap-8 items-baseline">
+          <div>
+            <div className="font-hand text-5xl text-brass-light leading-none whitespace-nowrap">
+              {RUN_COST.perReport}
+            </div>
+            <p className="text-warm-sand text-sm mt-2">{RUN_COST.basis}</p>
+          </div>
+          <p className="text-warm-sand leading-relaxed">
+            <span className="text-parchment">That is what one of these reports costs to produce.</span>{' '}
+            {RUN_COST.note}
+          </p>
+        </div>
+      </Reveal>
+
       {/* Real output — the proof that the list above is not a wishlist */}
       <div className="mt-12">
         <Reveal className="max-w-3xl">
@@ -100,8 +121,8 @@ export default function SkillsSection({ compact = false }) {
             Two reports it wrote
           </h3>
           <p className="text-warm-sand mt-3 leading-relaxed">
-            Unedited, from my own property. These are the two jobs I then built — read the
-            estimate here, and what it actually cost me on the{' '}
+            One page each, unedited, from my own property. These are the two jobs I then built —
+            read the estimate here, and what it actually cost me on the{' '}
             <Link to="/projects" className="text-brass-light hover:underline">
               projects page
             </Link>
@@ -111,12 +132,7 @@ export default function SkillsSection({ compact = false }) {
         <div className="grid gap-3 mobile:grid-cols-2 mt-6">
           {EXAMPLES.map((ex, i) => (
             <Reveal key={ex.href} delay={i * 80}>
-              <a
-                href={ex.href}
-                target="_blank"
-                rel="noreferrer"
-                className="card-workshop p-5 block group"
-              >
+              <a href={ex.href} target="_blank" rel="noreferrer" className="card-workshop p-5 block group">
                 <div className="text-parchment group-hover:text-brass-light transition-colors font-pencil-hand text-lg">
                   {ex.name} →
                 </div>

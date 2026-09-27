@@ -26,7 +26,7 @@ import { PRICING } from '../config.js';
 export default function Landing() {
   usePageMeta(
     'Build It USA — Practical AI, Built From the Field',
-    'Leave with the estimating skills running in your own Claude: a ballpark cost, a line-by-line breakdown, the questions it still needs answered, and a schedule. Free intro session. Capital District, NY.'
+    'An experienced contractor in your pocket — my estimating skills running in your own Claude. A ballpark cost, a breakdown, a schedule, and the questions worth asking. Free intro session. Capital District, NY.'
   );
 
   return (

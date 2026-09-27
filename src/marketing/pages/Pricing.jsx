@@ -13,8 +13,11 @@
  * scoped and quoted, so the up-front Stripe purchase is gone: there is no
  * payHref any more and every button lands on the contact form. The retired
  * Payment Link URLs are parked in config.js if flat pricing ever comes back.
- * SkillsSection (full) added below the table — the skills are what is actually
- * being bought, so the page has to show what they produce.
+ * SkillsSection (full) added — the skills are what is actually being bought.
+ *
+ * ORDER (Jacob, 2026-09-27, second pass): skills FIRST, then the offerings
+ * table. What you get, then how I help you get it — a price list means nothing
+ * to someone who does not yet know what the thing is.
  */
 import { Section, Eyebrow, Reveal, Rule } from '../components/primitives.jsx';
 import SkillsSection from '../components/SkillsSection.jsx';
@@ -35,18 +38,30 @@ export default function Pricing() {
         <Reveal className="max-w-3xl">
           <Eyebrow>Pricing</Eyebrow>
           <h1 className="text-4xl mobile:text-5xl leading-tight text-parchment mt-3">
-            Everything, and how it gets priced.
+            What you get, then what it costs.
           </h1>
           <p className="text-warm-sand text-lg mt-5 leading-relaxed">
-            The first hour is free. After that, no flat rates and no rate card — I scope your
-            job and quote it, the same way I'd want it done for me.
+            You leave with the tools. The first hour is free, and after that there are no flat
+            rates and no rate card — I scope your job and quote it.
           </p>
         </Reveal>
       </section>
 
-      <Section className="!pt-4">
+      <SkillsSection />
+
+      <Rule />
+
+      {/* The assistance structure — what I do, once you know what you're getting. */}
+      <Section>
+        <Reveal className="max-w-3xl">
+          <Eyebrow>How I help</Eyebrow>
+          <h2 className="text-3xl mobile:text-4xl text-parchment mt-2 leading-tight">
+            Everything, and how it gets priced.
+          </h2>
+        </Reveal>
+
         {/* Mobile: stacked cards — a 4-column table doesn't survive a phone. */}
-        <div className="space-y-3 mobile:hidden">
+        <div className="space-y-3 mobile:hidden mt-8">
           {PRICING.map((row, i) => (
             <Reveal key={row.name} delay={i * 60} className="card-workshop p-5">
                 <div className="flex items-baseline justify-between gap-3">
@@ -67,7 +82,7 @@ export default function Pricing() {
         </div>
 
         {/* Desktop: the table */}
-        <Reveal className="card-workshop p-7 hidden mobile:block">
+        <Reveal className="card-workshop p-7 hidden mobile:block mt-8">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="text-brass-light font-pencil-hand">
@@ -108,10 +123,6 @@ export default function Pricing() {
           done and I'll come back with a scope and a number — usually within a day.
         </p>
       </Section>
-
-      <Rule />
-
-      <SkillsSection />
 
       <Rule />
 

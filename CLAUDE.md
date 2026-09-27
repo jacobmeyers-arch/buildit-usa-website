@@ -55,7 +55,20 @@ The old two-sided estimator platform is **PARKED** — its code stays warm in th
 - Marketing code lives in `src/marketing/` (pages, components, `SiteLayout.jsx`, `config.js`).
 - **HeroDemo slot** on the landing hero (`src/marketing/components/HeroDemo.jsx`) is the designated estimator drop-in point — launching the demo is a component swap, not a redesign.
 - `src/marketing/config.js` is the single source for contact info, the `PRICING` table, and the `SKILLS` / `EXAMPLES` copy.
-- `public/examples/` — two real v3 estimate reports served as static HTML, linked from `/pricing`. **They are deliberately the two EXECUTED projects** (pig barn, garage) — the same jobs `/projects` takes from estimate to finished work, so a visitor can read the estimate and the plan-vs-actual for one job. Don't publish an unbuilt project here; it proves less. **Generated, not hand-written:** they are redacted copies of the 250 Hop City Rd v3 estimates (workspace client folder). The street address and phone number are stripped; the generator asserts neither survives. Re-publish by re-running `scripts/publish_examples.py`, never by hand-editing the copies.
+- `public/examples/` — the **BASIC one-page report**, linked from `/pricing`. **Generated, never hand-edited** — re-run `scripts/publish_examples.py`.
+  - **Every figure computes from the source v3 estimate's `estimate-data` block**, so the one-pager cannot drift from the full estimate or from `/projects`. The generator asserts `labor + materials == direct_total` and fails rather than publishing a wrong number.
+  - **They are deliberately the two EXECUTED projects** (pig barn, garage) — the same jobs `/projects` takes from estimate to finished work. Don't publish an unbuilt project here; it proves less.
+  - **One page is the contract.** Both sheets are measured against ~979px of printable height (8.5×11 less margins); the garage is the long one. Adding a row means re-measuring.
+  - The street address and phone number are stripped and the generator asserts neither survives.
+
+## The Run-Cost Figure on /pricing
+
+`config.js` `RUN_COST` publishes what one report costs to produce (**$1–2** of
+compute). Its derivation is in that file's comment — re-derive it, don't nudge it.
+Two things keep it honest and must not be dropped: customers run these on a
+**subscription, where there is no per-report charge** (quoting a price without
+saying so implies a bill they'll never get), and **model pricing changes**, so
+re-check it against Anthropic's current rates. Verified 2026-09-27.
 
 ## Copy Budget (set 2026-07-31)
 
@@ -66,8 +79,8 @@ table can. Before adding copy, check whether an existing table already carries i
 
 | Page | Words | Status |
 |---|---|---|
-| `/` | **297** (measured 2026-09-27) | **Over the ~240 target by ~57.** The overage is the SkillsSection, added the same day as the site's value proposition. Kept compact deliberately — names only, no descriptions, with the depth pushed to `/pricing`. ⚠️ **Jacob to rule:** re-baseline the target to ~300, or trim elsewhere. |
-| `/pricing` | **689** (measured 2026-09-27) | **Exempt** (Jacob) — its job is to close a sale |
+| `/` | **303** (measured 2026-09-27) | **Over the ~240 target by ~57.** The overage is the SkillsSection, added the same day as the site's value proposition. Kept compact deliberately — names only, no descriptions, with the depth pushed to `/pricing`. ⚠️ **Jacob to rule:** re-baseline the target to ~300, or trim elsewhere. |
+| `/pricing` | **757** (measured 2026-09-27) | **Exempt** (Jacob) — its job is to close a sale |
 | `/projects` | ~1,140 | **Exempt** (Jacob) — its job is to explain the estimator |
 
 ## Published Numbers Are Sourced, Never Typed
